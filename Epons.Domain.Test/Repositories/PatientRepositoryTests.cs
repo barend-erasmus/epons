@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Epons.Domain.Repositories;
 using Epons.Domain.Entities;
 
-namespace Epons.Domain.Test
+namespace Epons.Domain.Test.Repositories
 {
     [TestClass]
     public class PatientRepositoryTests
