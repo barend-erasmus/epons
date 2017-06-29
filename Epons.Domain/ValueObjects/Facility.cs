@@ -1,6 +1,6 @@
 ﻿namespace Epons.Domain.ValueObjects
 {
-    public class City : Base
+    public class Facility : Base
     {
     }
 }

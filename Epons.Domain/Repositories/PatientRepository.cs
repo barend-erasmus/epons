@@ -4,8 +4,7 @@ using Epons.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Epons.Domain.Repositories
 {
@@ -70,6 +69,78 @@ namespace Epons.Domain.Repositories
             return FindById(patientResult.Id);
         }
 
+        public Pagination<EntityViews.Patient> ListActive(int start, int length, Guid userId, Guid? facilityId, string query)
+        {
+            GridReader gridReader = _dbExecutor.QueryMultiTableProc("[EPONS_API].[ListActivePatients]", new
+            {
+                start = start,
+                length = length,
+                userId = userId,
+                facilityId = facilityId,
+                query = query
+            });
+
+            IEnumerable<dynamic> patientsResult = gridReader.Read<dynamic>();
+            IEnumerable<dynamic> facilitiesResult = gridReader.Read<dynamic>();
+            IEnumerable<dynamic> dataResult = gridReader.Read<dynamic>();
+
+            List<EntityViews.Patient> patients = new List<EntityViews.Patient>();
+
+            foreach (dynamic patientResult in patientsResult)
+            {
+                patients.Add(MapPatientView(patientResult, facilitiesResult.ToList()));
+            }
+
+            return new Pagination<EntityViews.Patient>()
+            {
+                Count = dataResult.First().Count,
+                Items = patients,
+                Page = (start * length) + 1,
+                Size = length
+            };
+
+        }
+
+        private EntityViews.Patient MapPatientView(dynamic patientResult, IList<dynamic> facilitiesResult)
+        {
+            return new EntityViews.Patient()
+            {
+                Id = patientResult.Id,
+                Firstname = patientResult.Firstname,
+                Lastname = patientResult.Lastname,
+                DateOfBirth = patientResult.DateOfBirth,
+                IdentificationNumber = patientResult.IdentificationNumber,
+                Title = patientResult.TitleId == null ? null : new Title()
+                {
+                    Id = patientResult.TitleId,
+                    Name = patientResult.Title
+                },
+                Gender = patientResult.GenderId == null ? null : new Gender()
+                {
+                    Id = patientResult.GenderId,
+                    Name = patientResult.Gender
+                },
+                Race = patientResult.RaceId == null ? null : new Race()
+                {
+                    Id = patientResult.RaceId,
+                    Name = patientResult.Race
+                },
+                MedicalSchemeDetails = new PatientMedicalSchemeDetails()
+                {
+                    MedicalScheme = patientResult.MedicalSchemeId == null ? null : new MedicalScheme()
+                    {
+                        Id = patientResult.MedicalSchemeId,
+                        Name = patientResult.MedicalScheme
+                    },
+                    MembershipNumber = patientResult.MedicalSchemeNumber
+                },
+                Facilities = facilitiesResult.Where((x) => x.PatientId == patientResult.Id).Select((x) => new Facility()
+                {
+                    Id = x.FacilityId,
+                    Name = x.FacilityName
+                }).ToList()
+            };
+        }
 
         private Patient MapPatient(dynamic patientResult, IList<dynamic> supportServicesResult)
         {

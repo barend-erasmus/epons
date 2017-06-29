@@ -1,10 +1,8 @@
 ﻿using Epons.Domain.Entities;
+using Epons.Domain.Enums;
+using Epons.Domain.Models;
 using Epons.Domain.Repositories;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epons.Domain.Services
 {
@@ -30,6 +28,18 @@ namespace Epons.Domain.Services
         public Patient Get(string firstname, string lastname, DateTime dateOfBirth)
         {
             return _patientRepository.FindByDetails(firstname, lastname, dateOfBirth);
+        }
+
+        public Pagination<EntityViews.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
+        {
+            if (type == PatientType.Active)
+            {
+                return _patientRepository.ListActive((page - 1) / size, size, userId, facilityId, query);
+            }
+            else
+            {
+                throw new Exception("Invalid PatientType");
+            }
         }
     }
 }

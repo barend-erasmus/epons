@@ -4,6 +4,7 @@ using Autofac.Integration.WebApi;
 using Epons.Domain.Repositories;
 using Epons.Domain.Services;
 using Epons.Domain.Validators;
+using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace Epons.Api
     {
         protected void Application_Start()
         {
-            
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -29,7 +30,7 @@ namespace Epons.Api
 
             var builder = new ContainerBuilder();
 
-            builder.RegisterControllers(Assembly.GetExecutingAssembly()); 
+            builder.RegisterControllers(Assembly.GetExecutingAssembly());
             builder.RegisterApiControllers(Assembly.GetExecutingAssembly());
 
             builder.RegisterType<PatientRepository>().As<PatientRepository>();
@@ -38,8 +39,11 @@ namespace Epons.Api
 
             var container = builder.Build();
 
-            DependencyResolver.SetResolver(new AutofacDependencyResolver(container)); 
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container);
+
+
+            // GlobalConfiguration.Configuration.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API")).EnableSwaggerUi();
         }
     }
 }

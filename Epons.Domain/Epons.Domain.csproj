@@ -47,6 +47,8 @@
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="EntityViews\Patient.cs" />
+    <Compile Include="Enums\PatientType.cs" />
+    <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\PatientAddress.cs" />
     <Compile Include="Models\PatientContactDetails.cs" />
     <Compile Include="Models\PatientMedicalSchemeDetails.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="ValueObjects\Base.cs" />
     <Compile Include="ValueObjects\City.cs" />
     <Compile Include="ValueObjects\Country.cs" />
+    <Compile Include="ValueObjects\Facility.cs" />
     <Compile Include="ValueObjects\Gender.cs" />
     <Compile Include="ValueObjects\ImpairmentGroup.cs" />
     <Compile Include="ValueObjects\MedicalScheme.cs" />
@@ -80,6 +83,7 @@
     <Content Include="Scripts\StoredProcedures\FindPatientById.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
+    <Content Include="Scripts\StoredProcedures\ListActivePatients.sql" />
     <Content Include="Scripts\StoredProcedures\ListSupportServicesByPatientId.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

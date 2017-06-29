@@ -2,14 +2,12 @@
 using Epons.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epons.Domain.EntityViews
 {
     public class Patient
     {
+        public Guid Id { get; set; }
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string IdentificationNumber { get; set; }
@@ -18,6 +16,6 @@ namespace Epons.Domain.EntityViews
         public Gender Gender { get; set; }
         public Race Race { get; set; }
         public PatientMedicalSchemeDetails MedicalSchemeDetails { get; set; }
-        public string[] Facilities { get; set; }
+        public IList<Facility> Facilities { get; set; }
     }
 }

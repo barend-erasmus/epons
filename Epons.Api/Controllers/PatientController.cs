@@ -1,10 +1,8 @@
 ﻿using Epons.Domain.Entities;
+using Epons.Domain.Enums;
+using Epons.Domain.Models;
 using Epons.Domain.Services;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 
 namespace Epons.Api.Controllers
@@ -19,21 +17,27 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public Patient Find(Guid id)
+        public Patient FindById(Guid id)
         {
             return _patientService.Get(id);
         }
 
         [HttpGet]
-        public Patient Find(string identificationNumber)
+        public Patient FindByIdentificationNumber(string identificationNumber)
         {
             return _patientService.Get(identificationNumber);
         }
 
         [HttpGet]
-        public Patient Find(string firstname, string lastname, DateTime dateOfBirth)
+        public Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
         {
             return _patientService.Get(firstname, lastname, dateOfBirth);
+        }
+
+        [HttpGet]
+        public Pagination<Domain.EntityViews.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
+        {
+            return _patientService.List(userId, facilityId, type, query, page, size);
         }
 
     }

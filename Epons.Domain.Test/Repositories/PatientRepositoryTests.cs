@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Epons.Domain.Repositories;
 using Epons.Domain.Entities;
+using Epons.Domain.Models;
 
 namespace Epons.Domain.Test.Repositories
 {
@@ -14,6 +15,8 @@ namespace Epons.Domain.Test.Repositories
         private string _firstname = "Vuso";
         private string _lastname = "Mngxozana";
         private DateTime _dateOfBirth = new DateTime(1977, 07, 16);
+        private Guid _userId = new Guid("B9E49BEE-F576-45D6-8AE3-6FE08831E146");
+        private Guid _facilityId = new Guid("5355E9EE-2B79-4F55-A64B-EA8321E79386");
 
         [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenNonExistingId_ShouldReturnNull()
@@ -184,6 +187,26 @@ namespace Epons.Domain.Test.Repositories
             Patient patient = patientRepository.FindByDetails(_firstname.ToUpper(), _lastname.ToUpper(), _dateOfBirth);
 
             Assert.IsNotNull(patient.Firstname);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void ListActive_GivenExistingUserId_ShouldReturnListOfPatients()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Pagination<EntityViews.Patient> result = patientRepository.ListActive(0, 5, _userId, _facilityId, null);
+
+            Assert.AreEqual(5, result.Items.Count);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void ListActive_GivenExistingUserIdAndNullFacilityId_ShouldReturnListOfPatients()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Pagination<EntityViews.Patient> result = patientRepository.ListActive(0, 5, _userId, null, null);
+
+            Assert.AreEqual(5, result.Items.Count);
         }
     }
 }
