@@ -9,9 +9,20 @@ namespace Epons.Domain.Test.Repositories
     public class PatientRepositoryTests
     {
 
-        private string _patientId = "C49E9094-46A0-45AF-9752-003874230A8E";
+        private Guid _patientId = new Guid("DFBA9D4D-5D9A-439B-AAE9-001E12E79753");
+        private string _identificationNumber = "8105190070085";
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindById_GivenNonExistingId_ShouldReturnNull()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindById(new Guid());
+
+            Assert.IsNull(patient);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithFirstname()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -21,7 +32,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.Firstname);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithLastname()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -31,7 +42,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.Lastname);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithDateOfBirth()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -41,7 +52,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.DateOfBirth);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithIdentificationNumber()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -51,7 +62,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.IdentificationNumber);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithGender()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -61,7 +72,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.Gender);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithRace()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -71,7 +82,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.Race);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithTitle()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -81,7 +92,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.Title);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithAddress()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -92,7 +103,7 @@ namespace Epons.Domain.Test.Repositories
         }
 
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithContactDetails()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -102,7 +113,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.ContactDetails);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithMedicalShemeDetails()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -112,7 +123,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.IsNotNull(patient.MedicalSchemeDetails);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenExistingId_ShouldReturnPatientWithSupportServices()
         {
             PatientRepository patientRepository = new PatientRepository();
@@ -120,6 +131,36 @@ namespace Epons.Domain.Test.Repositories
             Patient patient = patientRepository.FindById(_patientId);
 
             Assert.IsNotNull(patient.SupportServices);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindById_GivenExistingId_ShouldReturnPatientWithImpairmentGroup()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindById(_patientId);
+
+            Assert.IsNotNull(patient.ImpairmentGroup);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindByIdentificationNumber_GivenNonExistingIdentificationNumber_ShouldReturnNull()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindByIdentificationNumber("NONEXISTING");
+
+            Assert.IsNull(patient);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindByIdentificationNumber_GivenExistingIdentificationNumber_ShouldReturnPatientWithFirstname()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindByIdentificationNumber(_identificationNumber);
+
+            Assert.IsNotNull(patient.Firstname);
         }
     }
 }

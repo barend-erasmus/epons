@@ -15,23 +15,50 @@ namespace Epons.Domain.Repositories
 
         public PatientRepository()
         {
-            _dbExecutor = new DbExecutor("data source=epons.dedicated.co.za;Initial Catalog=SADFM_Dev;User ID=EPONS;Password=H@?PT@8sUeL32vBE;");
+            _dbExecutor = new DbExecutor("data source=epons.dedicated.co.za;Initial Catalog=SADFM_Live;User ID=EPONS;Password=H@?PT@8sUeL32vBE;");
         }
 
-        public Patient FindById(string id)
+        public Patient FindById(Guid id)
         {
-            dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS].[FindPatientById]", new
+            dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindPatientById]", new
             {
                 PatientId = id
             });
 
-            IList<dynamic> supportServicesResult = _dbExecutor.Query<dynamic>("SELECT [patientSupportService].[SupportServiceId] AS [Id], [supportService].[Name] AS [Name], [patientSupportService].[Text] AS [Text] FROM [Patient].[SupportServices] AS [patientSupportService] INNER JOIN [ValueObjects].[SupportServices] AS [supportService] ON [patientSupportService].[PatientId] = @patientId AND [supportService].[SupportServiceId] = [patientSupportService].[SupportServiceId]", new
+            if (patientResult == null)
             {
-                PatientId = id
+                return null;
+            }
+
+            IList<dynamic> supportServicesResult = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListSupportServicesByPatientId]", new
+            {
+                PatientId = patientResult.Id
             });
 
+            return MapPatient(patientResult, supportServicesResult);
+        }
+
+        public Patient FindByIdentificationNumber(string identificationNumber)
+        {
+            dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindPatientIdByIdentificationNumber]", new
+            {
+                IdentificationNumber = identificationNumber
+            });
+
+            if (patientResult == null)
+            {
+                return null;
+            }
+
+            return FindById(patientResult.Id);
+        }
+
+
+        private Patient MapPatient(dynamic patientResult, IList<dynamic> supportServicesResult)
+        {
             return new Patient()
             {
+                Id = patientResult.Id,
                 Firstname = patientResult.Firstname,
                 Lastname = patientResult.Lastname,
                 DateOfBirth = patientResult.DateOfBirth,
@@ -56,21 +83,21 @@ namespace Epons.Domain.Repositories
                     Street = patientResult.Street,
                     City = patientResult.CityId == null ? null : new City()
                     {
-                        Id = patientResult.CityId, 
+                        Id = patientResult.CityId,
                         Name = patientResult.City
                     },
-                    Country = patientResult.CountryId == null? null : new Country()
+                    Country = patientResult.CountryId == null ? null : new Country()
                     {
                         Id = patientResult.CountryId,
                         Name = patientResult.Country
                     },
                     PostalCode = patientResult.PostalCode,
-                    Province = patientResult.ProvinceId == null? null : new Province()
+                    Province = patientResult.ProvinceId == null ? null : new Province()
                     {
                         Id = patientResult.ProvinceId,
                         Name = patientResult.Province
                     },
-                    ResidentialEnvironment = patientResult.ResidentialEnvironmentId == null? null : new ResidentialEnvironment()
+                    ResidentialEnvironment = patientResult.ResidentialEnvironmentId == null ? null : new ResidentialEnvironment()
                     {
                         Id = patientResult.ResidentialEnvironmentId,
                         Name = patientResult.ResidentialEnvironment
@@ -82,7 +109,7 @@ namespace Epons.Domain.Repositories
                 },
                 MedicalSchemeDetails = new PatientMedicalSchemeDetails()
                 {
-                    MedicalScheme = patientResult.MedicalSchemeId == null? null : new MedicalScheme()
+                    MedicalScheme = patientResult.MedicalSchemeId == null ? null : new MedicalScheme()
                     {
                         Id = patientResult.MedicalSchemeId,
                         Name = patientResult.MedicalScheme
@@ -93,11 +120,16 @@ namespace Epons.Domain.Repositories
                 {
                     SupportService = new SupportService()
                     {
-                        Id = x.Id, 
+                        Id = x.Id,
                         Name = x.Name
                     },
                     Text = x.Text
-                }).ToList()
+                }).ToList(),
+                ImpairmentGroup = patientResult.ImpairmentGroupId == null ? null : new ImpairmentGroup()
+                {
+                    Id = patientResult.ImpairmentGroupId,
+                    Name = patientResult.ImpairmentGroup
+                }
             };
         }
     }

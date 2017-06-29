@@ -17,7 +17,7 @@ namespace Epons.Domain.Test.Validators
         private string _invalidLongIdentificationNumber = "12345678912345";
         private string _invalidMaleIdentificationNumber = "9605235100089";
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsValid_GivenValidMaleIdentificationNumber_ReturnsTrue()
         {
             bool result = new RSAIdentificationNumberValidator().IsValid(_validMaleIdentificationNumber);
@@ -25,7 +25,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsValid_GivenInvalidShortIdentificationNumber_ReturnsFalse()
         {
             bool result = new RSAIdentificationNumberValidator().IsValid(_invalidShortIdentificationNumber);
@@ -33,7 +33,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsValid_GivenInvalidLongIdentificationNumber_ReturnsFalse()
         {
             bool result = new RSAIdentificationNumberValidator().IsValid(_invalidLongIdentificationNumber);
@@ -41,7 +41,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsValid_GivenInvalidMaleIdentificationNumber_ReturnsFalse()
         {
             bool result = new RSAIdentificationNumberValidator().IsValid(_invalidMaleIdentificationNumber);
@@ -49,7 +49,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void DateOfBirth_GivenValidFemaleIdentificationNumber_ReturnsDateOfBirth()
         {
             DateTime result = new RSAIdentificationNumberValidator().DateOfBirth(_validFemaleIdentificationNumber);
@@ -58,7 +58,7 @@ namespace Epons.Domain.Test.Validators
             Assert.AreEqual(2004, result.Year);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void DateOfBirth_GivenValidMaleIdentificationNumber_ReturnsDateOfBirth()
         {
             DateTime result = new RSAIdentificationNumberValidator().DateOfBirth(_validMaleIdentificationNumber);
@@ -67,14 +67,14 @@ namespace Epons.Domain.Test.Validators
             Assert.AreEqual(1996, result.Year);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         [ExpectedException(typeof(ArgumentException))]
         public void DateOfBirth_GivenInvalidMaleIdentificationNumber_ThrowsException()
         {
             DateTime result = new RSAIdentificationNumberValidator().DateOfBirth(_invalidMaleIdentificationNumber);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsMale_GivenValidFemaleIdentificationNumber_ReturnFalse()
         {
             bool result = new RSAIdentificationNumberValidator().IsMale(_validFemaleIdentificationNumber);
@@ -82,7 +82,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsMale_GivenValidMaleIdentificationNumber_ReturnsTrue()
         {
             bool result = new RSAIdentificationNumberValidator().IsMale(_validMaleIdentificationNumber);
@@ -90,14 +90,14 @@ namespace Epons.Domain.Test.Validators
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         [ExpectedException(typeof(ArgumentException))]
         public void IsMale_GivenInvalidMaleIdentificationNumber_ThrowsException()
         {
             bool result = new RSAIdentificationNumberValidator().IsMale(_invalidMaleIdentificationNumber);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsFemale_GivenValidFemaleIdentificationNumber_ReturnTrue()
         {
             bool result = new RSAIdentificationNumberValidator().IsFemale(_validFemaleIdentificationNumber);
@@ -105,7 +105,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         public void IsFemale_GivenValidMaleIdentificationNumber_ReturnsFalse()
         {
             bool result = new RSAIdentificationNumberValidator().IsFemale(_validMaleIdentificationNumber);
@@ -113,7 +113,7 @@ namespace Epons.Domain.Test.Validators
             Assert.IsFalse(result);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("UnitTest")]
         [ExpectedException(typeof(ArgumentException))]
         public void IsFemale_GivenInvalidMaleIdentificationNumber_ThrowsException()
         {

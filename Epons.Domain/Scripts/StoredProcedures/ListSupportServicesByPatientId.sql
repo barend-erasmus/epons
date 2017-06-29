@@ -11,4 +11,4 @@ ON [patientSupportService].[PatientId] = @patientId
 AND
 [supportService].[SupportServiceId] = [patientSupportService].[SupportServiceId]
 
-EXEC [Audit].[CreateLogEntry] '[EPONS].[ListSupportServicesByPatientId]', 'Executed'
+EXEC [Audit].[CreateLogEntry] '[EPONS_API].[ListSupportServicesByPatientId]', 'Executed'
