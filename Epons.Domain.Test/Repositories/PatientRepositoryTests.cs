@@ -11,6 +11,9 @@ namespace Epons.Domain.Test.Repositories
 
         private Guid _patientId = new Guid("DFBA9D4D-5D9A-439B-AAE9-001E12E79753");
         private string _identificationNumber = "8105190070085";
+        private string _firstname = "Vuso";
+        private string _lastname = "Mngxozana";
+        private DateTime _dateOfBirth = new DateTime(1977, 07, 16);
 
         [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenNonExistingId_ShouldReturnNull()
@@ -159,6 +162,26 @@ namespace Epons.Domain.Test.Repositories
             PatientRepository patientRepository = new PatientRepository();
 
             Patient patient = patientRepository.FindByIdentificationNumber(_identificationNumber);
+
+            Assert.IsNotNull(patient.Firstname);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindByDetails_GivenExistingDetails_ShouldReturnPatientWithFirstname()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindByDetails(_firstname, _lastname, _dateOfBirth);
+
+            Assert.IsNotNull(patient.Firstname);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindByDetails_GivenExistingDetailsUpperCase_ShouldReturnPatientWithFirstname()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindByDetails(_firstname.ToUpper(), _lastname.ToUpper(), _dateOfBirth);
 
             Assert.IsNotNull(patient.Firstname);
         }

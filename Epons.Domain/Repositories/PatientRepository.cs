@@ -55,7 +55,7 @@ namespace Epons.Domain.Repositories
 
         public Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
         {
-            dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("EPONS_API].[FindPatientIdByDetails]", new
+            dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindPatientIdByDetails]", new
             {
                 Firstname = firstname,
                 Lastname = lastname,

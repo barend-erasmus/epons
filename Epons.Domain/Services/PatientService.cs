@@ -29,7 +29,7 @@ namespace Epons.Domain.Services
 
         public Patient Get(string firstname, string lastname, DateTime dateOfBirth)
         {
-            throw new NotImplementedException();
+            return _patientRepository.FindByDetails(firstname, lastname, dateOfBirth);
         }
     }
 }
