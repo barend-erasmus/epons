@@ -6,4 +6,4 @@ SELECT
 FROM [Patient].[Details] AS [patient]
 WHERE [patient].[IdentificationNumber] = @identificationNumber
 
-EXEC [Audit].[CreateLogEntry] '[EPONS_API].[FindPatientIdByIdentificationNumber] ', 'Executed'
+EXEC [Audit].[CreateLogEntry] '[EPONS_API].[FindPatientIdByIdentificationNumber]', 'Executed'

@@ -53,6 +53,23 @@ namespace Epons.Domain.Repositories
             return FindById(patientResult.Id);
         }
 
+        public Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
+        {
+            dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("EPONS_API].[FindPatientIdByDetails]", new
+            {
+                Firstname = firstname,
+                Lastname = lastname,
+                DateOfBirth = dateOfBirth
+            });
+
+            if (patientResult == null)
+            {
+                return null;
+            }
+
+            return FindById(patientResult.Id);
+        }
+
 
         private Patient MapPatient(dynamic patientResult, IList<dynamic> supportServicesResult)
         {
