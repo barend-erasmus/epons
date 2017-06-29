@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
+    <Compile Include="Entities\User.cs" />
     <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
     <Compile Include="EntityViews\Patient.cs" />
     <Compile Include="Enums\PatientType.cs" />
@@ -55,11 +56,16 @@
     <Compile Include="Models\PatientMedicalSchemeDetails.cs" />
     <Compile Include="Models\PatientNextOfKin.cs" />
     <Compile Include="Models\PatientSupportService.cs" />
+    <Compile Include="Models\UserContactDetails.cs" />
+    <Compile Include="Models\UserMeasurementTool.cs" />
+    <Compile Include="Models\UserPermission.cs" />
+    <Compile Include="Models\UserProfessionalBody.cs" />
     <Compile Include="Models\ValidationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DbExecutor.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
     <Compile Include="Services\PatientService.cs" />
+    <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
     <Compile Include="Validators\RSAIdentificationNumberValidator.cs" />
     <Compile Include="ValueObjects\Base.cs" />
@@ -68,7 +74,11 @@
     <Compile Include="ValueObjects\Facility.cs" />
     <Compile Include="ValueObjects\Gender.cs" />
     <Compile Include="ValueObjects\ImpairmentGroup.cs" />
+    <Compile Include="ValueObjects\MeasurementTool.cs" />
     <Compile Include="ValueObjects\MedicalScheme.cs" />
+    <Compile Include="ValueObjects\Permission.cs" />
+    <Compile Include="ValueObjects\Position.cs" />
+    <Compile Include="ValueObjects\ProfessionalBody.cs" />
     <Compile Include="ValueObjects\Province.cs" />
     <Compile Include="ValueObjects\Race.cs" />
     <Compile Include="ValueObjects\ResidentialEnvironment.cs" />
