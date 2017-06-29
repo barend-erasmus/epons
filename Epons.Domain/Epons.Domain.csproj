@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
+    <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
     <Compile Include="EntityViews\Patient.cs" />
     <Compile Include="Enums\PatientType.cs" />
     <Compile Include="Models\Pagination.cs" />
@@ -80,6 +81,7 @@
     <Folder Include="Interfaces\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Scripts\StoredProcedures\FindCompletedMeasurementToolsByPatientIdAndDateRange.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientById.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
