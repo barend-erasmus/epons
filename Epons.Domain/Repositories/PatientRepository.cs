@@ -116,8 +116,11 @@ namespace Epons.Domain.Repositories
                 {
                     EndDate = x.First().EndDate,
                     StartDate = x.First().StartDate,
-                    Id = x.First().MeasurementToolId,
-                    Name = x.First().MeasurementTool,
+                    MeasurementTool = new MeasurementTool()
+                    {
+                        Id = x.First().MeasurementToolId,
+                        Name = x.First().MeasurementTool,
+                    },
                     ScoreItems = x.OrderBy(y => y.ScoreItemSortOrder).ToDictionary(y => (string)y.ScoreItem, y => (int)y.ScoreValue)
                 }).ToList();
         }
