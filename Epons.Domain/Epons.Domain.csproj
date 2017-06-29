@@ -55,6 +55,7 @@
     <Compile Include="Models\PatientMedicalSchemeDetails.cs" />
     <Compile Include="Models\PatientNextOfKin.cs" />
     <Compile Include="Models\PatientSupportService.cs" />
+    <Compile Include="Models\ValidationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DbExecutor.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
