@@ -48,8 +48,10 @@
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
+    <Compile Include="EntityViews\Doctor.cs" />
     <Compile Include="EntityViews\Patient.cs" />
     <Compile Include="Enums\PatientType.cs" />
+    <Compile Include="Models\DoctorContactDetails.cs" />
     <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\PatientAddress.cs" />
     <Compile Include="Models\PatientContactDetails.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Models\ValidationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DbExecutor.cs" />
+    <Compile Include="Repositories\Mapper.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
     <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\UserService.cs" />
@@ -97,6 +100,7 @@
     <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
     <Content Include="Scripts\StoredProcedures\ListActivePatients.sql" />
+    <Content Include="Scripts\StoredProcedures\ListReferringDoctorsByPatientId.sql" />
     <Content Include="Scripts\StoredProcedures\ListSupportServicesByPatientId.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

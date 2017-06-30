@@ -69,6 +69,18 @@ namespace Epons.Domain.Services
             return _patientRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
 
+        public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)
+        {
+            if (facilityId.HasValue)
+            {
+                return _patientRepository.ListReferringDoctors(patientId).Where((x) => x.Facility.Id == facilityId).ToList();
+            }
+            else
+            {
+                return _patientRepository.ListReferringDoctors(patientId);
+            }
+        }
+
         private Patient ValidatePatient(Patient patient)
         {
             if (patient != null)

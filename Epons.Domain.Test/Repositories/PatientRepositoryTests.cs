@@ -230,5 +230,15 @@ namespace Epons.Domain.Test.Repositories
 
             Assert.AreEqual(18, result.Count);
         }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void ListReferringDoctors_GivenExistingPatientId_ShouldReturnListOfDoctors()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            IList<EntityViews.Doctor> result = patientRepository.ListReferringDoctors(_patientId);
+
+            Assert.AreEqual(1, result.Count);
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace Epons.Domain.Repositories
                 PatientId = patientResult.Id
             });
 
-            return MapPatient(patientResult, supportServicesResult);
+            return Mapper.MapPatient(patientResult, supportServicesResult);
         }
 
         public Patient FindByIdentificationNumber(string identificationNumber)
@@ -88,7 +88,7 @@ namespace Epons.Domain.Repositories
 
             foreach (dynamic patientResult in patientsResult)
             {
-                patients.Add(MapPatientView(patientResult, facilitiesResult.ToList()));
+                patients.Add(Mapper.MapPatientView(patientResult, facilitiesResult.ToList()));
             }
 
             return new Pagination<EntityViews.Patient>()
@@ -125,125 +125,29 @@ namespace Epons.Domain.Repositories
                 }).ToList();
         }
 
-        private EntityViews.Patient MapPatientView(dynamic patientResult, IList<dynamic> facilitiesResult)
+        public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId)
         {
-            return new EntityViews.Patient()
+            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListReferringDoctorsByPatientId]", new
             {
-                Id = patientResult.Id,
-                Firstname = patientResult.Firstname,
-                Lastname = patientResult.Lastname,
-                DateOfBirth = patientResult.DateOfBirth,
-                IdentificationNumber = patientResult.IdentificationNumber,
-                Title = patientResult.TitleId == null ? null : new Title()
+                patientId = patientId
+            });
+
+            return result.Select((x) => new EntityViews.Doctor()
+            {
+                ContactDetails = new DoctorContactDetails()
                 {
-                    Id = patientResult.TitleId,
-                    Name = patientResult.Title
+                    ContactNumber = x.ContactNumber,
+                    EmailAddress = x.EmailAddress
                 },
-                Gender = patientResult.GenderId == null ? null : new Gender()
-                {
-                    Id = patientResult.GenderId,
-                    Name = patientResult.Gender
-                },
-                Race = patientResult.RaceId == null ? null : new Race()
-                {
-                    Id = patientResult.RaceId,
-                    Name = patientResult.Race
-                },
-                MedicalSchemeDetails = new PatientMedicalSchemeDetails()
-                {
-                    MedicalScheme = patientResult.MedicalSchemeId == null ? null : new MedicalScheme()
-                    {
-                        Id = patientResult.MedicalSchemeId,
-                        Name = patientResult.MedicalScheme
-                    },
-                    MembershipNumber = patientResult.MedicalSchemeNumber
-                },
-                Facilities = facilitiesResult.Where((x) => x.PatientId == patientResult.Id).Select((x) => new Facility()
+                Facility = new Facility()
                 {
                     Id = x.FacilityId,
                     Name = x.FacilityName
-                }).ToList()
-            };
-        }
-
-        private Patient MapPatient(dynamic patientResult, IList<dynamic> supportServicesResult)
-        {
-            return new Patient()
-            {
-                Id = patientResult.Id,
-                Firstname = patientResult.Firstname,
-                Lastname = patientResult.Lastname,
-                DateOfBirth = patientResult.DateOfBirth,
-                IdentificationNumber = patientResult.IdentificationNumber,
-                Title = patientResult.TitleId == null ? null : new Title()
-                {
-                    Id = patientResult.TitleId,
-                    Name = patientResult.Title
                 },
-                Gender = patientResult.GenderId == null ? null : new Gender()
-                {
-                    Id = patientResult.GenderId,
-                    Name = patientResult.Gender
-                },
-                Race = patientResult.RaceId == null ? null : new Race()
-                {
-                    Id = patientResult.RaceId,
-                    Name = patientResult.Race
-                },
-                Address = new Models.PatientAddress()
-                {
-                    Street = patientResult.Street,
-                    City = patientResult.CityId == null ? null : new City()
-                    {
-                        Id = patientResult.CityId,
-                        Name = patientResult.City
-                    },
-                    Country = patientResult.CountryId == null ? null : new Country()
-                    {
-                        Id = patientResult.CountryId,
-                        Name = patientResult.Country
-                    },
-                    PostalCode = patientResult.PostalCode,
-                    Province = patientResult.ProvinceId == null ? null : new Province()
-                    {
-                        Id = patientResult.ProvinceId,
-                        Name = patientResult.Province
-                    },
-                    ResidentialEnvironment = patientResult.ResidentialEnvironmentId == null ? null : new ResidentialEnvironment()
-                    {
-                        Id = patientResult.ResidentialEnvironmentId,
-                        Name = patientResult.ResidentialEnvironment
-                    },
-                },
-                ContactDetails = new PatientContactDetails()
-                {
-                    ContactNumber = patientResult.ContactNumber
-                },
-                MedicalSchemeDetails = new PatientMedicalSchemeDetails()
-                {
-                    MedicalScheme = patientResult.MedicalSchemeId == null ? null : new MedicalScheme()
-                    {
-                        Id = patientResult.MedicalSchemeId,
-                        Name = patientResult.MedicalScheme
-                    },
-                    MembershipNumber = patientResult.MedicalSchemeNumber
-                },
-                SupportServices = supportServicesResult.Select((x) => new PatientSupportService()
-                {
-                    SupportService = new SupportService()
-                    {
-                        Id = x.Id,
-                        Name = x.Name
-                    },
-                    Text = x.Text
-                }).ToList(),
-                ImpairmentGroup = patientResult.ImpairmentGroupId == null ? null : new ImpairmentGroup()
-                {
-                    Id = patientResult.ImpairmentGroupId,
-                    Name = patientResult.ImpairmentGroup
-                },
-                Avatar = patientResult.Avatar == null ? null : $"data:image/png;base64,{Convert.ToBase64String(patientResult.Avatar)}"
-            };
+                Fullname = x.Fullname,
+                HPCSANumber = x.HPCSANumber,
+                PracticeNumber = x.PracticeNumber
+            }).ToList();
         }
     }
 }
