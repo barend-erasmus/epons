@@ -32,7 +32,8 @@ SELECT
 [medicalScheme].[MedicalSchemeId] AS [MedicalSchemeId],
 [medicalScheme].[Name] AS [MedicalScheme],
 [patient].[ImpairmentGroupId] AS [ImpairmentGroupId],
-[impairmentGroup].[Code] + ' - ' + [impairmentGroup].[Name] AS [ImpairmentGroup]
+[impairmentGroup].[Code] + ' - ' + [impairmentGroup].[Name] AS [ImpairmentGroup],
+[patient].[Avatar] AS [Avatar]
 FROM [Patient].[Details] AS [patient]
 LEFT JOIN [ValueObjects].[Genders] AS [gender]
 ON [gender].[GenderId] = [patient].[GenderId]

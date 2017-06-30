@@ -241,7 +241,8 @@ namespace Epons.Domain.Repositories
                 {
                     Id = patientResult.ImpairmentGroupId,
                     Name = patientResult.ImpairmentGroup
-                }
+                },
+                Avatar = patientResult.Avatar == null ? null : $"data:image/png;base64,{Convert.ToBase64String(patientResult.Avatar)}"
             };
         }
     }

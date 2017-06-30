@@ -11,7 +11,7 @@ namespace Epons.Domain.Test.Repositories
     public class PatientRepositoryTests
     {
 
-        private Guid _patientId = new Guid("DFBA9D4D-5D9A-439B-AAE9-001E12E79753");
+        private Guid _patientId = new Guid("12D1D801-AFE4-4124-A4B9-03012754EFA7");
         private string _identificationNumber = "8105190070085";
         private string _firstname = "Vuso";
         private string _lastname = "Mngxozana";
@@ -149,6 +149,16 @@ namespace Epons.Domain.Test.Repositories
             Patient patient = patientRepository.FindById(_patientId);
 
             Assert.IsNotNull(patient.ImpairmentGroup);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void FindById_GivenExistingId_ShouldReturnPatientWithAvatar()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            Patient patient = patientRepository.FindById(_patientId);
+
+            Assert.IsNotNull(patient.Avatar);
         }
 
         [TestMethod, TestCategory("IntegrationTest")]
