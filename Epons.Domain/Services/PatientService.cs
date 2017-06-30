@@ -4,6 +4,7 @@ using Epons.Domain.Models;
 using Epons.Domain.Repositories;
 using Epons.Domain.Validators;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Epons.Domain.Services
@@ -61,6 +62,11 @@ namespace Epons.Domain.Services
             {
                 throw new Exception("Invalid PatientType");
             }
+        }
+
+        public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
+        {
+            return _patientRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
 
         private Patient ValidatePatient(Patient patient)

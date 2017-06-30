@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Epons.Domain.Repositories;
 using Epons.Domain.Entities;
 using Epons.Domain.Models;
+using System.Collections.Generic;
 
 namespace Epons.Domain.Test.Repositories
 {
@@ -17,6 +18,7 @@ namespace Epons.Domain.Test.Repositories
         private DateTime _dateOfBirth = new DateTime(1977, 07, 16);
         private Guid _userId = new Guid("B9E49BEE-F576-45D6-8AE3-6FE08831E146");
         private Guid _facilityId = new Guid("5355E9EE-2B79-4F55-A64B-EA8321E79386");
+        private Guid _listCompletedMeasurementToolsPatientId = new Guid("1130D8C7-959B-4DD6-BE67-C66A240F36BE");
 
         [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenNonExistingId_ShouldReturnNull()
@@ -207,6 +209,16 @@ namespace Epons.Domain.Test.Repositories
             Pagination<EntityViews.Patient> result = patientRepository.ListActive(0, 1000, _userId, null, null);
 
             Assert.AreEqual(5, result.Items.Count);
+        }
+
+        [TestMethod, TestCategory("IntegrationTest")]
+        public void ListCompletedMeasurementTools_GivenExistingPatientId_ShouldReturnListOfCompletedMeasurementTools()
+        {
+            PatientRepository patientRepository = new PatientRepository();
+
+            IList<EntityViews.CompletedMeasurementTool> result = patientRepository.ListCompletedMeasurementTools(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
+
+            Assert.AreEqual(18, result.Count);
         }
     }
 }

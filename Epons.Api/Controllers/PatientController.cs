@@ -45,27 +45,9 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId)
+        public IList<Domain.EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return new List<Domain.EntityViews.CompletedMeasurementTool>()
-            {
-                new Domain.EntityViews.CompletedMeasurementTool()
-                {
-                    StartDate = new DateTime(),
-                    EndDate = new DateTime(),
-                    MeasurementTool = new Domain.ValueObjects.MeasurementTool()
-                    {
-
-                    },
-                    ScoreItems = new Dictionary<string, int>()
-                    {
-                        { "Eating", 1 },
-                        { "Walking", 6 },
-                        { "Sleeping", 7 },
-                        { "Running", 5 }
-                    }
-                }
-            };
+            return _patientService.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
 
     }

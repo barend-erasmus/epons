@@ -103,7 +103,7 @@ namespace Epons.Domain.Repositories
 
         public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            var result = _dbExecutor.Query<dynamic>("[EPONS_API].[FindCompletedMeasurementToolsByPatientIdAndDateRange]", new
+            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[FindCompletedMeasurementToolsByPatientIdAndDateRange]", new
             {
                 patientId = patientId,
                 startDate = startDate,
