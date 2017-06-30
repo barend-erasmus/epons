@@ -206,7 +206,7 @@ namespace Epons.Domain.Test.Repositories
         {
             PatientRepository patientRepository = new PatientRepository();
 
-            Pagination<EntityViews.Patient> result = patientRepository.ListActive(0, 1000, _userId, null, null);
+            Pagination<EntityViews.Patient> result = patientRepository.ListActive(0, 5, _userId, null, null);
 
             Assert.AreEqual(5, result.Items.Count);
         }
