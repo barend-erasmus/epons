@@ -51,7 +51,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.Doctor> ListCompletedMeasurementTools(Guid patientId, Guid? facilityId = null)
+        public IList<Domain.EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId = null)
         {
             return _patientService.ListReferringDoctors(patientId, facilityId);
         }
