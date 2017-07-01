@@ -1,11 +1,9 @@
 ﻿using Dapper;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using static Dapper.SqlMapper;
 
 namespace Epons.Domain.Repositories
 {
@@ -26,6 +24,13 @@ namespace Epons.Domain.Repositories
             IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
 
             return results;
+        }
+
+        public GridReader QueryMultiTableProc(string name, object parameters)
+        {
+            
+            return _connection.QueryMultiple(name, param: parameters, commandType: CommandType.StoredProcedure);
+
         }
 
         public T QueryOneProc<T>(string name, object parameters)

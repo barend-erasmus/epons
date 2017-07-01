@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Epons.Domain</RootNamespace>
     <AssemblyName>Epons.Domain</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -45,19 +46,42 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
+    <Compile Include="Entities\User.cs" />
+    <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
+    <Compile Include="EntityViews\Doctor.cs" />
+    <Compile Include="EntityViews\Patient.cs" />
+    <Compile Include="Enums\PatientType.cs" />
+    <Compile Include="Models\DoctorContactDetails.cs" />
+    <Compile Include="Models\Pagination.cs" />
     <Compile Include="Models\PatientAddress.cs" />
     <Compile Include="Models\PatientContactDetails.cs" />
     <Compile Include="Models\PatientMedicalSchemeDetails.cs" />
     <Compile Include="Models\PatientNextOfKin.cs" />
     <Compile Include="Models\PatientSupportService.cs" />
+    <Compile Include="Models\UserContactDetails.cs" />
+    <Compile Include="Models\UserMeasurementTool.cs" />
+    <Compile Include="Models\UserPermission.cs" />
+    <Compile Include="Models\UserProfessionalBody.cs" />
+    <Compile Include="Models\ValidationMessage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\DbExecutor.cs" />
+    <Compile Include="Repositories\Mapper.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
+    <Compile Include="Services\PatientService.cs" />
+    <Compile Include="Services\UserService.cs" />
+    <Compile Include="Services\ValidatorService.cs" />
+    <Compile Include="Validators\RSAIdentificationNumberValidator.cs" />
     <Compile Include="ValueObjects\Base.cs" />
     <Compile Include="ValueObjects\City.cs" />
     <Compile Include="ValueObjects\Country.cs" />
+    <Compile Include="ValueObjects\Facility.cs" />
     <Compile Include="ValueObjects\Gender.cs" />
+    <Compile Include="ValueObjects\ImpairmentGroup.cs" />
+    <Compile Include="ValueObjects\MeasurementTool.cs" />
     <Compile Include="ValueObjects\MedicalScheme.cs" />
+    <Compile Include="ValueObjects\Permission.cs" />
+    <Compile Include="ValueObjects\Position.cs" />
+    <Compile Include="ValueObjects\ProfessionalBody.cs" />
     <Compile Include="ValueObjects\Province.cs" />
     <Compile Include="ValueObjects\Race.cs" />
     <Compile Include="ValueObjects\ResidentialEnvironment.cs" />
@@ -69,7 +93,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Scripts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\StoredProcedures\FindCompletedMeasurementToolsByPatientIdAndDateRange.sql" />
+    <Content Include="Scripts\StoredProcedures\FindPatientById.sql" />
+    <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
+    <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
+    <Content Include="Scripts\StoredProcedures\ListActivePatients.sql" />
+    <Content Include="Scripts\StoredProcedures\ListReferringDoctorsByPatientId.sql" />
+    <Content Include="Scripts\StoredProcedures\ListSupportServicesByPatientId.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
