@@ -228,7 +228,7 @@ namespace Epons.Domain.Test.Repositories
 
             IList<EntityViews.CompletedMeasurementTool> result = patientRepository.ListCompletedMeasurementTools(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
 
-            Assert.AreEqual(18, result.Count);
+            Assert.AreEqual(21, result.Count);
         }
 
         [TestMethod, TestCategory("IntegrationTest")]

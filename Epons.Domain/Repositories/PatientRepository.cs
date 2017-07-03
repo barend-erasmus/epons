@@ -1,8 +1,10 @@
 ﻿using Epons.Domain.Entities;
+using Epons.Domain.Helpers;
 using Epons.Domain.Models;
 using Epons.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using static Dapper.SqlMapper;
 
@@ -14,7 +16,13 @@ namespace Epons.Domain.Repositories
 
         public PatientRepository()
         {
-            _dbExecutor = new DbExecutor("data source=epons.dedicated.co.za;Initial Catalog=SADFM_Live;User ID=EPONS;Password=H@?PT@8sUeL32vBE;");
+            string host = ConfigurationManager.AppSettings["DatabaseHost"];
+            string user = ConfigurationManager.AppSettings["DatabaseUser"];
+            string name = ConfigurationManager.AppSettings["DatabaseName"];
+            string password = ConfigurationManager.AppSettings["DatabasePassword"];
+
+            string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};";
+            _dbExecutor = new DbExecutor(connectionString);
         }
 
         public Patient FindById(Guid id)
