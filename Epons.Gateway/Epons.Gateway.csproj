@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\Crypto.cs" />
     <Compile Include="Models\PatientDto.cs" />
     <Compile Include="PatientGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
