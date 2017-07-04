@@ -1,9 +1,9 @@
-﻿using Epons.Domain.Entities;
+﻿using Epons.Api.Attributes;
+using Epons.Domain.Entities;
 using Epons.Domain.Enums;
 using Epons.Domain.Models;
 using Epons.Domain.Services;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Web.Http;
 using System.Web.Http.Cors;
@@ -11,6 +11,7 @@ using System.Web.Http.Cors;
 namespace Epons.Api.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [JWTAuthorize]
     public class PatientController : ApiController
     {
         private readonly PatientService _patientService;
@@ -55,6 +56,5 @@ namespace Epons.Api.Controllers
         {
             return _patientService.ListReferringDoctors(patientId, facilityId);
         }
-
     }
 }
