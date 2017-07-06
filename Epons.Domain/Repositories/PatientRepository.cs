@@ -109,6 +109,7 @@ namespace Epons.Domain.Repositories
 
         }
 
+        // TODO: Move this to Visit Repository and Visit Service
         public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
             var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[FindCompletedMeasurementToolsByPatientIdAndDateRange]", new

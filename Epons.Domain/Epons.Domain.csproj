@@ -86,6 +86,7 @@
     <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
+    <Compile Include="Services\VisitRepository.cs" />
     <Compile Include="Validators\RSAIdentificationNumberValidator.cs" />
     <Compile Include="ValueObjects\Base.cs" />
     <Compile Include="ValueObjects\City.cs" />
