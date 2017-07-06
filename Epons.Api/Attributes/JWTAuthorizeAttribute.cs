@@ -22,9 +22,7 @@ namespace Epons.Api.Attributes
             }
             else
             {
-                base.OnActionExecuting(actionContext);
-
-                // throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
             }
 
         }

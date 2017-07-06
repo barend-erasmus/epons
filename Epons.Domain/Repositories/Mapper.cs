@@ -50,6 +50,45 @@ namespace Epons.Domain.Repositories
             };
         }
 
+        public static User MapUser(dynamic userResult)
+        {
+            return new User()
+            {
+                Id = userResult.Id,
+                Username = userResult.Username,
+                Firstname = userResult.Firstname,
+                Lastname = userResult.Lastname,
+                IdentificationNumber = userResult.IdentificationNumber,
+                PracticeNumber = userResult.PracticeNumber,
+                IsSuperAdmin = userResult.IsSuperAdmin,
+                Title = userResult.TitleId == null ? null : new Title()
+                {
+                    Id = userResult.TitleId,
+                    Name = userResult.Title
+                },
+                ProfessionalBody = userResult.ProfessionalBodyId == null ? null : new UserProfessionalBody()
+                {
+                    ProfessionalBody = new ProfessionalBody()
+                    {
+                        Id = userResult.ProfessionalBodyId,
+                        Name = userResult.ProfessionalBody
+                    },
+                    Number = userResult.ProfessionalBodyRegistrationNumber,
+                },
+                ContactDetails = new UserContactDetails()
+                {
+                    ContactNumber = userResult.ContactNumber,
+                    EmailAddress = userResult.EmailAddress
+                },
+                Position = userResult.PositionId == null ? null : new Position()
+                {
+                    Id = userResult.PositionId,
+                    Name = userResult.Position
+                },
+                Permissions = new List<UserPermission>()
+            };
+        }
+
         public static Patient MapPatient(dynamic patientResult, IList<dynamic> supportServicesResult)
         {
             return new Patient()
