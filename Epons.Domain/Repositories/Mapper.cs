@@ -50,7 +50,7 @@ namespace Epons.Domain.Repositories
             };
         }
 
-        public static User MapUser(dynamic userResult)
+        public static User MapUser(dynamic userResult, IList<dynamic> permissionsResult)
         {
             return new User()
             {
@@ -85,7 +85,19 @@ namespace Epons.Domain.Repositories
                     Id = userResult.PositionId,
                     Name = userResult.Position
                 },
-                Permissions = new List<UserPermission>()
+                Permissions = permissionsResult.Select((x) => new UserPermission()
+                {
+                    Facility = new Facility()
+                    {
+                        Id = x.FacilityId,
+                        Name = x.Facility
+                    },
+                    Permission = new Permission()
+                    {
+                        Id = x.PermissionId,
+                        Name = x.Permission
+                    }
+                }).ToList()
             };
         }
 

@@ -50,6 +50,7 @@
     <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.1.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.4\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -115,7 +116,9 @@
     <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
     <Content Include="Scripts\StoredProcedures\FindUserById.sql" />
+    <Content Include="Scripts\StoredProcedures\FindUserIdByCredentials.sql" />
     <Content Include="Scripts\StoredProcedures\ListActivePatients.sql" />
+    <Content Include="Scripts\StoredProcedures\ListPermissionsByUserId.sql" />
     <Content Include="Scripts\StoredProcedures\ListReferringDoctorsByPatientId.sql" />
     <Content Include="Scripts\StoredProcedures\ListSupportServicesByPatientId.sql" />
   </ItemGroup>

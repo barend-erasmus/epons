@@ -66,6 +66,38 @@ namespace Epons.Domain.Helpers
             return tokenString;
         }
 
+        public static bool ValidateJWT(string jwt)
+        {
+            JwtSecurityToken token = new JwtSecurityToken(jwt);
+
+            return true;
+        }
+
+        public static string MD5Hex(string input)
+        {
+            MD5 md5 = MD5.Create();
+            byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(input ?? string.Empty));
+
+            return BitConverter.ToString(bytes);
+        }
+
+        public static string SHA1(string input)
+        {
+            using (SHA1Managed sha1 = new SHA1Managed())
+            {
+                var hash = sha1.ComputeHash(Encoding.UTF8.GetBytes(input));
+                var sb = new StringBuilder(hash.Length * 2);
+
+                foreach (byte b in hash)
+                {
+                    sb.Append(b.ToString("x2"));
+                }
+
+                return sb.ToString();
+            }
+
+        }
+
         private static string ReadPrivateKey()
         {
             return File.ReadAllText("C:\\Keys\\EPONS\\private.key");

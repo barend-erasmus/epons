@@ -1,4 +1,5 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using Epons.Domain.Helpers;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -16,15 +17,14 @@ namespace Epons.Api.Attributes
             {
                 string jwt = actionContext.Request.Headers.Authorization.Parameter;
 
-                JwtSecurityToken token = new JwtSecurityToken(jwt);
-
-                base.OnActionExecuting(actionContext);
-            }
-            else
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
+                if (Crypto.ValidateJWT(jwt))
+                {
+                    actionContext.Request.Properties["jwt"] = jwt;
+                }
             }
 
+
+            base.OnActionExecuting(actionContext);
         }
     }
 

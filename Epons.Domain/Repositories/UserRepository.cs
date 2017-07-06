@@ -37,7 +37,29 @@ namespace Epons.Domain.Repositories
                 return null;
             }
 
-            return Mapper.MapUser(userResult);
+            dynamic permissionsResult = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListPermissionsByUserId]", new
+            {
+                UserId = userResult.Id
+            });
+
+            return Mapper.MapUser(userResult, permissionsResult);
+        }
+
+        public User FindByCredentials(string username, string password)
+        {
+
+            dynamic userResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindUserIdByCredentials]", new
+            {
+                Username = username,
+                Password = password
+            });
+
+            if (userResult == null)
+            {
+                return null;
+            }
+
+            return FindById(userResult.Id);
         }
     }
 }

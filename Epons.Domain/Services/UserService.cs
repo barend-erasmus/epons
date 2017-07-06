@@ -1,6 +1,39 @@
-﻿namespace Epons.Domain.Services
+﻿using Epons.Domain.Entities;
+using Epons.Domain.Helpers;
+using Epons.Domain.Repositories;
+using System;
+
+namespace Epons.Domain.Services
 {
     public class UserService
     {
+        private readonly UserRepository _userRepository;
+
+        public UserService(UserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
+
+        public User Find(Guid id)
+        {
+            User user = _userRepository.FindById(id);
+
+            return user;
+        }
+
+        public string GetJWT(string username, string password)
+        {
+
+            string encryptedPassword = Crypto.MD5Hex(Crypto.SHA1(password));
+
+            User user = _userRepository.FindByCredentials(username, encryptedPassword);
+
+            if (user == null)
+            {
+                return null;
+            }
+
+            return Crypto.GenerateJWT(user.Username);
+        }
     }
 }
