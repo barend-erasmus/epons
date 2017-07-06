@@ -56,14 +56,6 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            HasToBeAuthenticated();
-
-            return _patientService.ListCompletedMeasurementTools(patientId, startDate, endDate);
-        }
-
-        [HttpGet]
         public IList<Domain.EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId = null)
         {
             HasToBeAuthenticated();

@@ -109,31 +109,6 @@ namespace Epons.Domain.Repositories
 
         }
 
-        // TODO: Move this to Visit Repository and Visit Service
-        public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[FindCompletedMeasurementToolsByPatientIdAndDateRange]", new
-            {
-                patientId = patientId,
-                startDate = startDate,
-                endDate = endDate
-            });
-
-            return result
-                .GroupBy(x => x.DataSetId)
-                .Select(x => new EntityViews.CompletedMeasurementTool()
-                {
-                    EndDate = x.First().EndDate,
-                    StartDate = x.First().StartDate,
-                    MeasurementTool = new MeasurementTool()
-                    {
-                        Id = x.First().MeasurementToolId,
-                        Name = x.First().MeasurementTool,
-                    },
-                    ScoreItems = x.OrderBy(y => y.ScoreItemSortOrder).ToDictionary(y => (string)y.ScoreItem, y => (int)y.ScoreValue)
-                }).ToList();
-        }
-
         public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId)
         {
             var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListReferringDoctorsByPatientId]", new

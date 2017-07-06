@@ -221,15 +221,15 @@ namespace Epons.Domain.Test.Repositories
             Assert.AreEqual(5, result.Items.Count);
         }
 
-        [TestMethod, TestCategory("IntegrationTest")]
-        public void ListCompletedMeasurementTools_GivenExistingPatientId_ShouldReturnListOfCompletedMeasurementTools()
-        {
-            PatientRepository patientRepository = new PatientRepository();
+        //[TestMethod, TestCategory("IntegrationTest")]
+        //public void ListCompletedMeasurementTools_GivenExistingPatientId_ShouldReturnListOfCompletedMeasurementTools()
+        //{
+        //    PatientRepository patientRepository = new PatientRepository();
 
-            IList<EntityViews.CompletedMeasurementTool> result = patientRepository.ListCompletedMeasurementTools(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
+        //    IList<EntityViews.CompletedMeasurementTool> result = patientRepository.ListCompletedMeasurementTools(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
 
-            Assert.AreEqual(22, result.Count);
-        }
+        //    Assert.AreEqual(22, result.Count);
+        //}
 
         [TestMethod, TestCategory("IntegrationTest")]
         public void ListReferringDoctors_GivenExistingPatientId_ShouldReturnListOfDoctors()

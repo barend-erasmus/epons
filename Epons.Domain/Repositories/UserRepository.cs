@@ -1,7 +1,5 @@
 ﻿using Epons.Domain.Entities;
 using Epons.Domain.Helpers;
-using Epons.Domain.Models;
-using Epons.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Configuration;

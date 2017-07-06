@@ -50,9 +50,9 @@ namespace Epons.Domain.Repositories
             };
         }
 
-        public static User MapUser(dynamic userResult, IList<dynamic> permissionsResult)
+        public static Entities.User MapUser(dynamic userResult, IList<dynamic> permissionsResult)
         {
-            return new User()
+            return new Entities.User()
             {
                 Id = userResult.Id,
                 Username = userResult.Username,

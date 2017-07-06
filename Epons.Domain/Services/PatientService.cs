@@ -12,11 +12,13 @@ namespace Epons.Domain.Services
     public class PatientService
     {
         private readonly PatientRepository _patientRepository;
+        private readonly VisitRepository _visitRepository;
         private readonly RSAIdentificationNumberValidator _identificationNumberValidator;
 
-        public PatientService(PatientRepository patientRepository, RSAIdentificationNumberValidator identificationNumberValidator)
+        public PatientService(PatientRepository patientRepository, VisitRepository visitRepository, RSAIdentificationNumberValidator identificationNumberValidator)
         {
             _patientRepository = patientRepository;
+            _visitRepository = visitRepository;
             _identificationNumberValidator = identificationNumberValidator;
         }
 
@@ -62,11 +64,6 @@ namespace Epons.Domain.Services
             {
                 throw new Exception("Invalid PatientType");
             }
-        }
-
-        public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            return _patientRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
 
         public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)
