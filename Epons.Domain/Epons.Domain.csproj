@@ -60,10 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
+    <Compile Include="EntityViews\TeamMember.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
     <Compile Include="EntityViews\Doctor.cs" />
     <Compile Include="EntityViews\Patient.cs" />
+    <Compile Include="EntityViews\Visit.cs" />
     <Compile Include="Enums\PatientType.cs" />
     <Compile Include="Helpers\Crypto.cs" />
     <Compile Include="Models\DoctorContactDetails.cs" />
@@ -82,11 +84,12 @@
     <Compile Include="Repositories\DbExecutor.cs" />
     <Compile Include="Repositories\Mapper.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
+    <Compile Include="Repositories\TeamMemberRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
-    <Compile Include="Services\VisitRepository.cs" />
+    <Compile Include="Repositories\VisitRepository.cs" />
     <Compile Include="Validators\RSAIdentificationNumberValidator.cs" />
     <Compile Include="ValueObjects\Base.cs" />
     <Compile Include="ValueObjects\City.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="ValueObjects\ResidentialEnvironment.cs" />
     <Compile Include="ValueObjects\SupportService.cs" />
     <Compile Include="ValueObjects\Title.cs" />
+    <Compile Include="ValueObjects\User.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
