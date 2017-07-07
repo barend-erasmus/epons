@@ -11,7 +11,7 @@ namespace Epons.Api.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [JWTAuthorize]
-    public class UserController : ApiController
+    public class UserController : BaseController
     {
         private readonly UserService _userService;
 
@@ -32,14 +32,6 @@ namespace Epons.Api.Controllers
         public string JWT(string username, string password)
         {
             return _userService.GetJWT(username, password);
-        }
-
-        private void HasToBeAuthenticated()
-        {
-            if (!Request.Properties.ContainsKey("jwt"))
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
-            }
         }
     }
 }

@@ -13,12 +13,15 @@ namespace Epons.Gateway
     {
 
         private readonly string _endpoint = "http://api.sadfm.co.za";
+        private readonly string _apikey = "2c0d64c1-d002-45f2-9dc4-784c24e996";
 
         public PatientDto Find(Guid id)
         {
             RestClient client = new RestClient(_endpoint);
 
             RestRequest request = new RestRequest("api/Patient/FindById", Method.GET);
+
+            request.AddHeader("apikey", _apikey);
 
             request.AddParameter("id", id);
 
@@ -38,6 +41,8 @@ namespace Epons.Gateway
 
             RestRequest request = new RestRequest("api/Patient/FindByIdentificationNumber", Method.GET);
 
+            request.AddHeader("apikey", _apikey);
+
             request.AddParameter("identificationNumber", identificationNumber);
 
             IRestResponse<PatientDto> response = client.Execute<PatientDto>(request);
@@ -55,6 +60,8 @@ namespace Epons.Gateway
             RestClient client = new RestClient(_endpoint);
 
             RestRequest request = new RestRequest("api/Patient/FindByDetails", Method.GET);
+
+            request.AddHeader("apikey", _apikey);
 
             request.AddParameter("firstname", firstname);
             request.AddParameter("lastname", lastname);

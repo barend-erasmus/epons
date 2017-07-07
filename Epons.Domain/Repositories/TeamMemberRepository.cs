@@ -1,18 +1,13 @@
-﻿using Epons.Domain.Entities;
-using Epons.Domain.Helpers;
-using Epons.Domain.Models;
-using Epons.Domain.ValueObjects;
+﻿using Epons.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using static Dapper.SqlMapper;
 
 namespace Epons.Domain.Repositories
 {
     public class TeamMemberRepository
     {
-        private DbExecutor _dbExecutor;
+        private readonly DbExecutor _dbExecutor;
 
         public TeamMemberRepository()
         {

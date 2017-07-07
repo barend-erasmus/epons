@@ -1,19 +1,15 @@
 ﻿using Epons.Domain.Helpers;
-using Epons.Domain.Models;
-using Epons.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Epons.Domain.Repositories
 {
     public class VisitRepository
     {
-        private DbExecutor _dbExecutor;
-        private EntityFramework.EPONSContext _context;
+        private readonly DbExecutor _dbExecutor;
+        private readonly EntityFramework.EPONSContext _context;
 
         public VisitRepository()
         {
@@ -72,25 +68,25 @@ namespace Epons.Domain.Repositories
                 ProgressNotes = x.ProgressNotes,
                 Duration = x.Duration.HasValue? x.Duration.Value : 0,
                 Timestamp = x.Timestamp,
-                User = new VisitUser()
+                User = new Models.VisitUser()
                 {
                     Fullname = $"{x.User.Firstname} {x.User.Lastname}",
                     Id = x.User.Id,
-                    Permissions = x.User.Permissions.Select((y) => new UserPermission()
+                    Permissions = x.User.Permissions.Select((y) => new Models.UserPermission()
                     {
-                        Facility = new Facility()
+                        Facility = new ValueObjects.Facility()
                         {
                             Id = y.Facility.Id,
                             Name = y.Facility.Name
                         },
-                        Permission = new Permission()
+                        Permission = new ValueObjects.Permission()
                         {
                             Id = y.Permission.Id,
                             Name = y.Permission.Name
                         }
                     }).ToList()
                 },
-                MeasurementTools = x.MeasurementTools.Select((y) => new MeasurementTool()
+                MeasurementTools = x.MeasurementTools.Select((y) => new ValueObjects.MeasurementTool()
                 {
                     Id = y.Id,
                     Name = y.Name
@@ -113,7 +109,7 @@ namespace Epons.Domain.Repositories
                 {
                     EndDate = x.First().EndDate,
                     StartDate = x.First().StartDate,
-                    MeasurementTool = new MeasurementTool()
+                    MeasurementTool = new ValueObjects.MeasurementTool()
                     {
                         Id = x.First().MeasurementToolId,
                         Name = x.First().MeasurementTool,

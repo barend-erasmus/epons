@@ -1,11 +1,6 @@
-﻿using Epons.Domain.Entities;
-using Epons.Domain.Enums;
-using Epons.Domain.Models;
-using Epons.Domain.Repositories;
-using Epons.Domain.Validators;
+﻿using Epons.Domain.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Epons.Domain.Services
 {

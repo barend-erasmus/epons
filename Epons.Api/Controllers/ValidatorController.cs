@@ -7,7 +7,7 @@ namespace Epons.Api.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [JWTAuthorize]
-    public class ValidatorController : ApiController
+    public class ValidatorController : BaseController
     {
         private readonly RSAIdentificationNumberValidator _identificationNumberValidator;
 

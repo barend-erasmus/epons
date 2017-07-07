@@ -9,7 +9,7 @@ namespace Epons.Domain.Test.Repositories
     public class UserRepositoryTest
     {
 
-        private Guid _userId = new Guid("766B260E-DCDF-4EE5-A764-472405981E20");
+        private readonly Guid _userId = new Guid("766B260E-DCDF-4EE5-A764-472405981E20");
 
         [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenNonExistingId_ShouldReturnNull()

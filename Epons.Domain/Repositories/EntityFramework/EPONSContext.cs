@@ -468,7 +468,7 @@ namespace Epons.Domain.Repositories.EntityFramework
             modelBuilder.Entity<ScoreValue>()
                 .HasMany(e => e.Details5)
                 .WithMany(e => e.ScoreValues)
-                .Map(m => m.ToTable("ScoreValues1").MapLeftKey("ScoreValueId").MapRightKey("VisitId"));
+                .Map(m => m.ToTable("ScoreValues", "Visit").MapLeftKey("ScoreValueId").MapRightKey("VisitId"));
 
             modelBuilder.Entity<SupportServices1>()
                 .Property(e => e.Name)

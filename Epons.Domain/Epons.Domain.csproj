@@ -86,6 +86,7 @@
     <Compile Include="Models\PatientMedicalSchemeDetails.cs" />
     <Compile Include="Models\PatientNextOfKin.cs" />
     <Compile Include="Models\PatientSupportService.cs" />
+    <Compile Include="Models\TeamMemberUser.cs" />
     <Compile Include="Models\UserContactDetails.cs" />
     <Compile Include="Models\UserMeasurementTool.cs" />
     <Compile Include="Models\UserPermission.cs" />

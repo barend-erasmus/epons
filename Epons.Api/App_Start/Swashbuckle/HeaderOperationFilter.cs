@@ -18,6 +18,14 @@ namespace Epons.Api.App_Start.Swashbuckle
                 name = "Authorization",
                 required = false
             });
+
+            operation.parameters.Add(new Parameter()
+            {
+                description = "API Key",
+                @in = "header",
+                name = "apikey",
+                required = false
+            });
         }
     }
 }

@@ -1,16 +1,12 @@
-﻿using Epons.Domain.Entities;
-using Epons.Domain.Helpers;
+﻿using Epons.Domain.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using static Dapper.SqlMapper;
 
 namespace Epons.Domain.Repositories
 {
     public class UserRepository
     {
-        private DbExecutor _dbExecutor;
+        private readonly DbExecutor _dbExecutor;
 
         public UserRepository()
         {
@@ -23,7 +19,7 @@ namespace Epons.Domain.Repositories
             _dbExecutor = new DbExecutor(connectionString);
         }
 
-        public User FindById(Guid id)
+        public Entities.User FindById(Guid id)
         {
             dynamic userResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindUserById]", new
             {
@@ -43,7 +39,7 @@ namespace Epons.Domain.Repositories
             return Mapper.MapUser(userResult, permissionsResult);
         }
 
-        public User FindByCredentials(string username, string password)
+        public Entities.User FindByCredentials(string username, string password)
         {
 
             dynamic userResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindUserIdByCredentials]", new

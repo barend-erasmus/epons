@@ -1,14 +1,12 @@
-﻿using Epons.Domain.ValueObjects;
-
-namespace Epons.Domain.Models
+﻿namespace Epons.Domain.Models
 {
     public class PatientAddress
     {
-        public Country Country { get; set; }
-        public Province Province { get; set; }
-        public City City { get; set; }
+        public ValueObjects.Country Country { get; set; }
+        public ValueObjects.Province Province { get; set; }
+        public ValueObjects.City City { get; set; }
         public string Street { get; set; }
-        public ResidentialEnvironment ResidentialEnvironment { get; set; }
+        public ValueObjects.ResidentialEnvironment ResidentialEnvironment { get; set; }
         public string PostalCode { get; set; }
     }
 }

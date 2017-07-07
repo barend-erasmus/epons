@@ -14,7 +14,7 @@ namespace Epons.Api.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [JWTAuthorize]
-    public class PatientController : ApiController
+    public class PatientController : BaseController
     {
         private readonly PatientService _patientService;
 
@@ -61,14 +61,6 @@ namespace Epons.Api.Controllers
             HasToBeAuthenticated();
 
             return _patientService.ListReferringDoctors(patientId, facilityId);
-        }
-
-        private void HasToBeAuthenticated()
-        {
-            if (!Request.Properties.ContainsKey("jwt"))
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
-            }
         }
     }
 }

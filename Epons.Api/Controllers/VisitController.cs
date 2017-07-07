@@ -12,7 +12,7 @@ namespace Epons.Api.Controllers
 {
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     [JWTAuthorize]
-    public class VisitController : ApiController
+    public class VisitController : BaseController
     {
         private readonly VisitService _visitService;
 
@@ -32,17 +32,9 @@ namespace Epons.Api.Controllers
         [HttpGet]
         public IList<Domain.EntityViews.Visit> List(Guid patientId)
         {
-            // HasToBeAuthenticated();
+            HasToBeAuthenticated();
 
             return _visitService.List(patientId);
-        }
-
-        private void HasToBeAuthenticated()
-        {
-            if (!Request.Properties.ContainsKey("jwt"))
-            {
-                throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
-            }
         }
     }
 }
