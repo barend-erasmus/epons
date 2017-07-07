@@ -7,11 +7,11 @@ namespace Epons.Domain.Test.Validators
     [TestClass]
     public class RSAIdentificationNumberValidatorTests
     {
-        private string _validMaleIdentificationNumber = "9605235100085";
-        private string _validFemaleIdentificationNumber = "0405233100081";
-        private string _invalidShortIdentificationNumber = "123";
-        private string _invalidLongIdentificationNumber = "12345678912345";
-        private string _invalidMaleIdentificationNumber = "9605235100089";
+        private readonly string _validMaleIdentificationNumber = "9605235100085";
+        private readonly string _validFemaleIdentificationNumber = "0405233100081";
+        private readonly string _invalidShortIdentificationNumber = "123";
+        private readonly string _invalidLongIdentificationNumber = "12345678912345";
+        private readonly string _invalidMaleIdentificationNumber = "9605235100089";
 
         [TestMethod, TestCategory("UnitTest")]
         public void IsValid_GivenValidMaleIdentificationNumber_ReturnsTrue()

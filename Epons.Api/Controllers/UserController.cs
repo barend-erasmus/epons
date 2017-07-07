@@ -1,11 +1,17 @@
-﻿using Epons.Domain.Entities;
+﻿using Epons.Api.Attributes;
+using Epons.Domain.Entities;
 using Epons.Domain.Services;
 using System;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Epons.Api.Controllers
 {
-    public class UserController : ApiController
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    [JWTAuthorize]
+    public class UserController : BaseController
     {
         private readonly UserService _userService;
 
@@ -17,7 +23,15 @@ namespace Epons.Api.Controllers
         [HttpGet]
         public User FindById(Guid id)
         {
-            return null;
+            HasToBeAuthenticated();
+
+            return _userService.Find(id);
+        }
+
+        [HttpGet]
+        public string JWT(string username, string password)
+        {
+            return _userService.GetJWT(username, password);
         }
     }
 }

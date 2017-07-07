@@ -35,6 +35,10 @@ namespace Epons.Api
 
             builder.RegisterType<PatientRepository>().As<PatientRepository>();
             builder.RegisterType<PatientService>().As<PatientService>();
+            builder.RegisterType<UserRepository>().As<UserRepository>();
+            builder.RegisterType<UserService>().As<UserService>();
+            builder.RegisterType<VisitRepository>().As<VisitRepository>();
+            builder.RegisterType<VisitService>().As<VisitService>();
             builder.RegisterType<RSAIdentificationNumberValidator>().As<RSAIdentificationNumberValidator>();
 
             var container = builder.Build();

@@ -11,14 +11,14 @@ namespace Epons.Domain.Test.Repositories
     public class PatientRepositoryTests
     {
 
-        private Guid _patientId = new Guid("12D1D801-AFE4-4124-A4B9-03012754EFA7");
-        private string _identificationNumber = "8105190070085";
-        private string _firstname = "Vuso";
-        private string _lastname = "Mngxozana";
-        private DateTime _dateOfBirth = new DateTime(1977, 07, 16);
-        private Guid _userId = new Guid("B9E49BEE-F576-45D6-8AE3-6FE08831E146");
-        private Guid _facilityId = new Guid("5355E9EE-2B79-4F55-A64B-EA8321E79386");
-        private Guid _listCompletedMeasurementToolsPatientId = new Guid("1130D8C7-959B-4DD6-BE67-C66A240F36BE");
+        private readonly Guid _patientId = new Guid("12D1D801-AFE4-4124-A4B9-03012754EFA7");
+        private readonly string _identificationNumber = "8105190070085";
+        private readonly string _firstname = "Vuso";
+        private readonly string _lastname = "Mngxozana";
+        private readonly DateTime _dateOfBirth = new DateTime(1977, 07, 16);
+        private readonly Guid _userId = new Guid("B9E49BEE-F576-45D6-8AE3-6FE08831E146");
+        private readonly Guid _facilityId = new Guid("5355E9EE-2B79-4F55-A64B-EA8321E79386");
+        private readonly Guid _listCompletedMeasurementToolsPatientId = new Guid("1130D8C7-959B-4DD6-BE67-C66A240F36BE");
 
         [TestMethod, TestCategory("IntegrationTest")]
         public void FindById_GivenNonExistingId_ShouldReturnNull()
@@ -221,16 +221,7 @@ namespace Epons.Domain.Test.Repositories
             Assert.AreEqual(5, result.Items.Count);
         }
 
-        [TestMethod, TestCategory("IntegrationTest")]
-        public void ListCompletedMeasurementTools_GivenExistingPatientId_ShouldReturnListOfCompletedMeasurementTools()
-        {
-            PatientRepository patientRepository = new PatientRepository();
-
-            IList<EntityViews.CompletedMeasurementTool> result = patientRepository.ListCompletedMeasurementTools(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
-
-            Assert.AreEqual(21, result.Count);
-        }
-
+       
         [TestMethod, TestCategory("IntegrationTest")]
         public void ListReferringDoctors_GivenExistingPatientId_ShouldReturnListOfDoctors()
         {

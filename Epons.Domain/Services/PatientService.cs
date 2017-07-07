@@ -1,6 +1,4 @@
-﻿using Epons.Domain.Entities;
-using Epons.Domain.Enums;
-using Epons.Domain.Models;
+﻿using Epons.Domain.Enums;
 using Epons.Domain.Repositories;
 using Epons.Domain.Validators;
 using System;
@@ -12,47 +10,49 @@ namespace Epons.Domain.Services
     public class PatientService
     {
         private readonly PatientRepository _patientRepository;
+        private readonly VisitRepository _visitRepository;
         private readonly RSAIdentificationNumberValidator _identificationNumberValidator;
 
-        public PatientService(PatientRepository patientRepository, RSAIdentificationNumberValidator identificationNumberValidator)
+        public PatientService(PatientRepository patientRepository, VisitRepository visitRepository, RSAIdentificationNumberValidator identificationNumberValidator)
         {
             _patientRepository = patientRepository;
+            _visitRepository = visitRepository;
             _identificationNumberValidator = identificationNumberValidator;
         }
 
-        public Patient Find(Guid id)
+        public Entities.Patient Find(Guid id)
         {
-            Patient patient = _patientRepository.FindById(id);
+            Entities.Patient patient = _patientRepository.FindById(id);
 
             patient = ValidatePatient(patient);
 
             return patient;
         }
 
-        public Patient Find(string identificationNumber)
+        public Entities.Patient Find(string identificationNumber)
         {
-            Patient patient = _patientRepository.FindByIdentificationNumber(identificationNumber);
+            Entities.Patient patient = _patientRepository.FindByIdentificationNumber(identificationNumber);
 
             patient = ValidatePatient(patient);
 
             return patient;
         }
 
-        public Patient Find(string firstname, string lastname, DateTime dateOfBirth)
+        public Entities.Patient Find(string firstname, string lastname, DateTime dateOfBirth)
         {
-            Patient patient = _patientRepository.FindByDetails(firstname, lastname, dateOfBirth);
+            Entities.Patient patient = _patientRepository.FindByDetails(firstname, lastname, dateOfBirth);
 
             patient = ValidatePatient(patient);
 
             return patient;
         }
 
-        public Pagination<EntityViews.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
+        public Models.Pagination<EntityViews.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
         {
             if (type == PatientType.Active)
             {
 
-                Pagination<EntityViews.Patient> result = _patientRepository.ListActive((page - 1) * size, size, userId, facilityId, query);
+                Models.Pagination<EntityViews.Patient> result = _patientRepository.ListActive((page - 1) * size, size, userId, facilityId, query);
 
                 result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
 
@@ -62,11 +62,6 @@ namespace Epons.Domain.Services
             {
                 throw new Exception("Invalid PatientType");
             }
-        }
-
-        public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            return _patientRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
 
         public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)
@@ -81,7 +76,7 @@ namespace Epons.Domain.Services
             }
         }
 
-        private Patient ValidatePatient(Patient patient)
+        private Entities.Patient ValidatePatient(Entities.Patient patient)
         {
             if (patient != null)
             {
@@ -91,7 +86,7 @@ namespace Epons.Domain.Services
 
                     if (!valid)
                     {
-                        patient.ValidationMessages.Add(new ValidationMessage()
+                        patient.ValidationMessages.Add(new Models.ValidationMessage()
                         {
                             Field = "IdentificationNumber",
                             Message = "Invalid Identification Number"
@@ -101,7 +96,7 @@ namespace Epons.Domain.Services
 
                 if (!patient.DateOfBirth.HasValue)
                 {
-                    patient.ValidationMessages.Add(new ValidationMessage()
+                    patient.ValidationMessages.Add(new Models.ValidationMessage()
                     {
                         Field = "DateOfBirth",
                         Message = "Invalid Date of Birth"
@@ -122,7 +117,7 @@ namespace Epons.Domain.Services
 
                     if (!valid)
                     {
-                        patient.ValidationMessages.Add(new ValidationMessage()
+                        patient.ValidationMessages.Add(new Models.ValidationMessage()
                         {
                             Field = "IdentificationNumber",
                             Message = "Invalid Identification Number"
@@ -132,7 +127,7 @@ namespace Epons.Domain.Services
 
                 if (!patient.DateOfBirth.HasValue)
                 {
-                    patient.ValidationMessages.Add(new ValidationMessage()
+                    patient.ValidationMessages.Add(new Models.ValidationMessage()
                     {
                         Field = "DateOfBirth",
                         Message = "Invalid Date of Birth"

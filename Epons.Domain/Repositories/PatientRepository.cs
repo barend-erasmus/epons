@@ -1,7 +1,4 @@
-﻿using Epons.Domain.Entities;
-using Epons.Domain.Helpers;
-using Epons.Domain.Models;
-using Epons.Domain.ValueObjects;
+﻿using Epons.Domain.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -12,7 +9,7 @@ namespace Epons.Domain.Repositories
 {
     public class PatientRepository
     {
-        private DbExecutor _dbExecutor;
+        private readonly DbExecutor _dbExecutor;
 
         public PatientRepository()
         {
@@ -25,7 +22,7 @@ namespace Epons.Domain.Repositories
             _dbExecutor = new DbExecutor(connectionString);
         }
 
-        public Patient FindById(Guid id)
+        public Entities.Patient FindById(Guid id)
         {
             dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindPatientById]", new
             {
@@ -45,7 +42,7 @@ namespace Epons.Domain.Repositories
             return Mapper.MapPatient(patientResult, supportServicesResult);
         }
 
-        public Patient FindByIdentificationNumber(string identificationNumber)
+        public Entities.Patient FindByIdentificationNumber(string identificationNumber)
         {
             dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindPatientIdByIdentificationNumber]", new
             {
@@ -60,7 +57,7 @@ namespace Epons.Domain.Repositories
             return FindById(patientResult.Id);
         }
 
-        public Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
+        public Entities.Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
         {
             dynamic patientResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindPatientIdByDetails]", new
             {
@@ -77,7 +74,7 @@ namespace Epons.Domain.Repositories
             return FindById(patientResult.Id);
         }
 
-        public Pagination<EntityViews.Patient> ListActive(int start, int length, Guid userId, Guid? facilityId, string query)
+        public Models.Pagination<EntityViews.Patient> ListActive(int start, int length, Guid userId, Guid? facilityId, string query)
         {
             GridReader gridReader = _dbExecutor.QueryMultiTableProc("[EPONS_API].[ListActivePatients]", new
             {
@@ -99,7 +96,7 @@ namespace Epons.Domain.Repositories
                 patients.Add(Mapper.MapPatientView(patientResult, facilitiesResult.ToList()));
             }
 
-            return new Pagination<EntityViews.Patient>()
+            return new Models.Pagination<EntityViews.Patient>()
             {
                 Count = dataResult.First().Count,
                 Items = patients,
@@ -107,30 +104,6 @@ namespace Epons.Domain.Repositories
                 Size = length
             };
 
-        }
-
-        public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[FindCompletedMeasurementToolsByPatientIdAndDateRange]", new
-            {
-                patientId = patientId,
-                startDate = startDate,
-                endDate = endDate
-            });
-
-            return result
-                .GroupBy(x => x.DataSetId)
-                .Select(x => new EntityViews.CompletedMeasurementTool()
-                {
-                    EndDate = x.First().EndDate,
-                    StartDate = x.First().StartDate,
-                    MeasurementTool = new MeasurementTool()
-                    {
-                        Id = x.First().MeasurementToolId,
-                        Name = x.First().MeasurementTool,
-                    },
-                    ScoreItems = x.OrderBy(y => y.ScoreItemSortOrder).ToDictionary(y => (string)y.ScoreItem, y => (int)y.ScoreValue)
-                }).ToList();
         }
 
         public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId)
@@ -142,12 +115,12 @@ namespace Epons.Domain.Repositories
 
             return result.Select((x) => new EntityViews.Doctor()
             {
-                ContactDetails = new DoctorContactDetails()
+                ContactDetails = new Models.DoctorContactDetails()
                 {
                     ContactNumber = x.ContactNumber,
                     EmailAddress = x.EmailAddress
                 },
-                Facility = new Facility()
+                Facility = new ValueObjects.Facility()
                 {
                     Id = x.FacilityId,
                     Name = x.FacilityName
