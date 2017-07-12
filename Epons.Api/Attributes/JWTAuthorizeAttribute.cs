@@ -1,4 +1,5 @@
 ﻿using Epons.Domain.Helpers;
+using System.Linq;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
@@ -20,7 +21,7 @@ namespace Epons.Api.Attributes
 
             if (actionContext.Request.Headers.Contains("apikey"))
             {
-                string apikey = actionContext.Request.Headers.GetValues("apikey").ToString();
+                string apikey = actionContext.Request.Headers.GetValues("apikey").First().ToString();
 
                 if (apikey == "2c0d64c1-d002-45f2-9dc4-784c24e996")
                 {

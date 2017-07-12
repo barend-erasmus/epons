@@ -178,23 +178,23 @@ namespace Epons.Domain.Repositories
             };
         }
 
-        public static EntityViews.Visit MapVisitView(dynamic visitResult, dynamic )
-        {
-            return new EntityViews.Visit()
-            {
-                DailyNotes = visitResult.DailyNotes,
-                Duration = visitResult.Duration,
-                Id = visitResult.Id,
-                ProgressNotes = visitResult.ProgressNotes,
-                MeasurementTools = null,
-                Timestamp = visitResult.Timestamp,
-                User = new Models.VisitUser()
-                {
-                    Id = visitResult.UserId,
-                    Fullname = visitResult.Fullname,
-                    Permissions = null
-                }
-            };
-        }
+        //public static EntityViews.Visit MapVisitView(dynamic visitResult, dynamic )
+        //{
+        //    return new EntityViews.Visit()
+        //    {
+        //        DailyNotes = visitResult.DailyNotes,
+        //        Duration = visitResult.Duration,
+        //        Id = visitResult.Id,
+        //        ProgressNotes = visitResult.ProgressNotes,
+        //        MeasurementTools = null,
+        //        Timestamp = visitResult.Timestamp,
+        //        User = new Models.VisitUser()
+        //        {
+        //            Id = visitResult.UserId,
+        //            Fullname = visitResult.Fullname,
+        //            Permissions = null
+        //        }
+        //    };
+        //}
     }
 }
