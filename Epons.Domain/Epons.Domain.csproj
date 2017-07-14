@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
+    <Compile Include="EntityViews\EpisodeOfCare.cs" />
     <Compile Include="EntityViews\TeamMember.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="ValueObjects\Base.cs" />
     <Compile Include="ValueObjects\City.cs" />
     <Compile Include="ValueObjects\Country.cs" />
+    <Compile Include="ValueObjects\Doctor.cs" />
     <Compile Include="ValueObjects\Facility.cs" />
     <Compile Include="ValueObjects\Gender.cs" />
     <Compile Include="ValueObjects\ImpairmentGroup.cs" />
