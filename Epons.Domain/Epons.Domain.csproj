@@ -185,6 +185,7 @@
     <Content Include="Scripts\StoredProcedures\ListPermissionsByUserId.sql" />
     <Content Include="Scripts\StoredProcedures\ListReferringDoctorsByPatientId.sql" />
     <Content Include="Scripts\StoredProcedures\ListSupportServicesByPatientId.sql" />
+    <Content Include="Scripts\StoredProcedures\ListTreatingDoctorsByPatientId.sql" />
     <Content Include="Scripts\StoredProcedures\ListVisitsByPatientId.sql" />
   </ItemGroup>
   <ItemGroup>

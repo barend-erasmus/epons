@@ -76,6 +76,18 @@ namespace Epons.Domain.Services
             }
         }
 
+        public IList<EntityViews.Doctor> ListTreatingDoctors(Guid patientId, Guid? facilityId)
+        {
+            if (facilityId.HasValue)
+            {
+                return _patientRepository.ListTreatingDoctors(patientId).Where((x) => x.Facility.Id == facilityId).ToList();
+            }
+            else
+            {
+                return _patientRepository.ListTreatingDoctors(patientId);
+            }
+        }
+
         private Entities.Patient ValidatePatient(Entities.Patient patient)
         {
             if (patient != null)

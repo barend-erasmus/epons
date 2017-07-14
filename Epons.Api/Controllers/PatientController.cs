@@ -62,5 +62,13 @@ namespace Epons.Api.Controllers
 
             return _patientService.ListReferringDoctors(patientId, facilityId);
         }
+
+        [HttpGet]
+        public IList<Domain.EntityViews.Doctor> ListTreatingDoctors(Guid patientId, Guid? facilityId = null)
+        {
+            HasToBeAuthenticated();
+
+            return _patientService.ListTreatingDoctors(patientId, facilityId);
+        }
     }
 }

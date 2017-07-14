@@ -130,5 +130,30 @@ namespace Epons.Domain.Repositories
                 PracticeNumber = x.PracticeNumber
             }).ToList();
         }
+
+        public IList<EntityViews.Doctor> ListTreatingDoctors(Guid patientId)
+        {
+            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListTreatingDoctorsByPatientId]", new
+            {
+                patientId = patientId
+            });
+
+            return result.Select((x) => new EntityViews.Doctor()
+            {
+                ContactDetails = new Models.DoctorContactDetails()
+                {
+                    ContactNumber = x.ContactNumber,
+                    EmailAddress = x.EmailAddress
+                },
+                Facility = new ValueObjects.Facility()
+                {
+                    Id = x.FacilityId,
+                    Name = x.FacilityName
+                },
+                Fullname = x.Fullname,
+                HPCSANumber = x.HPCSANumber,
+                PracticeNumber = x.PracticeNumber
+            }).ToList();
+        }
     }
 }
