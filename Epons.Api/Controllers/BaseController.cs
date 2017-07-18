@@ -18,8 +18,9 @@ namespace Epons.Api.Controllers
                 return;
             }
 
+#if !DEBUG
             throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.Unauthorized));
-
+#endif
         }
     }
 }

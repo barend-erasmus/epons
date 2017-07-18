@@ -13,7 +13,9 @@ namespace Epons.Domain.Services
         private readonly VisitRepository _visitRepository;
         private readonly RSAIdentificationNumberValidator _identificationNumberValidator;
 
-        public PatientService(PatientRepository patientRepository, VisitRepository visitRepository, RSAIdentificationNumberValidator identificationNumberValidator)
+        public PatientService(PatientRepository patientRepository,
+            VisitRepository visitRepository,
+            RSAIdentificationNumberValidator identificationNumberValidator)
         {
             _patientRepository = patientRepository;
             _visitRepository = visitRepository;
@@ -61,30 +63,6 @@ namespace Epons.Domain.Services
             else
             {
                 throw new Exception("Invalid PatientType");
-            }
-        }
-
-        public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)
-        {
-            if (facilityId.HasValue)
-            {
-                return _patientRepository.ListReferringDoctors(patientId).Where((x) => x.Facility.Id == facilityId).ToList();
-            }
-            else
-            {
-                return _patientRepository.ListReferringDoctors(patientId);
-            }
-        }
-
-        public IList<EntityViews.Doctor> ListTreatingDoctors(Guid patientId, Guid? facilityId)
-        {
-            if (facilityId.HasValue)
-            {
-                return _patientRepository.ListTreatingDoctors(patientId).Where((x) => x.Facility.Id == facilityId).ToList();
-            }
-            else
-            {
-                return _patientRepository.ListTreatingDoctors(patientId);
             }
         }
 

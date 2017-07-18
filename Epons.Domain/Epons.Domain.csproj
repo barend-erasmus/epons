@@ -140,10 +140,12 @@
     <Compile Include="Repositories\EntityFramework\SupportServices1.cs" />
     <Compile Include="Repositories\EntityFramework\TeamMember.cs" />
     <Compile Include="Repositories\EntityFramework\Title.cs" />
+    <Compile Include="Repositories\EpisodeOfCareRepository.cs" />
     <Compile Include="Repositories\Mapper.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
     <Compile Include="Repositories\TeamMemberRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
+    <Compile Include="Services\EpisodeOfCareService.cs" />
     <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
