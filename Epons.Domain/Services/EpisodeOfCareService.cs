@@ -21,6 +21,11 @@ namespace Epons.Domain.Services
             return _episodeOfCareRepository.List(patientId);
         }
 
+        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
+        {
+            return _episodeOfCareRepository.ListDiagnoses(patientId);
+        }
+
         public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)
         {
             if (facilityId.HasValue)

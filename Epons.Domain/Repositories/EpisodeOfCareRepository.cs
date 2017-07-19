@@ -26,7 +26,7 @@ namespace Epons.Domain.Repositories
 
         public IList<EntityViews.EpisodeOfCare> List(Guid patientId)
         {
-            return _context.EpisodesOfCares.Select((x) => new
+            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Select((x) => new
             {
                 AdmissionTimestamp = x.AllocationTimestamp,
                 DischargeTimestamp = x.DeallocationTimestamp,
@@ -73,6 +73,27 @@ namespace Epons.Domain.Repositories
                     Id = y.Id,
                     Name = y.Name
                 }).FirstOrDefault()
+            }).ToList();
+        }
+
+        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
+        {
+            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Where((x) => x.ReasonForAdmissionId != null).Select((x) => new
+            {
+                ReasonForAdmissionId = x.ReasonForAdmissionId
+            }).ToList().Select((x) => new ValueObjects.Diagnoses()
+            {
+                Id = x.ReasonForAdmissionId.Value,
+                Name = _context.ICD10Codes.Where((y) => y.ICD10CodeId == x.ReasonForAdmissionId.Value).Select((y) => new
+                {
+                    Id = y.ICD10CodeId,
+                    Name = y.Name,
+                    Code = y.Code
+                }).ToList().Select((y) => new ValueObjects.Diagnoses()
+                {
+                    Id = y.Id,
+                    Name = $"{y.Code} - {y.Name}"
+                }).FirstOrDefault().Name
             }).ToList();
         }
 

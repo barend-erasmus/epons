@@ -31,6 +31,14 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
+        public IList<Domain.ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
+        {
+            HasToBeAuthenticated();
+
+            return _episodeOfCareService.ListDiagnoses(patientId);
+        }
+
+        [HttpGet]
         public IList<Domain.EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId = null)
         {
             HasToBeAuthenticated();

@@ -155,6 +155,7 @@
     <Compile Include="ValueObjects\Base.cs" />
     <Compile Include="ValueObjects\City.cs" />
     <Compile Include="ValueObjects\Country.cs" />
+    <Compile Include="ValueObjects\Diagnoses.cs" />
     <Compile Include="ValueObjects\Doctor.cs" />
     <Compile Include="ValueObjects\Facility.cs" />
     <Compile Include="ValueObjects\Gender.cs" />
