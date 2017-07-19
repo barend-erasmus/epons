@@ -33,7 +33,9 @@ namespace Epons.Domain.Repositories
                 FacilityId = x.FacilityId,
                 ReferringDoctorId = x.ReferringDoctorId,
                 UniqueHospitalNumber = x.AllocationNumber,
-                ImpairmentGroupId = x.ImpairmentGroupId
+                ImpairmentGroupId = x.ImpairmentGroupId,
+                DiagnosesId = x.ReasonForAdmissionId,
+                OnsetTimestamp = x.ReasonForAdmissionTimestamp
             }).ToList().Select((x) => new EntityViews.EpisodeOfCare()
             {
                 AdmissionTimestamp = x.AdmissionTimestamp,
@@ -72,15 +74,26 @@ namespace Epons.Domain.Repositories
                 {
                     Id = y.Id,
                     Name = y.Name
-                }).FirstOrDefault()
+                }).FirstOrDefault(),
+                Diagnoses = _context.ICD10Codes.Where((y) => y.ICD10CodeId == x.DiagnosesId).Select((y) => new
+                {
+                    Id = y.ICD10CodeId,
+                    Name = y.Name,
+                    Code = y.Code
+                }).ToList().Select((y) => new ValueObjects.Diagnoses()
+                {
+                    Id = y.Id,
+                    Name = $"{y.Code} - {y.Name}"
+                }).FirstOrDefault(),
+                OnsetTimestamp = x.OnsetTimestamp
             }).ToList();
         }
 
         public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
         {
-            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Where((x) => x.ReasonForAdmissionId != null).Select((x) => new
+            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Where((x) => x.ReasonForAdmissionId != null).GroupBy((x) => x.ReasonForAdmissionId).Select((x) => new
             {
-                ReasonForAdmissionId = x.ReasonForAdmissionId
+                ReasonForAdmissionId = x.Key
             }).ToList().Select((x) => new ValueObjects.Diagnoses()
             {
                 Id = x.ReasonForAdmissionId.Value,

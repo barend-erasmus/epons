@@ -18,7 +18,7 @@ namespace Epons.Domain.Services
 
         public IList<EntityViews.EpisodeOfCare> List(Guid patientId)
         {
-            return _episodeOfCareRepository.List(patientId);
+            return _episodeOfCareRepository.List(patientId).OrderByDescending((x) => x.DischargeTimestamp).ToList();
         }
 
         public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
