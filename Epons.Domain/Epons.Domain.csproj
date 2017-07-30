@@ -171,6 +171,7 @@
     <Compile Include="ValueObjects\SupportService.cs" />
     <Compile Include="ValueObjects\Title.cs" />
     <Compile Include="Models\VisitUser.cs" />
+    <Compile Include="ValueObjects\VitalSigns.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -30,11 +30,11 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.Visit> List(Guid patientId)
+        public IList<Domain.EntityViews.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
-            return _visitService.List(patientId);
+            return _visitService.List(patientId, startDate, endDate);
         }
     }
 }

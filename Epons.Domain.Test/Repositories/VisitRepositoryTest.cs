@@ -17,7 +17,7 @@ namespace Epons.Domain.Test.Repositories
 
             IList<EntityViews.CompletedMeasurementTool> result = visitRepository.ListCompletedMeasurementTools(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
 
-            Assert.AreEqual(22, result.Count);
+            Assert.AreEqual(31, result.Count);
         }
 
         [TestMethod, TestCategory("IntegrationTest")]
@@ -25,9 +25,9 @@ namespace Epons.Domain.Test.Repositories
         {
             VisitRepository visitRepository = new VisitRepository();
 
-            IList<EntityViews.Visit> result = visitRepository.List(_listCompletedMeasurementToolsPatientId);
+            IList<EntityViews.Visit> result = visitRepository.List(_listCompletedMeasurementToolsPatientId, DateTime.UtcNow.Subtract(new TimeSpan(365, 0, 0, 0)), DateTime.UtcNow);
 
-            Assert.AreEqual(332, result.Count);
+            Assert.AreEqual(492, result.Count);
         }
     }
 }

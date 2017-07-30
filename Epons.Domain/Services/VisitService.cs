@@ -1,6 +1,7 @@
 ﻿using Epons.Domain.Repositories;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Epons.Domain.Services
 {
@@ -13,9 +14,9 @@ namespace Epons.Domain.Services
             _visitRepository = visitRepository;
         }
 
-        public IList<EntityViews.Visit> List(Guid patientId)
+        public IList<EntityViews.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _visitRepository.List(patientId);
+            return _visitRepository.List(patientId, startDate, endDate).OrderBy((x) => x.Timestamp).ToList();
         }
 
         public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)

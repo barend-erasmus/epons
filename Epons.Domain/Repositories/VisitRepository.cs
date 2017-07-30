@@ -24,10 +24,10 @@ namespace Epons.Domain.Repositories
             _context = new EntityFramework.EPONSContext(connectionString);
         }
 
-        public IList<EntityViews.Visit> List(Guid patientId)
+        public IList<EntityViews.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             return _context.Details5
-                .Where((x) => x.PatientId == patientId)
+                .Where((x) => x.PatientId == patientId && x.Timestamp >= startDate && x.Timestamp <= endDate)
                 .Select((x) => new
             {
                 Id = x.VisitId,
@@ -58,8 +58,17 @@ namespace Epons.Domain.Repositories
                 {
                     Id = y.ScoreItem.MeasurementTools2.MeasurementToolId,
                     Name = y.ScoreItem.MeasurementTools2.Name
-                })
-                
+                }),
+                VitalSigns = new
+                {
+                    Temperature = x.Temperature,
+                    HeartRate = x.HeartRate,
+                    BloodPressureSystolic = x.BloodPressureSystolic,
+                    BloodPressureDiastolic = x.BloodPressureDiastolic,
+                    RespiratoryRate = x.RespiratoryRate,
+                    PulseOximetry = x.PulseOximetry,
+                    Glucose = x.Glucose
+                }
             })
             .ToList().Select((x) => new EntityViews.Visit()
             {
@@ -90,7 +99,17 @@ namespace Epons.Domain.Repositories
                 {
                     Id = y.Id,
                     Name = y.Name
-                }).ToList()
+                }).ToList(),
+                VitalSigns = new ValueObjects.VitalSigns()
+                {
+                    Temperature = x.VitalSigns.Temperature,
+                    BloodPressureDiastolic = x.VitalSigns.BloodPressureDiastolic,
+                    BloodPressureSystolic = x.VitalSigns.BloodPressureSystolic,
+                    Glucose = x.VitalSigns.Glucose,
+                    HeartRate = x.VitalSigns.HeartRate,
+                    PulseOximetry = x.VitalSigns.PulseOximetry,
+                    RespiratoryRate = x.VitalSigns.RespiratoryRate
+                }
             }).ToList();
         }
 

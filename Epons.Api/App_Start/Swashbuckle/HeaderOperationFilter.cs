@@ -16,7 +16,8 @@ namespace Epons.Api.App_Start.Swashbuckle
                 description = "JSON Web Token",
                 @in = "header",
                 name = "Authorization",
-                required = false
+                required = false,
+                type = "string"
             });
 
             operation.parameters.Add(new Parameter()
@@ -24,7 +25,8 @@ namespace Epons.Api.App_Start.Swashbuckle
                 description = "API Key",
                 @in = "header",
                 name = "apikey",
-                required = false
+                required = false,
+                type = "string"
             });
         }
     }

@@ -13,6 +13,7 @@ namespace Epons.Domain.EntityViews
         public IList<ValueObjects.MeasurementTool> MeasurementTools { get; set; }
         public string DailyNotes { get; set; }
         public string ProgressNotes { get; set; }
+        public ValueObjects.VitalSigns VitalSigns { get; set; }
 
         public bool HasNotes
         {
