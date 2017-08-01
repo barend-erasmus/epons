@@ -54,5 +54,13 @@ namespace Epons.Api.Controllers
 
             return _patientService.List(userId, facilityId, type, query, page, size);
         }
+
+        [HttpGet]
+        public IList<Domain.EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id)
+        {
+            HasToBeAuthenticated();
+
+            return _patientService.ListMeasurementTools(id);
+        }
     }
 }

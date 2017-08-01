@@ -66,6 +66,11 @@ namespace Epons.Domain.Services
             }
         }
 
+        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id)
+        {
+            return _patientRepository.ListMeasurementTools(id);
+        }
+
         private Entities.Patient ValidatePatient(Entities.Patient patient)
         {
             if (patient != null)

@@ -10,6 +10,7 @@ namespace Epons.Domain.Repositories
     public class PatientRepository
     {
         private readonly DbExecutor _dbExecutor;
+        private readonly EntityFramework.EPONSContext _context;
 
         public PatientRepository()
         {
@@ -20,6 +21,7 @@ namespace Epons.Domain.Repositories
 
             string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};";
             _dbExecutor = new DbExecutor(connectionString);
+            _context = new EntityFramework.EPONSContext(connectionString);
         }
 
         public Entities.Patient FindById(Guid id)
@@ -104,6 +106,22 @@ namespace Epons.Domain.Repositories
                 Size = length
             };
 
+        }
+
+        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid patientId)
+        {
+            return _context.MeasurementTools1
+                .Where((x) => x.PatientId == patientId)
+                .Select((x) => new EntityViews.PatientMeasurementTool()
+                {
+                    AssignedTimestamp = x.AssignedTimestamp,
+                    DeassignedTimestamp = x.DeassignedTimestamp,
+                    MeasurementTool = new ValueObjects.MeasurementTool()
+                    {
+                        Id = x.MeasurementTools2.MeasurementToolId,
+                        Name = x.MeasurementTools2.Name
+                    }
+                }).ToList();
         }
     }
 }

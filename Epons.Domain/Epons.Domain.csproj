@@ -72,6 +72,7 @@
   <ItemGroup>
     <Compile Include="Entities\Patient.cs" />
     <Compile Include="EntityViews\EpisodeOfCare.cs" />
+    <Compile Include="EntityViews\PatientMeasurementTool.cs" />
     <Compile Include="EntityViews\TeamMember.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="EntityViews\CompletedMeasurementTool.cs" />
