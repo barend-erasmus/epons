@@ -120,6 +120,11 @@ namespace Epons.Domain.Repositories
                     {
                         Id = x.MeasurementTools2.MeasurementToolId,
                         Name = x.MeasurementTools2.Name
+                    },
+                    Frequency = new ValueObjects.Frequency()
+                    {
+                        Id = x.Frequency.FrequencyId,
+                        Name = x.Frequency.Name
                     }
                 }).ToList();
         }

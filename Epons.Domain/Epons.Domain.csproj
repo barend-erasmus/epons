@@ -159,6 +159,7 @@
     <Compile Include="ValueObjects\Diagnoses.cs" />
     <Compile Include="ValueObjects\Doctor.cs" />
     <Compile Include="ValueObjects\Facility.cs" />
+    <Compile Include="ValueObjects\Frequency.cs" />
     <Compile Include="ValueObjects\Gender.cs" />
     <Compile Include="ValueObjects\ImpairmentGroup.cs" />
     <Compile Include="ValueObjects\MeasurementTool.cs" />
