@@ -16,14 +16,14 @@ namespace Epons.Domain.Services
             _episodeOfCareRepository = episodeOfCareRepository;
         }
 
-        public IList<EntityViews.EpisodeOfCare> List(Guid patientId)
+        public IList<EntityViews.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _episodeOfCareRepository.List(patientId).OrderByDescending((x) => x.DischargeTimestamp).ToList();
+            return _episodeOfCareRepository.List(patientId, startDate, endDate).OrderByDescending((x) => x.DischargeTimestamp).ToList();
         }
 
-        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
+        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _episodeOfCareRepository.ListDiagnoses(patientId);
+            return _episodeOfCareRepository.ListDiagnoses(patientId, startDate, endDate);
         }
 
         public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)

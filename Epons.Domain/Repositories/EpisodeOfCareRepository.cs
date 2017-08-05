@@ -24,9 +24,9 @@ namespace Epons.Domain.Repositories
             _context = new EntityFramework.EPONSContext(connectionString);
         }
 
-        public IList<EntityViews.EpisodeOfCare> List(Guid patientId)
+        public IList<EntityViews.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Select((x) => new
+            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId && x.AllocationTimestamp < endDate && endDate < x.DeallocationTimestamp).Select((x) => new
             {
                 AdmissionTimestamp = x.AllocationTimestamp,
                 DischargeTimestamp = x.DeallocationTimestamp,
@@ -89,9 +89,9 @@ namespace Epons.Domain.Repositories
             }).ToList();
         }
 
-        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
+        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Where((x) => x.ReasonForAdmissionId != null).GroupBy((x) => x.ReasonForAdmissionId).Select((x) => new
+            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId && x.ReasonForAdmissionId != null && x.AllocationTimestamp < endDate && endDate < x.DeallocationTimestamp).GroupBy((x) => x.ReasonForAdmissionId).Select((x) => new
             {
                 ReasonForAdmissionId = x.Key
             }).ToList().Select((x) =>

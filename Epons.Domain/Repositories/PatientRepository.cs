@@ -111,7 +111,7 @@ namespace Epons.Domain.Repositories
         public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
             return _context.MeasurementTools1
-                .Where((x) => x.PatientId == patientId)
+                .Where((x) => x.PatientId == patientId && x.AssignedTimestamp < endDate && endDate < x.DeassignedTimestamp)
                 .Select((x) => new EntityViews.PatientMeasurementTool()
                 {
                     AssignedTimestamp = x.AssignedTimestamp,

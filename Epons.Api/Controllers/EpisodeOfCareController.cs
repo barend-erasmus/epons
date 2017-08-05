@@ -23,19 +23,19 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.EpisodeOfCare> List(Guid patientId)
+        public IList<Domain.EntityViews.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
-            return _episodeOfCareService.List(patientId);
+            return _episodeOfCareService.List(patientId, startDate, endDate);
         }
 
         [HttpGet]
-        public IList<Domain.ValueObjects.Diagnoses> ListDiagnoses(Guid patientId)
+        public IList<Domain.ValueObjects.Diagnoses> ListDiagnoses(Guid patientId, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
-            return _episodeOfCareService.ListDiagnoses(patientId);
+            return _episodeOfCareService.ListDiagnoses(patientId, startDate, endDate);
         }
 
         [HttpGet]

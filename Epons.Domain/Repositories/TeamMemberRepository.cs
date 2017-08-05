@@ -25,7 +25,7 @@ namespace Epons.Domain.Repositories
 
         public IList<EntityViews.TeamMember> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _context.TeamMembers.Where(x => x.PatientId == patientId).Select(x => new
+            return _context.TeamMembers.Where(x => x.PatientId == patientId && ((x.AllocationTimestamp < endDate && endDate < x.DeallocationTimestamp) || (x.AllocationTimestamp < endDate && !x.DeallocationTimestamp.HasValue))).Select(x => new
             {
                 AllocationTimestamp = x.AllocationTimestamp,
                 DeallocationTimestamp = x.DeallocationTimestamp,
@@ -54,7 +54,7 @@ namespace Epons.Domain.Repositories
                     Position = x.Details4.CurrentPositionId.HasValue ? new
                     {
                         Id = x.Details4.CurrentPositionId.Value,
-                        Name = _context.Positions.SingleOrDefault(y => y.PositionId == x.Details4.CurrentPositionId).Name
+                        Name = _context.Positions.FirstOrDefault(y => y.PositionId == x.Details4.CurrentPositionId).Name
                     } : null
                 }
             }).ToList()
@@ -84,11 +84,11 @@ namespace Epons.Domain.Repositories
                             Name = y.Permission.Name
                         }
                     }).ToList(),
-                    Position = x.User.Position == null ? new ValueObjects.Position()
+                    Position = x.User.Position == null ? null : new ValueObjects.Position()
                     {
                         Id = x.User.Position.Id,
                         Name = x.User.Position.Name
-                    } : null
+                    }
                 }
             }).ToList();
         }
