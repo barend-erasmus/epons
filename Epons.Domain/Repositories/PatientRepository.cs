@@ -108,7 +108,7 @@ namespace Epons.Domain.Repositories
 
         }
 
-        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid patientId)
+        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
             return _context.MeasurementTools1
                 .Where((x) => x.PatientId == patientId)
@@ -127,6 +127,13 @@ namespace Epons.Domain.Repositories
                         Name = x.Frequency.Name
                     }
                 }).ToList();
+        }
+
+        private Guid ToGuid(int value)
+        {
+            byte[] bytes = new byte[16];
+            BitConverter.GetBytes(value).CopyTo(bytes, 0);
+            return new Guid(bytes);
         }
     }
 }

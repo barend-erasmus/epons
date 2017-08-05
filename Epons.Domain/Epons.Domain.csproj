@@ -148,6 +148,7 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\EpisodeOfCareService.cs" />
     <Compile Include="Services\PatientService.cs" />
+    <Compile Include="Services\TeamMemberService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
     <Compile Include="Repositories\VisitRepository.cs" />

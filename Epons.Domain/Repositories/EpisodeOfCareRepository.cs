@@ -94,19 +94,24 @@ namespace Epons.Domain.Repositories
             return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId).Where((x) => x.ReasonForAdmissionId != null).GroupBy((x) => x.ReasonForAdmissionId).Select((x) => new
             {
                 ReasonForAdmissionId = x.Key
-            }).ToList().Select((x) => new ValueObjects.Diagnoses()
+            }).ToList().Select((x) =>
             {
-                Id = x.ReasonForAdmissionId.Value,
-                Name = _context.ICD10Codes.Where((y) => y.ICD10CodeId == x.ReasonForAdmissionId.Value).Select((y) => new
+                return new ValueObjects.Diagnoses()
                 {
-                    Id = y.ICD10CodeId,
-                    Name = y.Name,
-                    Code = y.Code
-                }).ToList().Select((y) => new ValueObjects.Diagnoses()
-                {
-                    Id = y.Id,
-                    Name = $"{y.Code} - {y.Name}"
-                }).FirstOrDefault().Name
+                    Id = x.ReasonForAdmissionId.Value,
+                    Name = _context.ICD10Codes.Where((y) => y.ICD10CodeId == x.ReasonForAdmissionId.Value).Select((y) => new
+                    {
+                        Id = y.ICD10CodeId,
+                        Name = y.Name,
+                        Code = y.Code
+                    }).ToList().Select((y) => new ValueObjects.Diagnoses()
+                    {
+                        Id = y.Id,
+                        Name = $"{y.Code} - {y.Name}"
+                    }).FirstOrDefault().Name
+                };
+
+
             }).ToList();
         }
 

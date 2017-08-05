@@ -66,9 +66,9 @@ namespace Epons.Domain.Services
             }
         }
 
-        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id)
+        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id, DateTime startDate, DateTime endDate)
         {
-            return _patientRepository.ListMeasurementTools(id).OrderByDescending((x) => x.DeassignedTimestamp).ToList();
+            return _patientRepository.ListMeasurementTools(id, startDate, endDate).OrderByDescending((x) => x.DeassignedTimestamp).ToList();
         }
 
         private Entities.Patient ValidatePatient(Entities.Patient patient)

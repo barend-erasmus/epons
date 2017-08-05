@@ -56,11 +56,11 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id)
+        public IList<Domain.EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
-            return _patientService.ListMeasurementTools(id);
+            return _patientService.ListMeasurementTools(id, startDate, endDate);
         }
     }
 }
