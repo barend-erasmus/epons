@@ -15,7 +15,7 @@ namespace EPMS.Tests
             string host = "epons.dedicated.co.za";
             string user = "sa";
             string name = "EPMS";
-            string password = "Galjoen501";
+            string password = "password";
 
             string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={password};";
 
