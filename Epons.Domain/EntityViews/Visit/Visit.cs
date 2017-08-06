@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Epons.Domain.EntityViews
+namespace Epons.Domain.EntityViews.Visit
 {
     public class Visit
     {
         public Guid Id { get; set; }
         public DateTime Timestamp { get; set; }
-        public Models.VisitUser User { get; set; }
+        public User User { get; set; }
         public int Duration { get; set; }
         public IList<ValueObjects.MeasurementTool> MeasurementTools { get; set; }
         public string DailyNotes { get; set; }

@@ -22,56 +22,51 @@ namespace Epons.Domain.Services
             _identificationNumberValidator = identificationNumberValidator;
         }
 
-        public Entities.Patient Find(Guid id)
+        public Entities.Patient.Patient Find(Guid id)
         {
-            Entities.Patient patient = _patientRepository.FindById(id);
+            Entities.Patient.Patient patient = _patientRepository.FindById(id);
 
             patient = ValidatePatient(patient);
 
             return patient;
         }
 
-        public Entities.Patient Find(string identificationNumber)
+        public Entities.Patient.Patient Find(string identificationNumber)
         {
-            Entities.Patient patient = _patientRepository.FindByIdentificationNumber(identificationNumber);
+            Entities.Patient.Patient patient = _patientRepository.FindByIdentificationNumber(identificationNumber);
 
             patient = ValidatePatient(patient);
 
             return patient;
         }
 
-        public Entities.Patient Find(string firstname, string lastname, DateTime dateOfBirth)
+        public Entities.Patient.Patient Find(string firstname, string lastname, DateTime dateOfBirth)
         {
-            Entities.Patient patient = _patientRepository.FindByDetails(firstname, lastname, dateOfBirth);
+            Entities.Patient.Patient patient = _patientRepository.FindByDetails(firstname, lastname, dateOfBirth);
 
             patient = ValidatePatient(patient);
 
             return patient;
         }
 
-        public Models.Pagination<EntityViews.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
-        {
-            if (type == PatientType.Active)
-            {
+        //public Models.Pagination<EntityViews.Patient.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
+        //{
+        //    if (type == PatientType.Active)
+        //    {
 
-                Models.Pagination<EntityViews.Patient> result = _patientRepository.ListActive((page - 1) * size, size, userId, facilityId, query);
+        //        Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActive((page - 1) * size, size, userId, facilityId, query);
 
-                result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+        //        result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
 
-                return result;
-            }
-            else
-            {
-                throw new Exception("Invalid PatientType");
-            }
-        }
+        //        return result;
+        //    }
+        //    else
+        //    {
+        //        throw new Exception("Invalid PatientType");
+        //    }
+        //}
 
-        public IList<EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id, DateTime startDate, DateTime endDate)
-        {
-            return _patientRepository.ListMeasurementTools(id, startDate, endDate).OrderByDescending((x) => x.DeassignedTimestamp).ToList();
-        }
-
-        private Entities.Patient ValidatePatient(Entities.Patient patient)
+        private Entities.Patient.Patient ValidatePatient(Entities.Patient.Patient patient)
         {
             if (patient != null)
             {
@@ -102,7 +97,7 @@ namespace Epons.Domain.Services
             return patient;
         }
 
-        private EntityViews.Patient ValidatePatientView(EntityViews.Patient patient)
+        private EntityViews.Patient.Patient ValidatePatientView(EntityViews.Patient.Patient patient)
         {
             if (patient != null)
             {

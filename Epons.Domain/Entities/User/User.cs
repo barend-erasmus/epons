@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Epons.Domain.Entities
+namespace Epons.Domain.Entities.User
 {
     public class User
     {
@@ -14,8 +14,8 @@ namespace Epons.Domain.Entities
         public string PracticeNumber { get; set; }
         public ValueObjects.Position Position { get; set; }
         public ValueObjects.Title Title { get; set; }
-        public Models.UserContactDetails ContactDetails { get; set; }
-        public Models.UserProfessionalBody ProfessionalBody { get; set; }
-        public IList<Models.UserPermission> Permissions { get; set; }
+        public ValueObjects.ContactDetails ContactDetails { get; set; }
+        public ProfessionalBodyDetails ProfessionalBodyDetails { get; set; }
+        public IList<UserPermission> Permissions { get; set; }
     }
 }

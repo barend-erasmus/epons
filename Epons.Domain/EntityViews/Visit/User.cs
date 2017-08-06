@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Epons.Domain.Models
+namespace Epons.Domain.EntityViews.Visit
 {
-    public class TeamMemberUser
+    public class User
     {
         public Guid Id { get; set; }
         public string Fullname { get; set; }
-        public ValueObjects.Position Position { get; set; }
         public IList<UserPermission> Permissions { get; set; }
     }
 }

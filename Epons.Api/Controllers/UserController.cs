@@ -1,9 +1,6 @@
 ﻿using Epons.Api.Attributes;
-using Epons.Domain.Entities;
 using Epons.Domain.Services;
 using System;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -21,7 +18,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public User FindById(Guid id)
+        public Domain.Entities.User.User FindById(Guid id)
         {
             HasToBeAuthenticated();
 

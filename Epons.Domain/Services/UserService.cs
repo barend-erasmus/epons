@@ -13,9 +13,9 @@ namespace Epons.Domain.Services
             _userRepository = userRepository;
         }
 
-        public Entities.User Find(Guid id)
+        public Entities.User.User Find(Guid id)
         {
-            Entities.User user = _userRepository.FindById(id);
+            Entities.User.User user = _userRepository.FindById(id);
 
             return user;
         }
@@ -25,7 +25,7 @@ namespace Epons.Domain.Services
 
             string encryptedPassword = Crypto.MD5Hex(Crypto.SHA1(password));
 
-            Entities.User user = _userRepository.FindByCredentials(username, encryptedPassword);
+            Entities.User.User user = _userRepository.FindByCredentials(username, encryptedPassword);
 
             if (user == null)
             {

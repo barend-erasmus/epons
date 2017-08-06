@@ -24,9 +24,9 @@ namespace Epons.Domain.Repositories
             _context = new EntityFramework.EPONSContext(connectionString);
         }
 
-        public IList<EntityViews.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<EntityViews.EpisodeOfCare.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId && x.AllocationTimestamp < endDate && endDate < x.DeallocationTimestamp).Select((x) => new
+            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId && ((x.AllocationTimestamp < endDate && startDate < x.DeallocationTimestamp) || (x.AllocationTimestamp < endDate && !x.DeallocationTimestamp.HasValue))).Select((x) => new
             {
                 AdmissionTimestamp = x.AllocationTimestamp,
                 DischargeTimestamp = x.DeallocationTimestamp,
@@ -36,7 +36,7 @@ namespace Epons.Domain.Repositories
                 ImpairmentGroupId = x.ImpairmentGroupId,
                 DiagnosesId = x.ReasonForAdmissionId,
                 OnsetTimestamp = x.ReasonForAdmissionTimestamp
-            }).ToList().Select((x) => new EntityViews.EpisodeOfCare()
+            }).ToList().Select((x) => new EntityViews.EpisodeOfCare.EpisodeOfCare()
             {
                 AdmissionTimestamp = x.AdmissionTimestamp,
                 DischargeTimestamp = x.DischargeTimestamp,
@@ -44,27 +44,33 @@ namespace Epons.Domain.Repositories
                 {
                     Id = y.FacilityId,
                     Name = y.Name
-                }).ToList().Select((y) => new ValueObjects.Facility()
+                }).ToList().Select((y) => new EntityViews.EpisodeOfCare.Facility()
                 {
                     Id = y.Id,
                     Name = y.Name
                 }).FirstOrDefault(),
-                ReferringDoctor = _context.Doctors.Where((y) => y.Id == x.ReferringDoctorId).Select((y) => new
+                ReferringDoctor = _context.Doctors.Where((y) => y.Id == x.ReferringDoctorId).Select((y) => new EntityViews.EpisodeOfCare.Doctor()
                 {
-                    Name = y.Name
-                }).ToList().Select((y) => new ValueObjects.Doctor()
+                    ContactDetails = new ValueObjects.ContactDetails()
+                    {
+                        ContactNumber = y.ContactNumber,
+                        EmailAddress = y.Email
+                    },
+                    Fullname = y.Name,
+                    HPCSANumber = y.HPCSANumber,
+                    PracticeNumber = y.PracticeName
+                }).ToList().FirstOrDefault(),
+                TreatingDoctor = _context.Doctors.Where((y) => y.Id == x.ReferringDoctorId).Select((y) => new EntityViews.EpisodeOfCare.Doctor()
                 {
-                    Id = new Guid(),
-                    Name = y.Name
-                }).FirstOrDefault(),
-                TreatingDoctor = _context.Doctors.Where((y) => y.Id == x.ReferringDoctorId).Select((y) => new
-                {
-                    Name = y.Name
-                }).ToList().Select((y) => new ValueObjects.Doctor()
-                {
-                    Id = new Guid(),
-                    Name = y.Name
-                }).FirstOrDefault(),
+                    ContactDetails = new ValueObjects.ContactDetails()
+                    {
+                        ContactNumber = y.ContactNumber,
+                        EmailAddress = y.Email
+                    },
+                    Fullname = y.Name,
+                    HPCSANumber = y.HPCSANumber,
+                    PracticeNumber = y.PracticeName
+                }).ToList().FirstOrDefault(),
                 UniqueHospitalNumber = x.UniqueHospitalNumber,
                 ImpairmentGroup = _context.ImpairmentGroups.Where((y) => y.ImpairmentGroupId == x.ImpairmentGroupId).Select((y) => new
                 {
@@ -86,82 +92,6 @@ namespace Epons.Domain.Repositories
                     Name = $"{y.Code} - {y.Name}"
                 }).FirstOrDefault(),
                 OnsetTimestamp = x.OnsetTimestamp
-            }).ToList();
-        }
-
-        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            return _context.EpisodesOfCares.Where((x) => x.PatientId == patientId && x.ReasonForAdmissionId != null && x.AllocationTimestamp < endDate && endDate < x.DeallocationTimestamp).GroupBy((x) => x.ReasonForAdmissionId).Select((x) => new
-            {
-                ReasonForAdmissionId = x.Key
-            }).ToList().Select((x) =>
-            {
-                return new ValueObjects.Diagnoses()
-                {
-                    Id = x.ReasonForAdmissionId.Value,
-                    Name = _context.ICD10Codes.Where((y) => y.ICD10CodeId == x.ReasonForAdmissionId.Value).Select((y) => new
-                    {
-                        Id = y.ICD10CodeId,
-                        Name = y.Name,
-                        Code = y.Code
-                    }).ToList().Select((y) => new ValueObjects.Diagnoses()
-                    {
-                        Id = y.Id,
-                        Name = $"{y.Code} - {y.Name}"
-                    }).FirstOrDefault().Name
-                };
-
-
-            }).ToList();
-        }
-
-        public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId)
-        {
-            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListReferringDoctorsByPatientId]", new
-            {
-                patientId = patientId
-            });
-
-            return result.Select((x) => new EntityViews.Doctor()
-            {
-                ContactDetails = new Models.DoctorContactDetails()
-                {
-                    ContactNumber = x.ContactNumber,
-                    EmailAddress = x.EmailAddress
-                },
-                Facility = new ValueObjects.Facility()
-                {
-                    Id = x.FacilityId,
-                    Name = x.FacilityName
-                },
-                Fullname = x.Fullname,
-                HPCSANumber = x.HPCSANumber,
-                PracticeNumber = x.PracticeNumber
-            }).ToList();
-        }
-
-        public IList<EntityViews.Doctor> ListTreatingDoctors(Guid patientId)
-        {
-            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListTreatingDoctorsByPatientId]", new
-            {
-                patientId = patientId
-            });
-
-            return result.Select((x) => new EntityViews.Doctor()
-            {
-                ContactDetails = new Models.DoctorContactDetails()
-                {
-                    ContactNumber = x.ContactNumber,
-                    EmailAddress = x.EmailAddress
-                },
-                Facility = new ValueObjects.Facility()
-                {
-                    Id = x.FacilityId,
-                    Name = x.FacilityName
-                },
-                Fullname = x.Fullname,
-                HPCSANumber = x.HPCSANumber,
-                PracticeNumber = x.PracticeNumber
             }).ToList();
         }
     }

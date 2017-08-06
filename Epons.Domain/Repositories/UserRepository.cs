@@ -19,41 +19,14 @@ namespace Epons.Domain.Repositories
             _dbExecutor = new DbExecutor(connectionString);
         }
 
-        public Entities.User FindById(Guid id)
+        public Entities.User.User FindById(Guid id)
         {
-            dynamic userResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindUserById]", new
-            {
-                UserId = id
-            });
-
-            if (userResult == null)
-            {
-                return null;
-            }
-
-            dynamic permissionsResult = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[ListPermissionsByUserId]", new
-            {
-                UserId = userResult.Id
-            });
-
-            return Mapper.MapUser(userResult, permissionsResult);
+            throw new NotImplementedException();
         }
 
-        public Entities.User FindByCredentials(string username, string password)
+        public Entities.User.User FindByCredentials(string username, string password)
         {
-
-            dynamic userResult = _dbExecutor.QueryOneProc<dynamic>("[EPONS_API].[FindUserIdByCredentials]", new
-            {
-                Username = username,
-                Password = password
-            });
-
-            if (userResult == null)
-            {
-                return null;
-            }
-
-            return FindById(userResult.Id);
+            throw new NotImplementedException();
         }
     }
 }

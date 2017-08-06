@@ -23,35 +23,11 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<Domain.EntityViews.EpisodeOfCare.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
             return _episodeOfCareService.List(patientId, startDate, endDate);
-        }
-
-        [HttpGet]
-        public IList<Domain.ValueObjects.Diagnoses> ListDiagnoses(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            HasToBeAuthenticated();
-
-            return _episodeOfCareService.ListDiagnoses(patientId, startDate, endDate);
-        }
-
-        [HttpGet]
-        public IList<Domain.EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId = null)
-        {
-            HasToBeAuthenticated();
-
-            return _episodeOfCareService.ListReferringDoctors(patientId, facilityId);
-        }
-
-        [HttpGet]
-        public IList<Domain.EntityViews.Doctor> ListTreatingDoctors(Guid patientId, Guid? facilityId = null)
-        {
-            HasToBeAuthenticated();
-
-            return _episodeOfCareService.ListTreatingDoctors(patientId, facilityId);
         }
     }
 }

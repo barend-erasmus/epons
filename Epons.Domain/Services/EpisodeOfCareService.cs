@@ -16,38 +16,9 @@ namespace Epons.Domain.Services
             _episodeOfCareRepository = episodeOfCareRepository;
         }
 
-        public IList<EntityViews.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<EntityViews.EpisodeOfCare.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             return _episodeOfCareRepository.List(patientId, startDate, endDate).OrderByDescending((x) => x.DischargeTimestamp).ToList();
-        }
-
-        public IList<ValueObjects.Diagnoses> ListDiagnoses(Guid patientId, DateTime startDate, DateTime endDate)
-        {
-            return _episodeOfCareRepository.ListDiagnoses(patientId, startDate, endDate);
-        }
-
-        public IList<EntityViews.Doctor> ListReferringDoctors(Guid patientId, Guid? facilityId)
-        {
-            if (facilityId.HasValue)
-            {
-                return _episodeOfCareRepository.ListReferringDoctors(patientId).Where((x) => x.Facility.Id == facilityId).ToList();
-            }
-            else
-            {
-                return _episodeOfCareRepository.ListReferringDoctors(patientId);
-            }
-        }
-
-        public IList<EntityViews.Doctor> ListTreatingDoctors(Guid patientId, Guid? facilityId)
-        {
-            if (facilityId.HasValue)
-            {
-                return _episodeOfCareRepository.ListTreatingDoctors(patientId).Where((x) => x.Facility.Id == facilityId).ToList();
-            }
-            else
-            {
-                return _episodeOfCareRepository.ListTreatingDoctors(patientId);
-            }
         }
     }
 }

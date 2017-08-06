@@ -24,7 +24,7 @@ namespace Epons.Domain.Repositories
             _context = new EntityFramework.EPONSContext(connectionString);
         }
 
-        public IList<EntityViews.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<EntityViews.Visit.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             return _context.Details5
                 .Where((x) => x.PatientId == patientId && x.Timestamp >= startDate && x.Timestamp <= endDate)
@@ -70,20 +70,20 @@ namespace Epons.Domain.Repositories
                     Glucose = x.Glucose
                 }
             })
-            .ToList().Select((x) => new EntityViews.Visit()
+            .ToList().Select((x) => new EntityViews.Visit.Visit()
             {
                 Id = x.Id,
                 DailyNotes = x.DailyNotes,
                 ProgressNotes = x.ProgressNotes,
                 Duration = x.Duration.HasValue? x.Duration.Value : 0,
                 Timestamp = x.Timestamp,
-                User = new Models.VisitUser()
+                User = new EntityViews.Visit.User()
                 {
                     Fullname = $"{x.User.Firstname} {x.User.Lastname}",
                     Id = x.User.Id,
-                    Permissions = x.User.Permissions.Select((y) => new Models.UserPermission()
+                    Permissions = x.User.Permissions.Select((y) => new EntityViews.Visit.UserPermission()
                     {
-                        Facility = new ValueObjects.Facility()
+                        Facility = new EntityViews.Visit.Facility()
                         {
                             Id = y.Facility.Id,
                             Name = y.Facility.Name
@@ -113,7 +113,7 @@ namespace Epons.Domain.Repositories
             }).ToList();
         }
 
-        public IList<EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<EntityViews.CompletedMeasurementTool.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
             var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[FindCompletedMeasurementToolsByPatientIdAndDateRange]", new
             {
@@ -124,7 +124,7 @@ namespace Epons.Domain.Repositories
 
             return result
                 .GroupBy(x => x.DataSetId)
-                .Select(x => new EntityViews.CompletedMeasurementTool()
+                .Select(x => new EntityViews.CompletedMeasurementTool.CompletedMeasurementTool()
                 {
                     EndDate = x.First().EndDate,
                     StartDate = x.First().StartDate,

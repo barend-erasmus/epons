@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Epons.Domain.EntityViews
+namespace Epons.Domain.Entities.Patient
 {
-    public class PatientMeasurementTool
+    public class MeasurementToolDetails
     {
         public ValueObjects.MeasurementTool MeasurementTool { get; set; }
         public ValueObjects.Frequency Frequency { get; set; }

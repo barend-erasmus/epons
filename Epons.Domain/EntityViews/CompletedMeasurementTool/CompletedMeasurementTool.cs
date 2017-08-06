@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Epons.Domain.EntityViews
+namespace Epons.Domain.EntityViews.CompletedMeasurementTool
 {
     public class CompletedMeasurementTool
     {

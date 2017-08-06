@@ -1,5 +1,4 @@
 ﻿using Epons.Api.Attributes;
-using Epons.Domain.Entities;
 using Epons.Domain.Enums;
 using Epons.Domain.Models;
 using Epons.Domain.Services;
@@ -24,7 +23,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public Patient FindById(Guid id)
+        public Domain.Entities.Patient.Patient FindById(Guid id)
         {
             HasToBeAuthenticated();
 
@@ -32,7 +31,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public Patient FindByIdentificationNumber(string identificationNumber)
+        public Domain.Entities.Patient.Patient FindByIdentificationNumber(string identificationNumber)
         {
             HasToBeAuthenticated();
 
@@ -40,27 +39,20 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
+        public Domain.Entities.Patient.Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
         {
             HasToBeAuthenticated();
 
             return _patientService.Find(firstname, lastname, dateOfBirth);
         }
 
-        [HttpGet]
-        public Pagination<Domain.EntityViews.Patient> List(Guid userId, PatientType type, int page, int size, Guid? facilityId = null, string query = null)
-        {
-            HasToBeAuthenticated();
+        //[HttpGet]
+        //public Pagination<Domain.EntityViews.Patient.Patient> List(Guid userId, PatientType type, int page, int size, Guid? facilityId = null, string query = null)
+        //{
+        //    HasToBeAuthenticated();
 
-            return _patientService.List(userId, facilityId, type, query, page, size);
-        }
+        //    return _patientService.List(userId, facilityId, type, query, page, size);
+        //}
 
-        [HttpGet]
-        public IList<Domain.EntityViews.PatientMeasurementTool> ListMeasurementTools(Guid id, DateTime startDate, DateTime endDate)
-        {
-            HasToBeAuthenticated();
-
-            return _patientService.ListMeasurementTools(id, startDate, endDate);
-        }
     }
 }

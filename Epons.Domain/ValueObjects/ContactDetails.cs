@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Epons.Domain.ValueObjects
 {
-    public class Doctor : Base
+    public class ContactDetails
     {
+        public string EmailAddress { get; set; }
+        public string ContactNumber { get; set; }
     }
 }

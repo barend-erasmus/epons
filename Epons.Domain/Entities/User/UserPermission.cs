@@ -1,8 +1,8 @@
-﻿namespace Epons.Domain.Models
+﻿namespace Epons.Domain.Entities.User
 {
     public class UserPermission
     {
-        public ValueObjects.Facility Facility { get; set; }
+        public Facility Facility { get; set; }
         public ValueObjects.Permission Permission { get; set; }
     }
 }

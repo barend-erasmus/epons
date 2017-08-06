@@ -2,9 +2,6 @@
 using Epons.Domain.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
 
@@ -22,7 +19,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<Domain.EntityViews.CompletedMeasurementTool.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
@@ -30,7 +27,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<Domain.EntityViews.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
+        public IList<Domain.EntityViews.Visit.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
             HasToBeAuthenticated();
 
