@@ -102,13 +102,13 @@ namespace Epons.Domain.Repositories
                 }).ToList(),
                 VitalSigns = new ValueObjects.VitalSigns()
                 {
-                    Temperature = x.VitalSigns.Temperature,
-                    BloodPressureDiastolic = x.VitalSigns.BloodPressureDiastolic,
-                    BloodPressureSystolic = x.VitalSigns.BloodPressureSystolic,
-                    Glucose = x.VitalSigns.Glucose,
-                    HeartRate = x.VitalSigns.HeartRate,
-                    PulseOximetry = x.VitalSigns.PulseOximetry,
-                    RespiratoryRate = x.VitalSigns.RespiratoryRate
+                    Temperature = ZeroToNull(x.VitalSigns.Temperature),
+                    BloodPressureDiastolic = ZeroToNull(x.VitalSigns.BloodPressureDiastolic),
+                    BloodPressureSystolic = ZeroToNull(x.VitalSigns.BloodPressureSystolic),
+                    Glucose = ZeroToNull(x.VitalSigns.Glucose),
+                    HeartRate = ZeroToNull(x.VitalSigns.HeartRate),
+                    PulseOximetry = ZeroToNull(x.VitalSigns.PulseOximetry),
+                    RespiratoryRate = ZeroToNull(x.VitalSigns.RespiratoryRate)
                 }
             }).ToList();
         }
@@ -135,6 +135,32 @@ namespace Epons.Domain.Repositories
                     },
                     ScoreItems = x.OrderBy(y => y.ScoreItemSortOrder).ToDictionary(y => (string)y.ScoreItem, y => (int)y.ScoreValue)
                 }).ToList();
+        }
+
+        private int? ZeroToNull(int? value)
+        {
+            if (value.HasValue)
+            {
+                if (value == 0)
+                {
+                    return null;
+                }
+            }
+
+            return value;
+        }
+
+        private double? ZeroToNull(double? value)
+        {
+            if (value.HasValue)
+            {
+                if (value == 0)
+                {
+                    return null;
+                }
+            }
+
+            return value;
         }
     }
 }

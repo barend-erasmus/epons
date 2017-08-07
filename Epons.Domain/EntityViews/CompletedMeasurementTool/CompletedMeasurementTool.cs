@@ -11,6 +11,37 @@ namespace Epons.Domain.EntityViews.CompletedMeasurementTool
         public DateTime EndDate { get; set; }
         public Dictionary<string, int> ScoreItems { get; set; }
 
+        public double BurdenOfCare
+        {
+            get
+            {
+                return CalculateBurdenOfCare();
+            }
+        }
+
+        public string Score
+        {
+            get
+            {
+                return CalculateScore();
+            }
+        }
+
+        public string CalculateScore()
+        {
+            int total = 0;
+            int sum = ScoreItems.OrderBy(y => y.Key).Select(y => y.Value).Sum();
+
+            switch (MeasurementTool.Name)
+            {
+                default:
+                    total = 126;
+                    break;
+            }
+
+            return $"{sum} / {total}";
+        }
+
         public double CalculateBurdenOfCare()
         {
             if (MeasurementTool.Name == "Beta")
