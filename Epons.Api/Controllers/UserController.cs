@@ -25,10 +25,10 @@ namespace Epons.Api.Controllers
             return _userService.Find(id);
         }
 
-        [HttpGet]
-        public string JWT(string username, string password)
-        {
-            return _userService.GetJWT(username, password);
-        }
+        //[HttpGet]
+        //public string JWT(string username, string password)
+        //{
+        //    return _userService.GetJWT(username, password);
+        //}
     }
 }

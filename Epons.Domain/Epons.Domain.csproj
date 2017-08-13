@@ -80,6 +80,7 @@
     <Compile Include="Entities\User\UserPermission.cs" />
     <Compile Include="EntityViews\EpisodeOfCare\EpisodeOfCare.cs" />
     <Compile Include="EntityViews\EpisodeOfCare\Facility.cs" />
+    <Compile Include="EntityViews\Facility\Facility.cs" />
     <Compile Include="EntityViews\Patient\Facility.cs" />
     <Compile Include="EntityViews\Patient\MedicalSchemeDetails.cs" />
     <Compile Include="Entities\Patient\TeamMember.cs" />
@@ -145,9 +146,11 @@
     <Compile Include="Repositories\EntityFramework\TeamMember.cs" />
     <Compile Include="Repositories\EntityFramework\Title.cs" />
     <Compile Include="Repositories\EpisodeOfCareRepository.cs" />
+    <Compile Include="Repositories\FacilityRepository.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\EpisodeOfCareService.cs" />
+    <Compile Include="Services\FacilityService.cs" />
     <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />

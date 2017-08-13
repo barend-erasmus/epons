@@ -1,14 +1,15 @@
 ﻿using Epons.Domain.Helpers;
 using System;
 using System.Configuration;
+using System.Linq;
 
 namespace Epons.Domain.Repositories
 {
-    public class UserRepository
+    public class FacilityRepository
     {
-        private readonly DbExecutor _dbExecutor;
+        private readonly EntityFramework.EPONSContext _context;
 
-        public UserRepository()
+        public FacilityRepository()
         {
             string host = ConfigurationManager.AppSettings["DatabaseHost"];
             string user = ConfigurationManager.AppSettings["DatabaseUser"];
@@ -16,12 +17,16 @@ namespace Epons.Domain.Repositories
             string password = ConfigurationManager.AppSettings["DatabasePassword"];
 
             string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};";
-            _dbExecutor = new DbExecutor(connectionString);
+            _context = new EntityFramework.EPONSContext(connectionString);
         }
 
-        public Entities.User.User FindById(Guid id)
+        public EntityViews.Facility.Facility FindById(Guid id)
         {
-            throw new NotImplementedException();
+            return _context.Details.Where((x) => x.FacilityId == id).Select((x) => new EntityViews.Facility.Facility()
+            {
+                Avatar = x.Avatar,
+                Name = x.Name
+            }).FirstOrDefault();
         }
     }
 }
