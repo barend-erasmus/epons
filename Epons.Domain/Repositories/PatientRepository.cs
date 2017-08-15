@@ -53,7 +53,7 @@ namespace Epons.Domain.Repositories
                     } : null,
                     Street = x.Street
                 },
-                Avatar = null,
+                Avatar = x.Avatar,
                 ContactDetails = new ValueObjects.ContactDetails()
                 {
                     ContactNumber = x.ContactNumber,

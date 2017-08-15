@@ -9,7 +9,7 @@ namespace Epons.Domain.Entities.Patient
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string IdentificationNumber { get; set; }
-        public string Avatar { get; set; }
+        public byte[] Avatar { get; set; }
         public DateTime? DateOfBirth { get; set; }
 
         public int? Age
