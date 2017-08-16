@@ -130,7 +130,7 @@ namespace Epons.Domain.Repositories
                             Facility = new Entities.Patient.Facility()
                             {
                                 Id = z.Detail.FacilityId,
-                                Name  = z.Detail.Name
+                                Name = z.Detail.Name
                             },
                             Permission = new ValueObjects.Permission()
                             {
@@ -138,18 +138,18 @@ namespace Epons.Domain.Repositories
                                 Name = z.Permissions1.Name
                             }
                         }).ToList(),
-                        Position = y.Details4.CurrentPositionId.HasValue? _context.Positions.Where((a) => a.PositionId == y.Details4.CurrentPositionId).Select((a) => new ValueObjects.Position()
+                        Position = y.Details4.CurrentPositionId.HasValue ? _context.Positions.Where((a) => a.PositionId == y.Details4.CurrentPositionId).Select((a) => new ValueObjects.Position()
                         {
                             Id = a.PositionId,
                             Name = a.Name
                         }).FirstOrDefault() : null
                     }
                 }).OrderBy((y) => y.DeallocationTimestamp).ToList(),
-                Title = x.TitleId.HasValue? new ValueObjects.Title()
+                Title = x.TitleId.HasValue ? new ValueObjects.Title()
                 {
                     Id = x.Title.TitleId,
                     Name = x.Title.Name
-                }: null
+                } : null
             }).FirstOrDefault();
         }
 
@@ -165,6 +165,111 @@ namespace Epons.Domain.Repositories
             var patient = _context.Details2.FirstOrDefault((x) => x.Firstname == firstname && x.Lastname == lastname && x.DateOfBirth == dateOfBirth);
 
             return FindById(patient.PatientId);
+        }
+
+        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsUser(Guid userId, Guid facilityId)
+        {
+
+            var result = _context.Details2
+                .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
+                .Take(10)
+                .Select((x) => new EntityViews.Patient.Patient()
+                {
+                    DateOfBirth = x.DateOfBirth,
+                    Firstname = x.Firstname,
+                    Facilities = x.TeamMembers.Select((y) => new EntityViews.Patient.Facility()
+                    {
+
+                    }).ToList(),
+                    Gender = x.GenderId.HasValue ? new ValueObjects.Gender()
+                    {
+                        Id = x.Gender.GenderId,
+                        Name = x.Gender.Name
+                    } : null,
+                    Id = x.PatientId,
+                    IdentificationNumber =x.IdentificationNumber,
+                    Lastname =x.Lastname,
+                    MedicalSchemeDetails = new EntityViews.Patient.MedicalSchemeDetails()
+                    {
+                        MedicalScheme = x.MedicalSchemeId.HasValue ? new ValueObjects.MedicalScheme()
+                        {
+                            Id = x.MedicalScheme.MedicalSchemeId,
+                            Name = x.MedicalScheme.Name
+                        } : null,
+                        MembershipNumber = x.MedicalSchemeMembershipNumber
+                    },
+                    Race = x.RaceId.HasValue ? new ValueObjects.Race()
+                    {
+                        Id = x.Race.RaceId,
+                        Name = x.Race.Name
+                    } : null,
+                    Title = x.TitleId.HasValue ? new ValueObjects.Title()
+                    {
+                        Id = x.Title.TitleId,
+                        Name = x.Title.Name
+                    } : null
+                }).ToList();
+
+
+            int count = _context.Details2
+                .Count((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+
+            return new Models.Pagination<EntityViews.Patient.Patient>()
+            {
+                Items = result
+            };
+        }
+
+        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsFacility(Guid facilityId)
+        {
+
+            var result = _context.Details2
+                .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
+                .Take(10)
+                .Select((x) => new EntityViews.Patient.Patient()
+                {
+                    DateOfBirth = x.DateOfBirth,
+                    Firstname = x.Firstname,
+                    Facilities = x.TeamMembers.Select((y) => new EntityViews.Patient.Facility()
+                    {
+
+                    }).ToList(),
+                    Gender = x.GenderId.HasValue ? new ValueObjects.Gender()
+                    {
+                        Id = x.Gender.GenderId,
+                        Name = x.Gender.Name
+                    } : null,
+                    Id = x.PatientId,
+                    IdentificationNumber = x.IdentificationNumber,
+                    Lastname = x.Lastname,
+                    MedicalSchemeDetails = new EntityViews.Patient.MedicalSchemeDetails()
+                    {
+                        MedicalScheme = x.MedicalSchemeId.HasValue ? new ValueObjects.MedicalScheme()
+                        {
+                            Id = x.MedicalScheme.MedicalSchemeId,
+                            Name = x.MedicalScheme.Name
+                        } : null,
+                        MembershipNumber = x.MedicalSchemeMembershipNumber
+                    },
+                    Race = x.RaceId.HasValue ? new ValueObjects.Race()
+                    {
+                        Id = x.Race.RaceId,
+                        Name = x.Race.Name
+                    } : null,
+                    Title = x.TitleId.HasValue ? new ValueObjects.Title()
+                    {
+                        Id = x.Title.TitleId,
+                        Name = x.Title.Name
+                    } : null
+                }).ToList();
+
+            int count = _context.Details2
+               .Count((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+
+            return new Models.Pagination<EntityViews.Patient.Patient>()
+            {
+                Items = result
+            };
         }
     }
 }

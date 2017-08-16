@@ -49,22 +49,21 @@ namespace Epons.Domain.Services
             return patient;
         }
 
-        //public Models.Pagination<EntityViews.Patient.Patient> List(Guid userId, Guid? facilityId, PatientType type, string query, int page, int size)
-        //{
-        //    if (type == PatientType.Active)
-        //    {
+        public Models.Pagination<EntityViews.Patient.Patient> List(Guid? userId, Guid? facilityId, PatientType type, string query, int page, int size)
+        {
+            if (type == PatientType.Active && userId.HasValue && facilityId.HasValue)
+            {
+                Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsUser(userId.Value, facilityId.Value);
 
-        //        Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActive((page - 1) * size, size, userId, facilityId, query);
+                result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
 
-        //        result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
-
-        //        return result;
-        //    }
-        //    else
-        //    {
-        //        throw new Exception("Invalid PatientType");
-        //    }
-        //}
+                return result;
+            }
+            else
+            {
+                throw new Exception("Invalid PatientType");
+            }
+        }
 
         private Entities.Patient.Patient ValidatePatient(Entities.Patient.Patient patient)
         {
