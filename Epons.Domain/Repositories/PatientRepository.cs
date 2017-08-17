@@ -271,5 +271,12 @@ namespace Epons.Domain.Repositories
                 Items = result
             };
         }
+
+        public int CalculateTimeSpent(Guid id, int overLastHours)
+        {
+            DateTime timestamp = DateTime.Now.Subtract(new TimeSpan(overLastHours, 0, 0));
+
+            return _context.Details5.Where((x) => x.PatientId == id & x.Timestamp >= timestamp).ToList().Sum((y) => y.DurationofVisitinMinutes).Value;
+        }
     }
 }

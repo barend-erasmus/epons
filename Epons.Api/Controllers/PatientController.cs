@@ -47,6 +47,14 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
+        public int[] TimeSpent(Guid id)
+        {
+            HasToBeAuthenticated();
+
+            return _patientService.TimeSpent(id);
+        }
+
+        [HttpGet]
         public Pagination<Domain.EntityViews.Patient.Patient> List(Guid? userId, PatientType type, int page, int size, Guid? facilityId = null, string query = null)
         {
             HasToBeAuthenticated();
