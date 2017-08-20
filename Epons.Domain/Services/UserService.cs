@@ -19,20 +19,5 @@ namespace Epons.Domain.Services
 
             return user;
         }
-
-        //public string GetJWT(string username, string password)
-        //{
-
-        //    string encryptedPassword = Crypto.MD5Hex(Crypto.SHA1(password));
-
-        //    Entities.User.User user = _userRepository.FindByCredentials(username, encryptedPassword);
-
-        //    if (user == null)
-        //    {
-        //        return null;
-        //    }
-
-        //    return Crypto.GenerateJWT(user.Username);
-        //}
     }
 }

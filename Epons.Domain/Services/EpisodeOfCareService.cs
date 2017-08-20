@@ -18,6 +18,8 @@ namespace Epons.Domain.Services
 
         public IList<EntityViews.EpisodeOfCare.EpisodeOfCare> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
+            endDate = endDate.AddHours(24);
+
             return _episodeOfCareRepository.List(patientId, startDate, endDate).OrderByDescending((x) => x.DischargeTimestamp).ToList();
         }
     }

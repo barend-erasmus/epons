@@ -16,11 +16,15 @@ namespace Epons.Domain.Services
 
         public IList<EntityViews.Visit.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
+            endDate = endDate.AddHours(24);
+
             return _visitRepository.List(patientId, startDate, endDate).OrderBy((x) => x.Timestamp).ToList();
         }
 
         public IList<EntityViews.CompletedMeasurementTool.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
+            endDate = endDate.AddHours(24);
+
             return _visitRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
     }
