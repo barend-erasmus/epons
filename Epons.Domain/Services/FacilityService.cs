@@ -21,5 +21,14 @@ namespace Epons.Domain.Services
         {
             return _facilityRepository.FindById(id);
         }
+
+        public int[] TimeSpent(Guid id)
+        {
+            return new int[3] {
+                _facilityRepository.CalculateTimeSpent(id, 72),
+                _facilityRepository.CalculateTimeSpent(id, 48),
+                _facilityRepository.CalculateTimeSpent(id, 24)
+            };
+        }
     }
 }

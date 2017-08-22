@@ -28,5 +28,13 @@ namespace Epons.Api.Controllers
 
             return _facilityService.Find(id);
         }
+
+        [HttpGet]
+        public int[] TimeSpent(Guid id)
+        {
+            HasToBeAuthenticated();
+
+            return _facilityService.TimeSpent(id);
+        }
     }
 }
