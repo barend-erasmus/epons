@@ -29,15 +29,8 @@ namespace Epons.Domain.EntityViews.CompletedMeasurementTool
 
         public string CalculateScore()
         {
-            int total = 0;
+            int total = GetTotalOfMeasurementTool();
             int sum = ScoreItems.OrderBy(y => y.Key).Select(y => y.Value).Sum();
-
-            switch (MeasurementTool.Name)
-            {
-                default:
-                    total = 126;
-                    break;
-            }
 
             return $"{sum} / {total}";
         }
@@ -48,13 +41,57 @@ namespace Epons.Domain.EntityViews.CompletedMeasurementTool
             {
                 double sum = ScoreItems.OrderBy(y => y.Key).Select(y => (double)y.Value).Sum();
 
-                double value = (126 - sum) * 3.38 / 60;
+                double value = (GetTotalOfMeasurementTool() - sum) * 3.38 / 60;
 
                 return Math.Floor(value * 10) / 10;
             }
             else
             {
                 return 0;
+            }
+        }
+
+
+        /*
+        SELECT 
+        [measurementTool].[Name],
+        COUNT(*) AS [NumberOfScoreItems]
+        FROM [ValueObjects].[ScoreItems] AS scoreItem
+        INNER JOIN [ValueObjects].[MeasurementTools] AS measurementTool
+        ON [measurementTool].[MeasurementToolId] = [scoreItem].[MeasurementToolId]
+        INNER JOIN [ValueObjects].[ScoreValues] AS scoreValue
+        ON [scoreValue].[ScoreItemId] = [scoreItem].[ScoreItemId]
+        AND [scoreItem].[ParentScoreItemId] IS NULL
+        GROUP BY [measurementTool].[Name]
+        ORDER BY [measurementTool].[Name]
+        */
+
+        private int GetTotalOfMeasurementTool()
+        {
+            switch (MeasurementTool.Name)
+            {
+                case "Alpha":
+                    return 84;
+                case "APOM":
+                    return 144;
+                case "Beta":
+                   return 126;
+                case "Delta":
+                    return 35;
+                case "Epsilon":
+                    return 49;
+                case "Eta":
+                    return 56;
+                case "FAM":
+                    return 84;
+                case "Gamma":
+                    return 56;
+                case "Omega":
+                    return 56;
+                case "Zeta":
+                    return 84;
+                default:
+                    return 0;
             }
         }
     }
