@@ -8,5 +8,6 @@ namespace Epons.Domain.EntityViews.Visit
         public Guid Id { get; set; }
         public string Fullname { get; set; }
         public IList<UserPermission> Permissions { get; set; }
+        public ValueObjects.Position Position { get; set; }
     }
 }

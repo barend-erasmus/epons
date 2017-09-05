@@ -52,7 +52,12 @@ namespace Epons.Domain.Repositories
                             Id = y.FacilityId,
                             Name = y.Detail.Name
                         }
-                    })
+                    }),
+                    Position = x.Details4.CurrentPositionId.HasValue ? _context.Positions.Where((a) => a.PositionId == x.Details4.CurrentPositionId).Select((a) => new ValueObjects.Position()
+                    {
+                        Id = a.PositionId,
+                        Name = a.Name
+                    }).FirstOrDefault() : null
                 },
                 MeasurementTools = x.ScoreValues.Select((y) => new
                 {
@@ -93,7 +98,8 @@ namespace Epons.Domain.Repositories
                             Id = y.Permission.Id,
                             Name = y.Permission.Name
                         }
-                    }).ToList()
+                    }).ToList(),
+                    Position = x.User.Position
                 },
                 MeasurementTools = x.MeasurementTools.Select((y) => new ValueObjects.MeasurementTool()
                 {
