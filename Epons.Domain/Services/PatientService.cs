@@ -1,6 +1,7 @@
 ﻿using Epons.Domain.Enums;
 using Epons.Domain.Repositories;
 using Epons.Domain.Validators;
+using StatsdClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,15 @@ namespace Epons.Domain.Services
     {
         private readonly PatientRepository _patientRepository;
         private readonly VisitRepository _visitRepository;
-        private readonly RSAIdentificationNumberValidator _identificationNumberValidator;
+        private readonly ValidatorService _validatorService;
 
         public PatientService(PatientRepository patientRepository,
             VisitRepository visitRepository,
-            RSAIdentificationNumberValidator identificationNumberValidator)
+            ValidatorService validatorService)
         {
             _patientRepository = patientRepository;
             _visitRepository = visitRepository;
-            _identificationNumberValidator = identificationNumberValidator;
+            _validatorService = validatorService;
         }
 
         public Entities.Patient.Patient Find(Guid id)
@@ -67,11 +68,14 @@ namespace Epons.Domain.Services
 
         public int[] TimeSpent(Guid id)
         {
-            return new int[3] {
+            using (Metrics.StartTimer($"PatientService-TimeSpent"))
+            {
+                return new int[3] {
                 _patientRepository.CalculateTimeSpent(id, 72),
                 _patientRepository.CalculateTimeSpent(id, 48),
                 _patientRepository.CalculateTimeSpent(id, 24)
-            };
+                };
+            }
         }
 
         private Entities.Patient.Patient ValidatePatient(Entities.Patient.Patient patient)
@@ -80,7 +84,7 @@ namespace Epons.Domain.Services
             {
                 if (!string.IsNullOrWhiteSpace(patient.IdentificationNumber))
                 {
-                    bool valid = _identificationNumberValidator.IsValid(patient.IdentificationNumber);
+                    bool valid = _validatorService.IdentificationNumber(patient.IdentificationNumber);
 
                     if (!valid)
                     {
@@ -111,7 +115,7 @@ namespace Epons.Domain.Services
             {
                 if (!string.IsNullOrWhiteSpace(patient.IdentificationNumber))
                 {
-                    bool valid = _identificationNumberValidator.IsValid(patient.IdentificationNumber);
+                    bool valid = _validatorService.IdentificationNumber(patient.IdentificationNumber);
 
                     if (!valid)
                     {

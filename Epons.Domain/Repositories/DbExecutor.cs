@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using StatsdClient;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -21,37 +22,51 @@ namespace Epons.Domain.Repositories
 
         public IList<T> QueryProc<T>(string name, object parameters)
         {
-            IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
+            using (Metrics.StartTimer($"DbExecutor-QueryProc-{name}"))
+            {
+                IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
 
-            return results;
+                return results;
+            }
         }
 
         public GridReader QueryMultiTableProc(string name, object parameters)
         {
-            
-            return _connection.QueryMultiple(name, param: parameters, commandType: CommandType.StoredProcedure);
+            using (Metrics.StartTimer($"DbExecutor-QueryMultiTableProc-{name}"))
+            {
+                return _connection.QueryMultiple(name, param: parameters, commandType: CommandType.StoredProcedure);
+            }
 
         }
 
         public T QueryOneProc<T>(string name, object parameters)
         {
-            IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
+            using (Metrics.StartTimer($"DbExecutor-QueryOneProc-{name}"))
+            {
+                IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
 
-            return results.FirstOrDefault();
+                return results.FirstOrDefault();
+            }
         }
 
         public IList<T> Query<T>(string name, object parameters)
         {
-            IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
+            using (Metrics.StartTimer($"DbExecutor-Query-{name}"))
+            {
+                IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
 
-            return results;
+                return results;
+            }
         }
 
         public T QueryOne<T>(string name, object parameters)
         {
-            IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
+            using (Metrics.StartTimer($"DbExecutor-QueryOne-{name}"))
+            {
+                IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
 
-            return results.FirstOrDefault();
+                return results.FirstOrDefault();
+            }
         }
     }
 }

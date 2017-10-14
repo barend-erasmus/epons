@@ -1,4 +1,5 @@
 ﻿using Epons.Api.Attributes;
+using Epons.Domain.Services;
 using Epons.Domain.Validators;
 using System;
 using System.Web.Http;
@@ -12,15 +13,19 @@ namespace Epons.Api.Controllers
     {
         private readonly RSAIdentificationNumberValidator _identificationNumberValidator;
 
-        public ValidatorController(RSAIdentificationNumberValidator identificationNumberValidator)
+        private readonly ValidatorService _validatorService;
+    
+
+        public ValidatorController(RSAIdentificationNumberValidator identificationNumberValidator, ValidatorService validatorService)
         {
             _identificationNumberValidator = identificationNumberValidator;
+            _validatorService = validatorService;
         }
 
         [HttpGet]
         public bool IdentificationNumber(string identificationNumber)
         {
-            return _identificationNumberValidator.IsValid(identificationNumber);
+            return _validatorService.IdentificationNumber(identificationNumber);
         }
 
         [HttpGet]

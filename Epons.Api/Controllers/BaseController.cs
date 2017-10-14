@@ -1,9 +1,11 @@
-﻿using System.Net;
+﻿using Epons.Api.Attributes;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 
 namespace Epons.Api.Controllers
 {
+    [ResponseTime]
     public class BaseController : ApiController
     {
         protected void HasToBeAuthenticated()

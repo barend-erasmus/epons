@@ -1,4 +1,5 @@
 ﻿using Epons.Domain.Repositories;
+using StatsdClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,11 +25,14 @@ namespace Epons.Domain.Services
 
         public int[] TimeSpent(Guid id)
         {
-            return new int[3] {
-                _facilityRepository.CalculateTimeSpent(id, 72),
-                _facilityRepository.CalculateTimeSpent(id, 48),
-                _facilityRepository.CalculateTimeSpent(id, 24)
-            };
+            using (Metrics.StartTimer($"FacilityService-TimeSpent"))
+            {
+                return new int[3] {
+                    _facilityRepository.CalculateTimeSpent(id, 72),
+                    _facilityRepository.CalculateTimeSpent(id, 48),
+                    _facilityRepository.CalculateTimeSpent(id, 24)
+                };
+            }
         }
     }
 }

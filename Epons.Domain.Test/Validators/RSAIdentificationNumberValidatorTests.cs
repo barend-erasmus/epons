@@ -13,6 +13,8 @@ namespace Epons.Domain.Test.Validators
         private readonly string _invalidLongIdentificationNumber = "12345678912345";
         private readonly string _invalidMaleIdentificationNumber = "9605235100089";
 
+        private readonly string _validIdentificationNumber1 = "6802240326087";
+
         [TestMethod, TestCategory("UnitTest")]
         public void IsValid_GivenValidMaleIdentificationNumber_ReturnsTrue()
         {
@@ -114,6 +116,14 @@ namespace Epons.Domain.Test.Validators
         public void IsFemale_GivenInvalidMaleIdentificationNumber_ThrowsException()
         {
             bool result = new RSAIdentificationNumberValidator().IsFemale(_invalidMaleIdentificationNumber);
+        }
+
+        [TestMethod, TestCategory("UnitTest")]
+        public void IsValid_GivenValidIdentificationNumber1_ReturnsTrue()
+        {
+            bool result = new RSAIdentificationNumberValidator().IsValid(_validIdentificationNumber1);
+
+            Assert.IsTrue(result);
         }
 
 
