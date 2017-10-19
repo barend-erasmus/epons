@@ -148,10 +148,12 @@
     <Compile Include="Repositories\EpisodeOfCareRepository.cs" />
     <Compile Include="Repositories\FacilityRepository.cs" />
     <Compile Include="Repositories\PatientRepository.cs" />
+    <Compile Include="Repositories\SettingRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Services\EpisodeOfCareService.cs" />
     <Compile Include="Services\FacilityService.cs" />
     <Compile Include="Services\PatientService.cs" />
+    <Compile Include="Services\SettingService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
     <Compile Include="Repositories\VisitRepository.cs" />
@@ -190,6 +192,7 @@
     <Content Include="Scripts\StoredProcedures\FindPatientById.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
+    <Content Include="Scripts\StoredProcedures\FindSetting.txt" />
     <Content Include="Scripts\StoredProcedures\FindUserById.sql" />
     <Content Include="Scripts\StoredProcedures\FindUserIdByCredentials.sql" />
     <Content Include="Scripts\StoredProcedures\ListActivePatients.sql" />
