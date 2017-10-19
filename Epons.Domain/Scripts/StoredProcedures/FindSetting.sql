@@ -3,4 +3,4 @@
 AS
 SELECT * FROM [Admin].[Settings] WHERE [Name] = @name;
 
-EXEC [Audit].[CreateLogEntry] '[Admin].[Settings]', 'Executed'
+EXEC [Audit].[CreateLogEntry] '[EPONS_API].[FindSetting]', 'Executed'

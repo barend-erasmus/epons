@@ -192,7 +192,7 @@
     <Content Include="Scripts\StoredProcedures\FindPatientById.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByIdentificationNumber.sql" />
     <Content Include="Scripts\StoredProcedures\FindPatientIdByDetails.sql" />
-    <Content Include="Scripts\StoredProcedures\FindSetting.txt" />
+    <Content Include="Scripts\StoredProcedures\FindSetting.sql" />
     <Content Include="Scripts\StoredProcedures\FindUserById.sql" />
     <Content Include="Scripts\StoredProcedures\FindUserIdByCredentials.sql" />
     <Content Include="Scripts\StoredProcedures\ListActivePatients.sql" />
@@ -201,6 +201,7 @@
     <Content Include="Scripts\StoredProcedures\ListSupportServicesByPatientId.sql" />
     <Content Include="Scripts\StoredProcedures\ListTreatingDoctorsByPatientId.sql" />
     <Content Include="Scripts\StoredProcedures\ListVisitsByPatientId.sql" />
+    <Content Include="Scripts\StoredProcedures\UpdateSetting.sql" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

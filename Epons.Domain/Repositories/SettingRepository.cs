@@ -21,15 +21,21 @@ namespace Epons.Domain.Repositories
 
         public string Find(string name)
         {
-            return _dbExecutor.QueryOne<dynamic>("[EPONS_API].[FindSetting]", new
+            var result = _dbExecutor.QueryProc<dynamic>("[EPONS_API].[FindSetting]", new
             {
                 name = name,
             });
+
+            return result.Count == 0? null : result[0].Value;
         }
 
         public void Update(string name, string value)
         {
-            
+            _dbExecutor.QueryProc<dynamic>("[EPONS_API].[UpdateSetting]", new
+            {
+                name = name,
+                value = value
+            });
         }
     }
 }

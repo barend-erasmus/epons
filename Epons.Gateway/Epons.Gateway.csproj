@@ -48,6 +48,7 @@
     <Compile Include="Models\PatientDto.cs" />
     <Compile Include="PatientGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingGateway.cs" />
     <Compile Include="ValidationGateway.cs" />
   </ItemGroup>
   <ItemGroup>

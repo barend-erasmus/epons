@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="PatientGatewayTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SettingGatewayTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Epons.Gateway\Epons.Gateway.csproj">

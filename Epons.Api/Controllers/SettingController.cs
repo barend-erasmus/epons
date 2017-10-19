@@ -10,11 +10,11 @@ namespace Epons.Api.Controllers
     [JWTAuthorize]
     public class SettingController : BaseController
     {
-        private readonly PatientService _patientService;
+        private readonly SettingService _settingService;
 
-        public SettingController(PatientService patientService)
+        public SettingController(SettingService settingService)
         {
-            _patientService = patientService;
+            _settingService = settingService;
         }
 
         [HttpGet]
@@ -22,7 +22,17 @@ namespace Epons.Api.Controllers
         {
             HasToBeAuthenticated();
 
-            return _patientService.Find(id);
+            return _settingService.Find(name);
+        }
+
+        [HttpGet]
+        public bool Update(string name, string value)
+        {
+            HasToBeAuthenticated();
+
+            _settingService.Update(name, value);
+
+            return true;
         }
     }
 }
