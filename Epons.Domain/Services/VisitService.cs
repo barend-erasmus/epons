@@ -1,5 +1,4 @@
 ﻿using Epons.Domain.Repositories;
-using StatsdClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,22 +16,16 @@ namespace Epons.Domain.Services
 
         public IList<EntityViews.Visit.Visit> List(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            using (Metrics.StartTimer($"VisitService-List"))
-            {
-                endDate = endDate.AddHours(24);
+            endDate = endDate.AddHours(24);
 
-                return _visitRepository.List(patientId, startDate, endDate).OrderBy((x) => x.Timestamp).ToList();
-            }
+            return _visitRepository.List(patientId, startDate, endDate).OrderBy((x) => x.Timestamp).ToList();
         }
 
         public IList<EntityViews.CompletedMeasurementTool.CompletedMeasurementTool> ListCompletedMeasurementTools(Guid patientId, DateTime startDate, DateTime endDate)
         {
-            using (Metrics.StartTimer($"VisitService-ListCompletedMeasurementTools"))
-            {
-                endDate = endDate.AddHours(24);
+            endDate = endDate.AddHours(24);
 
-                return _visitRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
-            }
+            return _visitRepository.ListCompletedMeasurementTools(patientId, startDate, endDate);
         }
     }
 }

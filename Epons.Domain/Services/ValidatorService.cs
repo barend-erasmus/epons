@@ -1,5 +1,4 @@
 ﻿using Epons.Domain.Validators;
-using StatsdClient;
 
 namespace Epons.Domain.Services
 {
@@ -15,17 +14,6 @@ namespace Epons.Domain.Services
         public bool IdentificationNumber(string identificationNumber)
         {
             var validIdentificationNumber = _identificationNumberValidator.IsValid(identificationNumber);
-
-            if (validIdentificationNumber)
-            {
-                Metrics.Counter("ValidatorService.IdentificationNumber.Valid");
-            }
-            else
-            {
-                Metrics.Counter("ValidatorService.IdentificationNumber.Invalid");
-            }
-
-            Metrics.Counter("ValidatorService.IdentificationNumber");
 
             return validIdentificationNumber;
         }

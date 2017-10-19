@@ -1,7 +1,6 @@
 ﻿using Epons.Domain.Enums;
 using Epons.Domain.Repositories;
 using Epons.Domain.Validators;
-using StatsdClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,14 +67,11 @@ namespace Epons.Domain.Services
 
         public int[] TimeSpent(Guid id)
         {
-            using (Metrics.StartTimer($"PatientService-TimeSpent"))
-            {
-                return new int[3] {
+            return new int[3] {
                 _patientRepository.CalculateTimeSpent(id, 72),
                 _patientRepository.CalculateTimeSpent(id, 48),
                 _patientRepository.CalculateTimeSpent(id, 24)
                 };
-            }
         }
 
         private Entities.Patient.Patient ValidatePatient(Entities.Patient.Patient patient)

@@ -4,7 +4,6 @@ using Autofac.Integration.WebApi;
 using Epons.Domain.Repositories;
 using Epons.Domain.Services;
 using Epons.Domain.Validators;
-using StatsdClient;
 using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
@@ -51,12 +50,6 @@ namespace Epons.Api
 
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
             GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver((IContainer)container);
-
-            Metrics.Configure(new MetricsConfig
-            {
-                StatsdServerName = "open-stats.openservices.co.za",
-                Prefix = "EPONSApi",
-            });
 
             // GlobalConfiguration.Configuration.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API")).EnableSwaggerUi();
         }
