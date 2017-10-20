@@ -78,8 +78,8 @@ namespace Epons.Domain.Repositories
             .ToList().Select((x) => new EntityViews.Visit.Visit()
             {
                 Id = x.Id,
-                DailyNotes = x.DailyNotes == null ? null : x.DailyNotes.Replace((char)160, (char)32),
-                ProgressNotes = x.ProgressNotes == null ? null : x.ProgressNotes.Replace((char)160, (char)32),
+                DailyNotes = x.DailyNotes == null ? null : x.DailyNotes.Replace((char)160, (char)32).Replace((char)8217, '\''),
+                ProgressNotes = x.ProgressNotes == null ? null : x.ProgressNotes.Replace((char)160, (char)32).Replace((char)8217, '\''),
                 Duration = x.Duration.HasValue? x.Duration.Value : 0,
                 Timestamp = x.Timestamp,
                 User = new EntityViews.Visit.User()
