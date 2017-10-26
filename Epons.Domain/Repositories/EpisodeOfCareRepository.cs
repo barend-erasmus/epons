@@ -32,6 +32,7 @@ namespace Epons.Domain.Repositories
                 DischargeTimestamp = x.DeallocationTimestamp,
                 FacilityId = x.FacilityId,
                 ReferringDoctorId = x.ReferringDoctorId,
+                TreatingDoctorId = x.AttendingDoctorId,
                 UniqueHospitalNumber = x.AllocationNumber,
                 ImpairmentGroupId = x.ImpairmentGroupId,
                 DiagnosesId = x.ReasonForAdmissionId,
@@ -60,7 +61,7 @@ namespace Epons.Domain.Repositories
                     HPCSANumber = y.HPCSANumber,
                     PracticeNumber = y.PracticeName
                 }).ToList().FirstOrDefault(),
-                TreatingDoctor = _context.Doctors.Where((y) => y.Id == x.ReferringDoctorId).Select((y) => new EntityViews.EpisodeOfCare.Doctor()
+                TreatingDoctor = _context.Doctors.Where((y) => y.Id == x.TreatingDoctorId).Select((y) => new EntityViews.EpisodeOfCare.Doctor()
                 {
                     ContactDetails = new ValueObjects.ContactDetails()
                     {
