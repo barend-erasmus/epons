@@ -103,7 +103,7 @@ namespace Epons.Domain.Repositories
                     Id = x.Race.RaceId,
                     Name = x.Race.Name
                 } : null,
-                SupportServiceDetails = x.SupportServices.Select((y) => new Entities.Patient.SupportServiceDetails()
+                SupportServiceDetails = x.SupportServices.Where((y) => !string.IsNullOrEmpty(y.Text)).Select((y) => new Entities.Patient.SupportServiceDetails()
                 {
                     SupportService = new ValueObjects.SupportService()
                     {
