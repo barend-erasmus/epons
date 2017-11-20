@@ -1,6 +1,5 @@
 ﻿using Epons.Api.Attributes;
 using Epons.Domain.Services;
-using System;
 using System.Web.Http;
 using System.Web.Http.Cors;
 

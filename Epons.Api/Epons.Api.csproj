@@ -195,6 +195,7 @@
     <Compile Include="Controllers\FacilityController.cs" />
     <Compile Include="Controllers\PatientController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
+    <Compile Include="Controllers\TrainingVideosController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\ValidatorController.cs" />
     <Compile Include="Controllers\VisitController.cs" />

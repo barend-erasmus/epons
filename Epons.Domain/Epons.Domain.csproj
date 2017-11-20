@@ -154,6 +154,7 @@
     <Compile Include="Services\FacilityService.cs" />
     <Compile Include="Services\PatientService.cs" />
     <Compile Include="Services\SettingService.cs" />
+    <Compile Include="Services\TrainingVideoService.cs" />
     <Compile Include="Services\UserService.cs" />
     <Compile Include="Services\ValidatorService.cs" />
     <Compile Include="Repositories\VisitRepository.cs" />
