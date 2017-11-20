@@ -11,6 +11,11 @@ namespace Epons.Api.App_Start.Swashbuckle
     {
         public void Apply(Operation operation, SchemaRegistry schemaRegistry, ApiDescription apiDescription)
         {
+            if (operation.parameters == null)
+            {
+                operation.parameters = new List<Parameter>();
+            }
+
             operation.parameters.Add(new Parameter()
             {
                 description = "JSON Web Token",
@@ -28,6 +33,7 @@ namespace Epons.Api.App_Start.Swashbuckle
                 required = false,
                 type = "string"
             });
+            
         }
     }
 }

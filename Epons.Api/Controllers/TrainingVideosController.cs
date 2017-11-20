@@ -26,7 +26,7 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public IList<string> List()
+        public IList<string> ListAll()
         {
             HasToBeAuthenticated();
 

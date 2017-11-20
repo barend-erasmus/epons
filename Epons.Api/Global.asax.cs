@@ -7,6 +7,7 @@ using Epons.Domain.Validators;
 using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -47,6 +48,7 @@ namespace Epons.Api
             builder.RegisterType<ValidatorService>().As<ValidatorService>();
             builder.RegisterType<SettingRepository>().As<SettingRepository>();
             builder.RegisterType<SettingService>().As<SettingService>();
+            builder.Register((c) => new TrainingVideoService(ConfigurationManager.AppSettings["TrainingVideosPath"])).As<TrainingVideoService>();
 
             var container = builder.Build();
 
