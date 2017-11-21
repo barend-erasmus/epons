@@ -18,7 +18,7 @@ namespace Epons.Domain.Services
 
         public IDictionary<string, string> List(string name)
         {
-            return Directory.GetFiles(Path.Combine(_path, name)).ToDictionary((x) => new FileInfo(x).Name, (x) => $"{name}|{new FileInfo(x).Name}");
+            return Directory.GetFiles(Path.Combine(_path, name)).ToDictionary((x) => new FileInfo(x).Name, (x) => $"{name}");
         }
 
         public IList<string> List()
