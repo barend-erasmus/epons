@@ -32,7 +32,7 @@ namespace Epons.Domain.Repositories
                 Id = x.MeasurementToolId,
                 Name = x.MeasurementTools2.Name,
                 Score = x.Score,
-                FullName = x.Details4.Firstname + " " + x.Details4.Lastname,
+                FullName = x.Details4.Lastname + ", " + x.Details4.Firstname,
                 Credentails = x.Details4.Credentials,
                 UserId = x.UserId,
             }).ToList().Select((x) => new MeasurementToolAccreditation()
