@@ -11,11 +11,11 @@ namespace Epons.Domain.Entities.User
         public string Firstname { get; set; }
         public string Lastname { get; set; }
         public string IdentificationNumber { get; set; }
-        public string PracticeNumber { get; set; }
         public ValueObjects.Position Position { get; set; }
         public ValueObjects.Title Title { get; set; }
         public ValueObjects.ContactDetails ContactDetails { get; set; }
         public ProfessionalBodyDetails ProfessionalBodyDetails { get; set; }
         public IList<UserPermission> Permissions { get; set; }
+        public IList<MeasurementToolAccreditation> MeasurementToolAccreditations { get; set; }
     }
 }

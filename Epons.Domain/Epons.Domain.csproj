@@ -76,6 +76,7 @@
     <Compile Include="Entities\Patient\Patient.cs" />
     <Compile Include="Entities\Patient\SupportServiceDetails.cs" />
     <Compile Include="Entities\User\Facility.cs" />
+    <Compile Include="Entities\User\MeasurementToolAccreditation.cs" />
     <Compile Include="Entities\User\ProfessionalBodyDetails.cs" />
     <Compile Include="Entities\User\UserPermission.cs" />
     <Compile Include="EntityViews\EpisodeOfCare\EpisodeOfCare.cs" />
