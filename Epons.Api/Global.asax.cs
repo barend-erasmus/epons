@@ -46,6 +46,8 @@ namespace Epons.Api
             builder.RegisterType<FacilityService>().As<FacilityService>();
             builder.RegisterType<RSAIdentificationNumberValidator>().As<RSAIdentificationNumberValidator>();
             builder.RegisterType<ValidatorService>().As<ValidatorService>();
+            builder.RegisterType<MeasurementToolAccreditationRepository>().As<MeasurementToolAccreditationRepository>();
+            builder.RegisterType<MeasurementToolAccreditationService>().As<MeasurementToolAccreditationService>();
             builder.RegisterType<SettingRepository>().As<SettingRepository>();
             builder.RegisterType<SettingService>().As<SettingService>();
             builder.Register((c) => new TrainingVideoService(ConfigurationManager.AppSettings["TrainingVideosPath"])).As<TrainingVideoService>();
