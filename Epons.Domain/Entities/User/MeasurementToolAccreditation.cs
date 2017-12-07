@@ -8,6 +8,7 @@ namespace Epons.Domain.Entities.User
         public string Name { get; set; }
         public double Score { get; set; }
         public DateTime DatePassed { get; set; }
+        public DateTime ExpiryDate { get; set; }
         public int CountdownInDays { get; set; }
     }
 }

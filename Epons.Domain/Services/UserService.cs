@@ -33,6 +33,7 @@ namespace Epons.Domain.Services
                     setting = "180";
                 }
 
+                measurementToolAccreditation.ExpiryDate = measurementToolAccreditation.DatePassed.AddDays(Convert.ToInt32(setting));
                 measurementToolAccreditation.CountdownInDays = Convert.ToInt32(Math.Floor(measurementToolAccreditation.DatePassed.AddDays(Convert.ToInt32(setting)).Subtract(DateTime.Now).TotalDays));
             }
 
