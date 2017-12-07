@@ -98,13 +98,13 @@ namespace Epons.Domain.Repositories
                     Id = x.MeasurementToolId,
                     Name = x.MeasurementTools2.Name,
                     Score = x.Score,
-                }).ToList().Select((x) => new MeasurementToolAccreditation()
+                }).ToList().GroupBy((x) => x.Id).Select((x) => new MeasurementToolAccreditation()
                 {
                     CountdownInDays = 0,
-                    DatePassed = x.DatePassed,
-                    Id = x.Id,
-                    Name = x.Name,
-                    Score = x.Score,
+                    DatePassed = x.OrderBy((y) => y.DatePassed).First().DatePassed,
+                    Id = x.OrderBy((y) => y.DatePassed).First().Id,
+                    Name = x.OrderBy((y) => y.DatePassed).First().Name,
+                    Score = x.OrderBy((y) => y.DatePassed).First().Score,
                 }).ToList(),
             };
             
