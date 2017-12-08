@@ -1,6 +1,7 @@
 ﻿using Epons.Domain.Helpers;
 using Epons.Domain.Repositories;
 using System;
+using System.Linq;
 
 namespace Epons.Domain.Services
 {
@@ -36,6 +37,8 @@ namespace Epons.Domain.Services
                 measurementToolAccreditation.ExpiryDate = measurementToolAccreditation.DatePassed.AddDays(Convert.ToInt32(setting));
                 measurementToolAccreditation.CountdownInDays = Convert.ToInt32(Math.Floor(measurementToolAccreditation.DatePassed.AddDays(Convert.ToInt32(setting)).Subtract(DateTime.Now).TotalDays));
             }
+
+            user.MeasurementToolAccreditations = user.MeasurementToolAccreditations.OrderBy((x) => x.DatePassed).ToList();
 
             return user;
         }

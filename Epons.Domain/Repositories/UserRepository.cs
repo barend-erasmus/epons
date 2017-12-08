@@ -101,10 +101,10 @@ namespace Epons.Domain.Repositories
                 }).ToList().GroupBy((x) => x.Id).Select((x) => new MeasurementToolAccreditation()
                 {
                     CountdownInDays = 0,
-                    DatePassed = x.OrderBy((y) => y.DatePassed).First().DatePassed,
-                    Id = x.OrderBy((y) => y.DatePassed).First().Id,
-                    Name = x.OrderBy((y) => y.DatePassed).First().Name,
-                    Score = x.OrderBy((y) => y.DatePassed).First().Score,
+                    DatePassed = x.OrderByDescending((y) => y.DatePassed).First().DatePassed,
+                    Id = x.OrderByDescending((y) => y.DatePassed).First().Id,
+                    Name = x.OrderByDescending((y) => y.DatePassed).First().Name,
+                    Score = x.OrderByDescending((y) => y.DatePassed).First().Score,
                 }).ToList(),
             };
             
