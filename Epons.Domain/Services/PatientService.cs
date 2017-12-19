@@ -49,15 +49,53 @@ namespace Epons.Domain.Services
             return patient;
         }
 
-        public Models.Pagination<EntityViews.Patient.Patient> List(Guid? userId, Guid? facilityId, PatientType type, string query, int page, int size)
+        public Models.Pagination<EntityViews.Patient.Patient> List(Guid? userId, Guid? facilityId, PatientType type, string query, int start, int end)
         {
-            if (type == PatientType.Active && userId.HasValue && facilityId.HasValue)
+            if (type == PatientType.Active)
             {
-                Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsUser(userId.Value, facilityId.Value);
 
-                result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+                if (facilityId.HasValue && userId.HasValue)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsUser(userId.Value, facilityId.Value, start, end);
 
-                return result;
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+
+                }
+                else if (facilityId.HasValue)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsFacility(facilityId.Value, start, end);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception("Expected FacilityId and UserId or FacilityId");
+                }
+            }
+            else if (type == PatientType.Discharged)
+            {
+
+                if (facilityId.HasValue && userId.HasValue)
+                {
+                    throw new NotImplementedException();
+
+                }
+                else if (facilityId.HasValue)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListDischargedAsFacility(facilityId.Value, start, end);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception("Expected FacilityId and UserId or FacilityId");
+                }
             }
             else
             {
@@ -121,6 +159,13 @@ namespace Epons.Domain.Services
                             Message = "Invalid Identification Number"
                         });
                     }
+                }else
+                {
+                    patient.ValidationMessages.Add(new Models.ValidationMessage()
+                    {
+                        Field = "IdentificationNumber",
+                        Message = "No Identification Number"
+                    });
                 }
 
                 if (!patient.DateOfBirth.HasValue)
@@ -128,7 +173,7 @@ namespace Epons.Domain.Services
                     patient.ValidationMessages.Add(new Models.ValidationMessage()
                     {
                         Field = "DateOfBirth",
-                        Message = "Invalid Date of Birth"
+                        Message = "No Date of Birth"
                     });
                 }
             }

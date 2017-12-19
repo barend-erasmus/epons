@@ -167,19 +167,22 @@ namespace Epons.Domain.Repositories
             return FindById(patient.PatientId);
         }
 
-        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsUser(Guid userId, Guid facilityId)
+        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsUser(Guid userId, Guid facilityId, int start, int end)
         {
             var result = _context.Details2
             .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
-            .Take(10)
+            .OrderBy((x) => x.Lastname)
+            .Skip(start)
+            .Take(start + end)
             .Select((x) => new EntityViews.Patient.Patient()
             {
                 DateOfBirth = x.DateOfBirth,
                 Firstname = x.Firstname,
                 Facilities = x.TeamMembers.Select((y) => new EntityViews.Patient.Facility()
                 {
-
-                }).ToList(),
+                    Id = y.Detail.FacilityId,
+                    Name = y.Detail.Name,
+                }).Distinct().ToList(),
                 Gender = x.GenderId.HasValue ? new ValueObjects.Gender()
                 {
                     Id = x.Gender.GenderId,
@@ -215,23 +218,29 @@ namespace Epons.Domain.Repositories
 
             return new Models.Pagination<EntityViews.Patient.Patient>()
             {
+                Count = count,
+                Start = start, 
+                End = end,
                 Items = result
             };
         }
 
-        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsFacility(Guid facilityId)
+        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsFacility(Guid facilityId, int start, int end)
         {
             var result = _context.Details2
-            .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
-            .Take(10)
+            .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
+            .OrderBy((x) => x.Lastname)
+            .Skip(start)
+            .Take(start + end)
             .Select((x) => new EntityViews.Patient.Patient()
             {
                 DateOfBirth = x.DateOfBirth,
                 Firstname = x.Firstname,
                 Facilities = x.TeamMembers.Select((y) => new EntityViews.Patient.Facility()
                 {
-
-                }).ToList(),
+                    Id = y.Detail.FacilityId,
+                    Name = y.Detail.Name,
+                }).Distinct().ToList(),
                 Gender = x.GenderId.HasValue ? new ValueObjects.Gender()
                 {
                     Id = x.Gender.GenderId,
@@ -262,10 +271,71 @@ namespace Epons.Domain.Repositories
             }).ToList();
 
             int count = _context.Details2
-               .Count((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+               .Count((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
 
             return new Models.Pagination<EntityViews.Patient.Patient>()
             {
+                Count = count,
+                Start = start,
+                End = end,
+                Items = result
+            };
+        }
+
+
+        public Models.Pagination<EntityViews.Patient.Patient> ListDischargedAsFacility(Guid facilityId, int start, int end)
+        {
+            var result = _context.Details2
+            .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) == 0) && x.ImpairmentGroup.Name != "Death")
+            .OrderBy((x) => x.Lastname)
+            .Skip(start)
+            .Take(start + end)
+            .Select((x) => new EntityViews.Patient.Patient()
+            {
+                DateOfBirth = x.DateOfBirth,
+                Firstname = x.Firstname,
+                Facilities = x.TeamMembers.Select((y) => new EntityViews.Patient.Facility()
+                {
+                    Id = y.Detail.FacilityId,
+                    Name = y.Detail.Name,
+                }).Distinct().ToList(),
+                Gender = x.GenderId.HasValue ? new ValueObjects.Gender()
+                {
+                    Id = x.Gender.GenderId,
+                    Name = x.Gender.Name
+                } : null,
+                Id = x.PatientId,
+                IdentificationNumber = x.IdentificationNumber,
+                Lastname = x.Lastname,
+                MedicalSchemeDetails = new EntityViews.Patient.MedicalSchemeDetails()
+                {
+                    MedicalScheme = x.MedicalSchemeId.HasValue ? new ValueObjects.MedicalScheme()
+                    {
+                        Id = x.MedicalScheme.MedicalSchemeId,
+                        Name = x.MedicalScheme.Name
+                    } : null,
+                    MembershipNumber = x.MedicalSchemeMembershipNumber
+                },
+                Race = x.RaceId.HasValue ? new ValueObjects.Race()
+                {
+                    Id = x.Race.RaceId,
+                    Name = x.Race.Name
+                } : null,
+                Title = x.TitleId.HasValue ? new ValueObjects.Title()
+                {
+                    Id = x.Title.TitleId,
+                    Name = x.Title.Name
+                } : null
+            }).ToList();
+
+            int count = _context.Details2
+               .Count((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+
+            return new Models.Pagination<EntityViews.Patient.Patient>()
+            {
+                Count = count,
+                Start = start,
+                End = end,
                 Items = result
             };
         }

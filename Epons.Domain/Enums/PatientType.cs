@@ -2,6 +2,7 @@
 {
     public enum PatientType
     {
-        Active
+        Active,
+        Discharged,
     }
 }

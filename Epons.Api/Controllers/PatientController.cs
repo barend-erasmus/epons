@@ -55,11 +55,11 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
-        public Pagination<Domain.EntityViews.Patient.Patient> List(Guid? userId, PatientType type, int page, int size, Guid? facilityId = null, string query = null)
+        public Pagination<Domain.EntityViews.Patient.Patient> List(Guid? userId, PatientType type, int start, int end, Guid? facilityId = null, string query = null)
         {
             HasToBeAuthenticated();
 
-            return _patientService.List(userId, facilityId, type, query, page, size);
+            return _patientService.List(userId, facilityId, type, query, start, end);
         }
 
     }
