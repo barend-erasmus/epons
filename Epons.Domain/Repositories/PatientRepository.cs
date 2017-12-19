@@ -173,7 +173,7 @@ namespace Epons.Domain.Repositories
             .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
             .OrderBy((x) => x.Lastname)
             .Skip(start)
-            .Take(start + end)
+            .Take(end - start)
             .Select((x) => new EntityViews.Patient.Patient()
             {
                 DateOfBirth = x.DateOfBirth,
@@ -231,7 +231,7 @@ namespace Epons.Domain.Repositories
             .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
             .OrderBy((x) => x.Lastname)
             .Skip(start)
-            .Take(start + end)
+            .Take(end - start)
             .Select((x) => new EntityViews.Patient.Patient()
             {
                 DateOfBirth = x.DateOfBirth,
@@ -289,7 +289,7 @@ namespace Epons.Domain.Repositories
             .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) == 0) && x.ImpairmentGroup.Name != "Death")
             .OrderBy((x) => x.Lastname)
             .Skip(start)
-            .Take(start + end)
+            .Take(end - start)
             .Select((x) => new EntityViews.Patient.Patient()
             {
                 DateOfBirth = x.DateOfBirth,
