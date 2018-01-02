@@ -167,10 +167,42 @@ namespace Epons.Domain.Repositories
             return FindById(patient.PatientId);
         }
 
-        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsUser(Guid userId, Guid facilityId, int start, int end)
+        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsUser(Guid userId, Guid facilityId, int start, int end, string firstName, string lastName, string dateOfBirth, string gender, string race, string medicalScheme)
         {
-            var result = _context.Details2
-            .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
+
+            DateTime? parsedDateOfBirth = null;
+
+            try
+            {
+                parsedDateOfBirth = Convert.ToDateTime(dateOfBirth);
+            }
+            catch { }
+
+            IQueryable<EntityFramework.Details2> data = null;
+
+            if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName) && string.IsNullOrEmpty(dateOfBirth) && string.IsNullOrEmpty(gender) && string.IsNullOrEmpty(race) && string.IsNullOrEmpty(medicalScheme))
+            {
+                data = _context.Details2
+            .Where((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+
+            }
+            else
+            {
+                data = _context.Details2
+            .Where((x) =>
+            (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) &&
+            x.ImpairmentGroup.Name != "Death" && (
+            (firstName == null ? true : x.Firstname.ToLower().Contains(firstName.ToLower())) &&
+            (lastName == null ? true : x.Lastname.ToLower().Contains(lastName.ToLower())) &&
+            (x.DateOfBirth.HasValue && parsedDateOfBirth.HasValue ? x.DateOfBirth == parsedDateOfBirth : true) &&
+            (gender == null ? true : (x.Gender == null ? false : x.Gender.Name.ToLower() == gender.ToLower())) &&
+            (race == null ? true : (x.Race == null ? false : x.Race.Name.ToLower() == race.ToLower())) &&
+            (medicalScheme == null ? true : (x.MedicalScheme == null ? false : x.MedicalScheme.Name.ToLower() == medicalScheme.ToLower()))
+            ));
+
+            }
+
+            var result = data
             .OrderBy((x) => x.Lastname)
             .Skip(start)
             .Take(end - start)
@@ -213,22 +245,58 @@ namespace Epons.Domain.Repositories
             }).ToList();
 
 
-            int count = _context.Details2
-                .Count((x) => (x.TeamMembers.Count((y) => y.FacilityId == facilityId && y.UserId == userId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+            int count = data.Count();
 
             return new Models.Pagination<EntityViews.Patient.Patient>()
             {
                 Count = count,
-                Start = start, 
+                Start = start,
                 End = end,
                 Items = result
             };
         }
 
-        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsFacility(Guid facilityId, int start, int end)
+        public Models.Pagination<EntityViews.Patient.Patient> ListActiveAsFacility(Guid facilityId, int start, int end, string firstName, string lastName, string dateOfBirth, string gender, string race, string medicalScheme)
         {
-            var result = _context.Details2
-            .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death")
+
+            DateTime? parsedDateOfBirth = null;
+
+            try
+            {
+                parsedDateOfBirth = Convert.ToDateTime(dateOfBirth);
+
+                if (parsedDateOfBirth.Value == DateTime.MinValue)
+                {
+                    parsedDateOfBirth = null;
+                }
+            }
+            catch { }
+
+            IQueryable<EntityFramework.Details2> data = null;
+
+            if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName) && string.IsNullOrEmpty(dateOfBirth) && string.IsNullOrEmpty(gender) && string.IsNullOrEmpty(race) && string.IsNullOrEmpty(medicalScheme))
+            {
+                data = _context.Details2
+            .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+
+            }
+            else
+            {
+                data = _context.Details2
+            .Where((x) =>
+            (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) &&
+            x.ImpairmentGroup.Name != "Death" && (
+            (firstName == null ? true : x.Firstname.ToLower().Contains(firstName.ToLower())) &&
+            (lastName == null ? true : x.Lastname.ToLower().Contains(lastName.ToLower())) &&
+            (x.DateOfBirth.HasValue && parsedDateOfBirth.HasValue ? x.DateOfBirth == parsedDateOfBirth : true) &&
+            (gender == null ? true : (x.Gender == null ? false : x.Gender.Name.ToLower() == gender.ToLower())) &&
+            (race == null ? true : (x.Race == null ? false : x.Race.Name.ToLower() == race.ToLower())) &&
+            (medicalScheme == null ? true : (x.MedicalScheme == null ? false : x.MedicalScheme.Name.ToLower() == medicalScheme.ToLower()))
+            ));
+
+            }
+
+            var result = data
             .OrderBy((x) => x.Lastname)
             .Skip(start)
             .Take(end - start)
@@ -270,8 +338,7 @@ namespace Epons.Domain.Repositories
                 } : null
             }).ToList();
 
-            int count = _context.Details2
-               .Count((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+            int count = data.Count();
 
             return new Models.Pagination<EntityViews.Patient.Patient>()
             {
@@ -283,10 +350,39 @@ namespace Epons.Domain.Repositories
         }
 
 
-        public Models.Pagination<EntityViews.Patient.Patient> ListDischargedAsFacility(Guid facilityId, int start, int end)
+        public Models.Pagination<EntityViews.Patient.Patient> ListDischargedAsFacility(Guid facilityId, int start, int end, string firstName, string lastName, string dateOfBirth, string gender, string race, string medicalScheme)
         {
-            var result = _context.Details2
-            .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) == 0) && x.ImpairmentGroup.Name != "Death")
+            DateTime? parsedDateOfBirth = null;
+
+            try
+            {
+                parsedDateOfBirth = Convert.ToDateTime(dateOfBirth);
+            }
+            catch { }
+
+            IQueryable<EntityFramework.Details2> data = null;
+
+            if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName) && string.IsNullOrEmpty(dateOfBirth) && string.IsNullOrEmpty(gender) && string.IsNullOrEmpty(race) && string.IsNullOrEmpty(medicalScheme))
+            {
+                data = _context.Details2
+             .Where((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) == 0) && x.ImpairmentGroup.Name != "Death");
+
+            }
+            else
+            {
+                data = _context.Details2
+            .Where((x) =>
+            (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) == 0) && x.ImpairmentGroup.Name != "Death" && (
+            (firstName == null ? true : x.Firstname.ToLower().Contains(firstName.ToLower())) &&
+            (lastName == null ? true : x.Lastname.ToLower().Contains(lastName.ToLower())) &&
+            (x.DateOfBirth.HasValue && parsedDateOfBirth.HasValue ? x.DateOfBirth == parsedDateOfBirth : true) &&
+            (gender == null ? true : (x.Gender == null ? false : x.Gender.Name.ToLower() == gender.ToLower())) &&
+            (race == null ? true : (x.Race == null ? false : x.Race.Name.ToLower() == race.ToLower())) &&
+            (medicalScheme == null ? true : (x.MedicalScheme == null ? false : x.MedicalScheme.Name.ToLower() == medicalScheme.ToLower()))
+            ));
+            }
+
+            var result = data
             .OrderBy((x) => x.Lastname)
             .Skip(start)
             .Take(end - start)
@@ -299,6 +395,7 @@ namespace Epons.Domain.Repositories
                     Id = y.Detail.FacilityId,
                     Name = y.Detail.Name,
                 }).Distinct().ToList(),
+
                 Gender = x.GenderId.HasValue ? new ValueObjects.Gender()
                 {
                     Id = x.Gender.GenderId,
@@ -328,8 +425,7 @@ namespace Epons.Domain.Repositories
                 } : null
             }).ToList();
 
-            int count = _context.Details2
-               .Count((x) => (x.EpisodesOfCares.Count((y) => y.FacilityId == facilityId && y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
+            int count = data.Count();
 
             return new Models.Pagination<EntityViews.Patient.Patient>()
             {
