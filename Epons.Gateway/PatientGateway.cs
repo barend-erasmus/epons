@@ -76,5 +76,25 @@ namespace Epons.Gateway
 
             return response.Data;
         }
+
+        public bool Delete(Guid id)
+        {
+            RestClient client = new RestClient(_endpoint);
+
+            RestRequest request = new RestRequest("api/Patient/Delete", Method.GET);
+
+            request.AddHeader("apikey", _apikey);
+
+            request.AddParameter("id", id);
+
+            IRestResponse<bool> response = client.Execute<bool>(request);
+
+            if (response.StatusCode != HttpStatusCode.OK)
+            {
+                return false;
+            }
+
+            return response.Data;
+        }
     }
 }
