@@ -442,5 +442,10 @@ namespace Epons.Domain.Repositories
 
             return _context.Details5.Where((x) => x.PatientId == id & x.Timestamp >= timestamp).ToList().Sum((y) => y.DurationofVisitinMinutes).Value;
         }
+
+        public void Delete(Guid id)
+        {
+            _context.Database.ExecuteSqlCommand($"EXEC [EPONS_API].[DeleteByPatientId] '{id}';");
+        }
     }
 }

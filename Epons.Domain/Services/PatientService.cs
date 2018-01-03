@@ -112,6 +112,11 @@ namespace Epons.Domain.Services
                 };
         }
 
+        public void Delete(Guid id)
+        {
+            _patientRepository.Delete(id);
+        }
+
         private Entities.Patient.Patient ValidatePatient(Entities.Patient.Patient patient)
         {
             if (patient != null)

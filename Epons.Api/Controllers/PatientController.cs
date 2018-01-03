@@ -55,6 +55,16 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
+        public bool Delete(Guid id)
+        {
+            HasToBeAuthenticated();
+
+           _patientService.Delete(id);
+
+            return true;
+        }
+
+        [HttpGet]
         public Pagination<Domain.EntityViews.Patient.Patient> List(
             Guid? userId,
             PatientType type,
