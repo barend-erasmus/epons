@@ -21,6 +21,8 @@ namespace Epons.Api
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         protected void Application_Start()
         {
 
@@ -62,5 +64,20 @@ namespace Epons.Api
 
             // GlobalConfiguration.Configuration.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API")).EnableSwaggerUi();
         }
+
+        public void Application_BeginRequest(object sender, EventArgs e)
+        {
+            try
+            {
+                var request = HttpContext.Current.Request;
+
+                _logger.InfoFormat("Request - {0}", request.Url);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
     }
 }
