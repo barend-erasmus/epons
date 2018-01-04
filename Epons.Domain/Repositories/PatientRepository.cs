@@ -157,12 +157,22 @@ namespace Epons.Domain.Repositories
         {
             var patient = _context.Details2.FirstOrDefault((x) => x.IdentificationNumber == identificationNumber);
 
+            if (patient == null)
+            {
+                return null;
+            }
+
             return FindById(patient.PatientId);
         }
 
         public Entities.Patient.Patient FindByDetails(string firstname, string lastname, DateTime dateOfBirth)
         {
             var patient = _context.Details2.FirstOrDefault((x) => x.Firstname == firstname && x.Lastname == lastname && x.DateOfBirth == dateOfBirth);
+
+            if (patient == null)
+            {
+                return null;
+            }
 
             return FindById(patient.PatientId);
         }

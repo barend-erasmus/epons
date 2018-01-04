@@ -4,6 +4,7 @@ using Autofac.Integration.WebApi;
 using Epons.Domain.Repositories;
 using Epons.Domain.Services;
 using Epons.Domain.Validators;
+using log4net.Config;
 using Swashbuckle.Application;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,8 @@ namespace Epons.Api
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            XmlConfigurator.Configure();
 
             var builder = new ContainerBuilder();
 

@@ -7,8 +7,12 @@ namespace Epons.Api.Attributes
 {
     public class JWTAuthorizeAttribute : ActionFilterAttribute
     {
+        private static readonly log4net.ILog _logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public override void OnActionExecuting(HttpActionContext actionContext)
         {
+            _logger.Info($"Request - {actionContext.Request.RequestUri.PathAndQuery}");
+
             if (actionContext.Request.Headers.Authorization != null && actionContext.Request.Headers.Authorization.Scheme.ToLower() == "bearer")
             {
                 string jwt = actionContext.Request.Headers.Authorization.Parameter;
