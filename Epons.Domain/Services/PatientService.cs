@@ -49,7 +49,7 @@ namespace Epons.Domain.Services
             return patient;
         }
 
-        public Models.Pagination<EntityViews.Patient.Patient> List(Guid? userId, Guid? facilityId, PatientType type, int start, int end, string firstName, string lastName, string dateOfBirth, string gender, string race, string medicalScheme)
+        public Models.Pagination<EntityViews.Patient.Patient> List(Guid? userId, Guid? facilityId, PatientType type, int start, int end, string firstName, string lastName, string dateOfBirth, string gender, string race, string medicalScheme, bool superAdmin)
         {
             if (type == PatientType.Active)
             {
@@ -66,6 +66,14 @@ namespace Epons.Domain.Services
                 else if (facilityId.HasValue)
                 {
                     Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsFacility(facilityId.Value, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+                }
+                else if (superAdmin)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsSuperAdmin(start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
 
                     result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
 
@@ -164,7 +172,8 @@ namespace Epons.Domain.Services
                             Message = "Invalid Identification Number"
                         });
                     }
-                }else
+                }
+                else
                 {
                     patient.ValidationMessages.Add(new Models.ValidationMessage()
                     {

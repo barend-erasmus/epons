@@ -76,11 +76,12 @@ namespace Epons.Api.Controllers
             string dateOfBirth = null,
             string gender = null,
             string race = null,
-            string medicalScheme = null)
+            string medicalScheme = null,
+            bool superAdmin = false)
         {
             HasToBeAuthenticated();
 
-            return _patientService.List(userId, facilityId, type, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+            return _patientService.List(userId, facilityId, type, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme, superAdmin);
         }
 
     }
