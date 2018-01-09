@@ -379,23 +379,19 @@ namespace Epons.Domain.Repositories
 
             if (string.IsNullOrEmpty(firstName) && string.IsNullOrEmpty(lastName) && string.IsNullOrEmpty(dateOfBirth) && string.IsNullOrEmpty(gender) && string.IsNullOrEmpty(race) && string.IsNullOrEmpty(medicalScheme))
             {
-                data = _context.Details2
-            .Where((x) => (x.EpisodesOfCares.Count((y) => y.DeallocationTimestamp == null) > 0) && x.ImpairmentGroup.Name != "Death");
-
+                data = _context.Details2;
             }
             else
             {
                 data = _context.Details2
             .Where((x) =>
-            (x.EpisodesOfCares.Count((y) => y.DeallocationTimestamp == null) > 0) &&
-            x.ImpairmentGroup.Name != "Death" && (
             (firstName == null ? true : x.Firstname.ToLower().Contains(firstName.ToLower())) &&
             (lastName == null ? true : x.Lastname.ToLower().Contains(lastName.ToLower())) &&
             (x.DateOfBirth.HasValue && parsedDateOfBirth.HasValue ? x.DateOfBirth == parsedDateOfBirth : true) &&
             (gender == null ? true : (x.Gender == null ? false : x.Gender.Name.ToLower() == gender.ToLower())) &&
             (race == null ? true : (x.Race == null ? false : x.Race.Name.ToLower() == race.ToLower())) &&
             (medicalScheme == null ? true : (x.MedicalScheme == null ? false : x.MedicalScheme.Name.ToLower() == medicalScheme.ToLower()))
-            ));
+            );
 
             }
 
