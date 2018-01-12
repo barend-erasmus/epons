@@ -89,12 +89,57 @@ namespace Epons.Domain.Services
 
                 if (facilityId.HasValue && userId.HasValue)
                 {
-                    throw new NotImplementedException();
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListDischargedAsUser(userId.Value, facilityId.Value, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
 
                 }
                 else if (facilityId.HasValue)
                 {
                     Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListDischargedAsFacility(facilityId.Value, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+                }
+                else if (superAdmin)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsSuperAdmin(start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+                }
+                else
+                {
+                    throw new Exception("Expected FacilityId and UserId or FacilityId");
+                }
+            }
+            else if (type == PatientType.Deceased)
+            {
+
+                if (facilityId.HasValue && userId.HasValue)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListDeceasedAsUser(userId.Value, facilityId.Value, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+
+                }
+                else if (facilityId.HasValue)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListDeceasedAsFacility(facilityId.Value, start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
+
+                    result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
+
+                    return result;
+                }
+                else if (superAdmin)
+                {
+                    Models.Pagination<EntityViews.Patient.Patient> result = _patientRepository.ListActiveAsSuperAdmin(start, end, firstName, lastName, dateOfBirth, gender, race, medicalScheme);
 
                     result.Items = result.Items.Select((patient) => ValidatePatientView(patient)).ToList();
 
