@@ -19,9 +19,9 @@ namespace Epons.Domain.Repositories
 
         }
 
-        public IList<T> QueryProc<T>(string name, object parameters)
+        public IList<T> Query<T>(string name, object parameters)
         {
-            IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
+            IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
 
             return results;
         }
@@ -31,6 +31,13 @@ namespace Epons.Domain.Repositories
             return _connection.QueryMultiple(name, param: parameters, commandType: CommandType.StoredProcedure);
         }
 
+        public T QueryOne<T>(string name, object parameters)
+        {
+            IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
+
+            return results.FirstOrDefault();
+        }
+
         public T QueryOneProc<T>(string name, object parameters)
         {
             IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
@@ -38,18 +45,11 @@ namespace Epons.Domain.Repositories
             return results.FirstOrDefault();
         }
 
-        public IList<T> Query<T>(string name, object parameters)
+        public IList<T> QueryProc<T>(string name, object parameters)
         {
-            IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
+            IList<T> results = _connection.Query<T>(name, param: parameters, commandType: CommandType.StoredProcedure).AsList<T>();
 
             return results;
-        }
-
-        public T QueryOne<T>(string name, object parameters)
-        {
-            IList<T> results = _connection.Query<T>(name, parameters).AsList<T>();
-
-            return results.FirstOrDefault();
         }
     }
 }

@@ -21,15 +21,6 @@ namespace Epons.Domain.Repositories
             _context = new EntityFramework.EPONSContext(connectionString);
         }
 
-        public EntityViews.Facility.Facility FindById(Guid id)
-        {
-            return _context.Details.Where((x) => x.FacilityId == id).Select((x) => new EntityViews.Facility.Facility()
-            {
-                Avatar = x.Avatar,
-                Name = x.Name
-            }).FirstOrDefault();
-        }
-
         public int CalculateTimeSpent(Guid id, int overLastHours)
         {
             DateTime timestamp = DateTime.Now.Subtract(new TimeSpan(overLastHours, 0, 0));
@@ -37,6 +28,15 @@ namespace Epons.Domain.Repositories
             return _context.Details5.Where((x) => x.Details4.Permissions.Count((y) => y.FacilityId == id) > 0 & x.Timestamp >= timestamp)
                 .ToList()
                 .Sum((y) => y.DurationofVisitinMinutes).Value;
+        }
+
+        public EntityViews.Facility.Facility FindById(Guid id)
+        {
+            return _context.Details.Where((x) => x.FacilityId == id).Select((x) => new EntityViews.Facility.Facility()
+            {
+                Avatar = x.Avatar,
+                Name = x.Name
+            }).FirstOrDefault();
         }
     }
 }
