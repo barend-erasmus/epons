@@ -19,7 +19,7 @@ namespace Epons.Domain.Repositories
             string name = ConfigurationManager.AppSettings["DatabaseName"];
             string password = ConfigurationManager.AppSettings["DatabasePassword"];
 
-            string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};";
+            string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};MultipleActiveResultSets=true;";
             _dbExecutor = new DbExecutor(connectionString);
             _context = new EntityFramework.EPONSContext(connectionString);
         }

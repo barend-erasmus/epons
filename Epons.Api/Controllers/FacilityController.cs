@@ -30,6 +30,26 @@ namespace Epons.Api.Controllers
         }
 
         [HttpGet]
+        public bool Lock(Guid id)
+        {
+            HasToBeAuthenticated();
+
+            _facilityService.Lock(id);
+
+            return true;
+        }
+
+        [HttpGet]
+        public bool Unlock(Guid id)
+        {
+            HasToBeAuthenticated();
+
+            _facilityService.Unlock(id);
+
+            return true;
+        }
+
+        [HttpGet]
         public int[] TimeSpent(Guid id)
         {
             HasToBeAuthenticated();

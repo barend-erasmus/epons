@@ -30,5 +30,15 @@ namespace Epons.Domain.Services
                     _facilityRepository.CalculateTimeSpent(id, 24)
             };
         }
+
+        public void Lock(Guid id)
+        {
+            _facilityRepository.Lock(id);
+        }
+
+        public void Unlock(Guid id)
+        {
+            _facilityRepository.Unlock(id);
+        }
     }
 }

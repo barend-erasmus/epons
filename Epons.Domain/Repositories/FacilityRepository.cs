@@ -17,7 +17,7 @@ namespace Epons.Domain.Repositories
             string name = ConfigurationManager.AppSettings["DatabaseName"];
             string password = ConfigurationManager.AppSettings["DatabasePassword"];
 
-            string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};";
+            string connectionString = $"data source={host};Initial Catalog={name};User ID={user};Password={Crypto.Decrypt(password)};MultipleActiveResultSets=true;";
             _context = new EntityFramework.EPONSContext(connectionString);
         }
 
@@ -32,11 +32,44 @@ namespace Epons.Domain.Repositories
 
         public EntityViews.Facility.Facility FindById(Guid id)
         {
-            return _context.Details.Where((x) => x.FacilityId == id).Select((x) => new EntityViews.Facility.Facility()
+            var result = _context.Details.FirstOrDefault((x) => x.FacilityId == id);
+
+            if (result == null)
             {
-                Avatar = x.Avatar,
-                Name = x.Name
-            }).FirstOrDefault();
+                return null;
+            }
+
+            return new EntityViews.Facility.Facility()
+            {
+                Id = id,
+                Avatar = result.Avatar,
+                Name = result.Name,
+                Locked = _context.Details4.Count((x) => x.Credentials.FirstOrDefault().Locked && x.Permissions.Count((y) => y.FacilityId == id) > 0) == _context.Details4.Count((x) => x.Permissions.Count((y) => y.FacilityId == id) > 0)
+            };
+        }
+
+        public void Lock(Guid id)
+        {
+            var userIds = _context.Credentials.Where((x) => x.Details4.Permissions.Count((y) => y.FacilityId == id) > 0).Select((x) => x.UserId).ToList();
+
+            foreach (var userId in userIds)
+            {
+                var credentails = _context.Database.ExecuteSqlCommand("UPDATE [User].[Credentials] SET [Locked] = {0} WHERE [UserId] = {1}", true, userId);
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void Unlock(Guid id)
+        {
+            var userIds = _context.Credentials.Where((x) => x.Details4.Permissions.Count((y) => y.FacilityId == id) > 0).Select((x) => x.UserId).ToList();
+
+            foreach (var userId in userIds)
+            {
+                var credentails = _context.Database.ExecuteSqlCommand("UPDATE [User].[Credentials] SET [Locked] = {0} WHERE [UserId] = {1}", false, userId);
+            }
+
+            _context.SaveChanges();
         }
     }
 }
