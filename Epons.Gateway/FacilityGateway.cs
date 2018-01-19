@@ -14,7 +14,7 @@ namespace Epons.Gateway
         {
             RestClient client = new RestClient(_endpoint);
 
-            RestRequest request = new RestRequest("api/Facility/FindById", Method.GET);
+            RestRequest request = new RestRequest("api/Facility/Find", Method.GET);
 
             request.AddHeader("apikey", _apikey);
 
@@ -54,7 +54,7 @@ namespace Epons.Gateway
         {
             RestClient client = new RestClient(_endpoint);
 
-            RestRequest request = new RestRequest("api/Facility/Lock", Method.GET);
+            RestRequest request = new RestRequest("api/Facility/Unlock", Method.GET);
 
             request.AddHeader("apikey", _apikey);
 
